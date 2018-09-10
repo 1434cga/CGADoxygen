@@ -1,0 +1,25 @@
+
+!TOC
+
+!INCLUDE    "../../SRS.md" , 0
+
+
+# SRS Traceability
+!INCLUDE    "LLD.SRS.md" , 1
+
+
+# Additional Information for SRS traceability
+- What else do we need except SRS documents?
+	- Our customer wants to keep a traceability.
+	- We need the mapping table between SRS # and SDD implementation.
+		- So I will make the mapping table from the source code.
+		- When you use @SRS{SRS# , Description} in the comments of source code , I will be created in SDD.docx / LLD_SRS.md / LLD.SRS.md / LLD_SRS.html automatically.
+		- You can see @SRS information in doxygen docuemtn as @see command.
+- Caution :
+	- I process just function comments.
+	- I think that SRS should be mapped with function unit.
+- AUTOSAR
+	- When I saw adaptive AUTOSAR documents,
+	- All documents support [SRS vs Class::Function] table and  [Class::Function vs SRS] table.
+
+
