@@ -5,8 +5,8 @@
 | |      | | |_ |   / /\ \     | |  | |  / _ \  \ \/ / | | | |  / _` |  / _ \ | '_ \
 | |____  | |__| |  / ____ \    | |__| | | (_) |  >  <  | |_| | | (_| | |  __/ | | | |
  \_____|  \_____| /_/    \_\   |_____/   \___/  /_/\_\  \__, |  \__, |  \___| |_| |_|
-			                                             __/ |   __/ |
-			                                            |___/   |___/
+                                                         __/ |   __/ |
+                                                        |___/   |___/
 
 
 
@@ -36,24 +36,24 @@
 ```
 # About CGADOXYGEN
 - CGADOXYGEN : Code Generator Automatically based on DOXYGEN Documents
-	- It is helpful to make a documents from source code and your doxygen comments.
-	- It is helper of doxygen.
+    - It is helpful to make a documents from source code and your doxygen comments.
+    - It is helper of doxygen.
 
 ## Purpose
 - Reduce the tedious jobs (LLD : Low level Design documents). When we make a document for customer , we should make a word documents with detailed class information.
 - So I made this project to reduce this job. I hope you use your time for valuable things.
 - and I wish it is helpful to save your time for your life.
-	- Some customer Wants
-		- want detailed documents like LLD (Low Level Design).
-		- LLD should include the detailed information for Class and your source code.
-	- Deliverables
-		- upport word and xlsx file for detailed documents.
+    - Some customer Wants
+        - want detailed documents like LLD (Low Level Design).
+        - LLD should include the detailed information for Class and your source code.
+    - Deliverables
+        - upport word and xlsx file for detailed documents.
 
 ## Backgrounds
 - Doxygen comments is the best method as a good programmer
 - Always synchronize source and documents
 - Doxygen gives some warning to you when your comments mismatch with your code.
-	- it is helpful for us to make a better source and comments (documents)
+    - it is helpful for us to make a better source and comments (documents)
 - I think that doxygen is a de facto standard in open source.
 - It gives improving your international skills.
 
@@ -63,59 +63,59 @@
 ## Devliverables
 ### LLD Document (Detailed Class and Source information)
 - LLD.docx : Detailed Class and Source document
-	- ![alt MatchWord01 Matching Part of doxygen comments](./PNG/MatchWord01.png)
+    - ![alt MatchWord01 Matching Part of doxygen comments](./PNG/MatchWord01.png)
 - LLD.xlsx : Excel file to have tables for each class
-	- ![LLD.xlsx LLD Excel](./PNG/EXCEL01.png)
+    - ![LLD.xlsx LLD Excel](./PNG/EXCEL01.png)
 
 ### SDD Document
 - SDD.docx  : It is final result combined with HLD and LLD
-	- ![SDD.docx SDD Document](./PNG/SDD02.png)
-	- **Change the "ReTuRnp" to Paragraph Mark** in Word for getting complete documents
+    - ![SDD.docx SDD Document](./PNG/SDD02.png)
+    - **Change the "ReTuRnp" to Paragraph Mark** in Word for getting complete documents
 
 
 # How to get
 - Source
-	1. CGADOXYGEN.tar.gz
-	- Mgr$  tar xvfo CGADOXYGEN.tar.gz
-		- unzip CGADOXYGEN.tar.gz in Your project
-		- Your project name and direcotry : ./Mgr
-		- unzip location : ./Mgr/CGADOXYGEN
-	2. git clone URL  <- support in the future
+    1. CGADOXYGEN.tar.gz
+    - Mgr$  tar xvfo CGADOXYGEN.tar.gz
+        - unzip CGADOXYGEN.tar.gz in Your project
+        - Your project name and direcotry : ./Mgr
+        - unzip location : ./Mgr/CGADOXYGEN
+    2. git clone URL  <- support in the future
 
 # How to make an environtment
 ## How to install tools
 - you should use **doxygen version 1.8.15 or more.**
 - cd ./CGADOXYGEN/tools
 - Automatic Install
-	- sh setting_env.sh
+    - sh setting_env.sh
 - Manual Install
-	- Basic tools
-		- sudo apt install sudo build-essential wget python-dev git pandoc
-	- Setuptools for hpp2plantuml
-		- tar xvfz setuptools-40.0.0.tar.gz
-		- cd setuptools-40.0.0 ; sudo python3 setup.py install
-		- or user mdoe install -> cd setuptools-40.0.0 ; python3 setup.py install --user  (add ~/.local/bin in $PATH)
-	- hpp2plantuml
-		- tar xvfz hpp2plantuml.tar.gz
-		- cd hpp2plantuml ; sudo python3 setup.py install
-		- or user mode install -> cd hpp2plantuml ; python3 setup.py install --user   (add ~/.local/bin in $PATH)
-	- Markdown-pp
-		- tar xvfz markdown-pp.tar.gz
-		- cd markdown-pp ; python setup.py install --user
-		- (It will install  in ~/.local/bin)
-	- XLSX packet for perl (Method 1)
-		- cd ./XLSX
-		- tar xvfz perl5.tar.gz
-		- cp -r ./perl5 ~/
-		- add environment variables  (Recommendation : modify by yourself)
-		- cat ./perl5.bashrc >> ~/.bashrc
-	- XLSX packet for perl (Method 2)
-		- reference URL
-			- http://search.cpan.org/~jmcnamara/Excel-Writer-XLSX/lib/Excel/Writer/XLSX.pm
-			- https://metacpan.org/pod/Excel::Writer::XLSX
-		- $ cpan
-			- [all yes]
-			- cpan[1]> install Excel::Writer::XLSX
+    - Basic tools
+        - sudo apt install sudo build-essential wget python-dev git pandoc
+    - Setuptools for hpp2plantuml
+        - tar xvfz setuptools-40.0.0.tar.gz
+        - cd setuptools-40.0.0 ; sudo python3 setup.py install
+        - or user mdoe install -> cd setuptools-40.0.0 ; python3 setup.py install --user  (add ~/.local/bin in $PATH)
+    - hpp2plantuml
+        - tar xvfz hpp2plantuml.tar.gz
+        - cd hpp2plantuml ; sudo python3 setup.py install
+        - or user mode install -> cd hpp2plantuml ; python3 setup.py install --user   (add ~/.local/bin in $PATH)
+    - Markdown-pp
+        - tar xvfz markdown-pp.tar.gz
+        - cd markdown-pp ; python setup.py install --user
+        - (It will install  in ~/.local/bin)
+    - XLSX packet for perl (Method 1)
+        - cd ./XLSX
+        - tar xvfz perl5.tar.gz
+        - cp -r ./perl5 ~/
+        - add environment variables  (Recommendation : modify by yourself)
+        - cat ./perl5.bashrc >> ~/.bashrc
+    - XLSX packet for perl (Method 2)
+        - reference URL
+            - http://search.cpan.org/~jmcnamara/Excel-Writer-XLSX/lib/Excel/Writer/XLSX.pm
+            - https://metacpan.org/pod/Excel::Writer::XLSX
+        - $ cpan
+            - [all yes]
+            - cpan[1]> install Excel::Writer::XLSX
 
 ## vim tools to insert doxygen comments
 - cp ./CGADOXYGEN/tools/vim/DoxygenToolkit.vim ~/.vim/plugin
@@ -132,8 +132,8 @@ let g:DoxygenToolkit_licenseTag="My own license"   <-- !!! Does not end with "\<
 ```
 
 - Show the following result when you type :Dox in command mode on the proper function.
-	- ex) AKlass::AKlass(TELLTALE id , int32_t startstatus, std::vector<int32_t> blink , int32_t freq , int32_t durationmax , int32_t afterduration)
-	- the Result on :Dox in command mode
+    - ex) AKlass::AKlass(TELLTALE id , int32_t startstatus, std::vector<int32_t> blink , int32_t freq , int32_t durationmax , int32_t afterduration)
+    - the Result on :Dox in command mode
 
 ```
 /**
@@ -163,34 +163,34 @@ int32_t AKlass::Run(int32_t isOn)
 
 ## Caution!!! Keep the following order when write doxygen comments
 - Keep the following ORDER
-	- @brief
-	- @details
-	- @startuml   (plantuml)
-	- @step
-	- @algorithm
+    - @brief
+    - @details
+    - @startuml   (plantuml)
+    - @step
+    - @algorithm
 
 ## markdown tools to show plantuml
 - Use ATOM or Visual Studio Code to show the following plantuml
-	- install markdown-preview-plantuml plugin
-	- ![ATOM plugin markdown-preview-plantuml](./PNG/ATOM01.png)
-	- ![ATOM screen](./PNG/ATOM02.png)
+    - install markdown-preview-plantuml plugin
+    - ![ATOM plugin markdown-preview-plantuml](./PNG/ATOM01.png)
+    - ![ATOM screen](./PNG/ATOM02.png)
 
 # Set before making a documents
 - Doxygen Setting : (Doxyfile)
-	- File name : ./CGADOXYGEN/build_doxygen/Doxyfile
-		- **PROJECT_NAME = "Your Own Project Name"**
-		- **EXAMPLE_PATH = Your_Base_Directory_of_your_source_code_for_snippet**
-			> Source Location for code snippet
+    - File name : ./CGADOXYGEN/build_doxygen/Doxyfile
+        - **PROJECT_NAME = "Your Own Project Name"**
+        - **EXAMPLE_PATH = Your_Base_Directory_of_your_source_code_for_snippet**
+            > Source Location for code snippet
 - makefile
-	- File name : ./CGADOXYGEN/makefile
-		- sh makeSrcLink.sh   { lists of your codes (cpp and h) }
-		- example : sh makeSrcLink.sh .. ../inc    
-			<- source codes exist ../   directory
-			<- header codes exist ../inc  directory
+    - File name : ./CGADOXYGEN/makefile
+        - sh makeSrcLink.sh   { lists of your codes (cpp and h) }
+        - example : sh makeSrcLink.sh .. ../inc    
+            <- source codes exist ../   directory
+            <- header codes exist ../inc  directory
 - HLD.plantuml.md
-	- This is your doucment for HLD.
+    - This is your doucment for HLD.
 - SDD.mdpp
-	- You can add another md files.
+    - You can add another md files.
 
 
 ```
@@ -205,25 +205,25 @@ You can add several md files.
 # How to make a document automatically
 ## make a documents automatically
 - Easy method
-	- cd ./CGADOXYGEN;  **make**
+    - cd ./CGADOXYGEN;  **make**
 
 ## make a documents Manually (Verify each step)
 - sh makeSrcLink.sh   { lists of your codes (cpp and h) }
 - cd ./CGADOXYGEN/build_doxygen; make    <-  make doxygen Documents
-	- Show the result in ./CGADOXYGEN/build_doxygen/DOXYGEN_OUT/html/index.html
+    - Show the result in ./CGADOXYGEN/build_doxygen/DOXYGEN_OUT/html/index.html
 - cd ./CGADOXYGEN/build_uml; make        <- plantuml class files
-	- Show the result in ./CGADOXYGEN/build_uml/UML
-	- UML  : class files and uml files of plantuml
+    - Show the result in ./CGADOXYGEN/build_uml/UML
+    - UML  : class files and uml files of plantuml
 - cd ./CGADOXYGEN/build_perlmod; make    <- make SDD documents
-	- Show the result in build_perlmod
-		- HLD.docx  : High level design from HLD.plantuml.md
-		- LLD.docx  : Low level design generated from doxygen comments automatically
-		- SDD.docx  : Combined document with HLD and LLD
+    - Show the result in build_perlmod
+        - HLD.docx  : High level design from HLD.plantuml.md
+        - LLD.docx  : Low level design generated from doxygen comments automatically
+        - SDD.docx  : Combined document with HLD and LLD
 
 ## clean
 - cd ./CGADOXYGEN;  **make clean**
-	- You can clean in each directory with the same command.
-	- ex) cd build_doxygen; make clean
+    - You can clean in each directory with the same command.
+    - ex) cd build_doxygen; make clean
 
 # Remove the doxygen warning when you run doxygen
 - You should remove warning like the following ...
@@ -256,28 +256,28 @@ warning: The following parameters of BpSmsReceiveCallback::OnTextMessageReceived
 - ![Architecture Component](./PNG/Architecture.png)
 - Deliverables (SDD Component)
 - HLD.docx  : High level design from HLD.plantuml.md
-	- ![HLD.docx SDD Document](./PNG/HLD01.png)
+    - ![HLD.docx SDD Document](./PNG/HLD01.png)
 - LLD.docx  : Low level design generated from doxygen comments automatically
-	- ![LLD.docx SDD Document](./PNG/LLD01.png)
+    - ![LLD.docx SDD Document](./PNG/LLD01.png)
 - SDD.docx  : It is final result combined with HLD and LLD
-	- ![SDD.docx SDD Document](./PNG/SDD01.png)
-	- **Change the "ReTuRnp" to Paragraph Mark** in Word for getting complete documents
-		- ![Replace Menu in word](./PNG/WORD1.png)
-		- ![Replace the ReTuRnp with Paragrph Mark](./PNG/WORD2.png)
+    - ![SDD.docx SDD Document](./PNG/SDD01.png)
+    - **Change the "ReTuRnp" to Paragraph Mark** in Word for getting complete documents
+        - ![Replace Menu in word](./PNG/WORD1.png)
+        - ![Replace the ReTuRnp with Paragrph Mark](./PNG/WORD2.png)
 - LLD.xlsx : Excel file to have tables.
-	- Depends on your style whatever you use  between SDD.docx and SDD.xlsx
-	- ![LLD.xlsx LLD Excel](./PNG/EXCEL01.png)
-	- copy & paste the excel tables into word
-	- ![LLD.xlsx to Word](./PNG/EXCEL02.png)
+    - Depends on your style whatever you use  between SDD.docx and SDD.xlsx
+    - ![LLD.xlsx LLD Excel](./PNG/EXCEL01.png)
+    - copy & paste the excel tables into word
+    - ![LLD.xlsx to Word](./PNG/EXCEL02.png)
 
 ## Detailed Description how to convert
 ### Caution!!!
 - Keep the following ORDER
-	- @brief
-	- @details
-	- @startuml   (plantuml)
-	- @step
-	- @algorithm
+    - @brief
+    - @details
+    - @startuml   (plantuml)
+    - @step
+    - @algorithm
 
 
 ### AKlass Constructor
@@ -321,10 +321,10 @@ warning: The following parameters of BpSmsReceiveCallback::OnTextMessageReceived
  *
  * @code{.cpp}  Title:AKlass-011
  *  mId = id;
-	mType = BLINK_TELLTALE;
-	for( std::vector<int32_t>::iterator vit = blink.begin() ; vit != blink.end() ; vit++){
-		CDebug::GetInstance()->DebugPrint(DEBUG_REPETITION,"DEBUG:" "    : blink(%d) %s\n",*vit,getStringLXID((TELLTALE) *vit));
-	}
+    mType = BLINK_TELLTALE;
+    for( std::vector<int32_t>::iterator vit = blink.begin() ; vit != blink.end() ; vit++){
+        CDebug::GetInstance()->DebugPrint(DEBUG_REPETITION,"DEBUG:" "    : blink(%d) %s\n",*vit,getStringLXID((TELLTALE) *vit));
+    }
  * @endcode
  *
  * @verbatim  Title:AKlass-02
@@ -341,11 +341,11 @@ AKlass::AKlass(TELLTALE id , int32_t startstatus, std::vector<int32_t> blink , i
 ```
 
 - Doxygen
-	- ![alt MatchDoxygen01 Matching Part of doxygen comments](./PNG/MatchDoxygen01.png)
-	- ![alt MatchDoxygen02 Matching Part of doxygen comments](./PNG/MatchDoxygen02.png)
-	- ![alt MatchDoxygen03 Matching Part of doxygen comments](./PNG/MatchDoxygen03.png)
+    - ![alt MatchDoxygen01 Matching Part of doxygen comments](./PNG/MatchDoxygen01.png)
+    - ![alt MatchDoxygen02 Matching Part of doxygen comments](./PNG/MatchDoxygen02.png)
+    - ![alt MatchDoxygen03 Matching Part of doxygen comments](./PNG/MatchDoxygen03.png)
 - Word
-	- ![alt MatchWord01 Matching Part of doxygen comments](./PNG/MatchWord01.png)
+    - ![alt MatchWord01 Matching Part of doxygen comments](./PNG/MatchWord01.png)
 
 ### AKlass Run()
 ```
@@ -363,12 +363,12 @@ int32_t AKlass::Run(int32_t isOn)
 ```
 
 - Doxygen
-	- ![alt MatchDoxygen11 Matching Part of doxygen comments](./PNG/MatchDoxygen11.png)
+    - ![alt MatchDoxygen11 Matching Part of doxygen comments](./PNG/MatchDoxygen11.png)
 - Word
-	- ![alt MatchWord11 Matching Part of doxygen comments](./PNG/MatchWord11.png)
-	- ![alt MatchWord12 Matching Part of doxygen comments](./PNG/MatchWord12.png)
+    - ![alt MatchWord11 Matching Part of doxygen comments](./PNG/MatchWord11.png)
+    - ![alt MatchWord12 Matching Part of doxygen comments](./PNG/MatchWord12.png)
 - Excel
-	- ![alt MatchExcel11 Matching Part of doxygen comments](./PNG/MatchExcel11.png)
+    - ![alt MatchExcel11 Matching Part of doxygen comments](./PNG/MatchExcel11.png)
 
 # FAQ
 ## Converting tools into word
@@ -378,8 +378,8 @@ int32_t AKlass::Run(int32_t isOn)
 ## What is ReTuRnp?  How to remove it?
 - ![SDD.docx SDD Document](./PNG/SDD01.png)
 - **Change the "ReTuRnp" to Paragraph Mark** in Word for getting complete documents
-	- ![Replace Menu in word](./PNG/WORD1.png)
-	- ![Replace the ReTuRnp with Paragrph Mark](./PNG/WORD2.png)
+    - ![Replace Menu in word](./PNG/WORD1.png)
+    - ![Replace the ReTuRnp with Paragrph Mark](./PNG/WORD2.png)
 
 # Bonus
 ## insert static_cast<...> easily for MISRA
