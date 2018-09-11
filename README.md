@@ -403,6 +403,45 @@ HLD_withUML -up-> SDD
 ```
 
 ## process how to make a document (Component format)
+
+```puml
+component [SDD_withSRS] #00FFFF
+component [DOXYGEN_OUTPUT] #00FFFF
+component [Excel] #00FFFF
+component [LLD_withUML] #00FFFF
+component [LLD_withMD_SRS] #00FFFF
+
+skinparam interface {
+  backgroundColor RosyBrown
+  borderColor orange
+}
+
+skinparam component {
+  FontSize 13
+  BackgroundColor<<Apache>> Red
+  BorderColor<<Apache>> #FF6655
+  FontName Courier
+  BorderColor black
+  BackgroundColor gold
+  ArrowFontName Impact
+  ArrowColor #FF6655
+  ArrowFontColor #777777
+}
+
+() "Source(CPP,H,SRS)" as Source
+() "Source(HLD Markdown with Plantuml)" as Source_HLD_withUML
+
+
+Source ..> [Doxygen]
+[Doxygen] ..> [DOXYGEN_OUTPUT] : index.html
+[Doxygen] ..> [LLD_withUML] : DoxyDocs.pm
+[Doxygen] ..> [Excel] : DoxyDocs.pm
+[LLD_withUML] ..> [LLD_withMD_SRS] : markdown with plantuml
+[LLD_withMD_SRS] ..> [SDD_withSRS] : MD & Images
+Source_HLD_withUML ..> [HLD_withMD] : markdown with plantuml
+[HLD_withMD] ..> [SDD_withSRS] : MD & Images
+```
+
 ```puml
 package OpenSource {
   [Doxygen]
