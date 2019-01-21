@@ -1,10 +1,10 @@
 #!/usr/bin/perl
 use File::Copy;
 
-copy('./build_doxygen/Doxyfile', './build_doxygen/Doxyfile.orig')
+copy('./build_doxygen/Doxyfile', './build_doxygen/Doxyfile.org')
   or die "Copy failed: $!";
 
-my $plantumljar = `find ~/bin -type f -name plantuml.jar`;
+my $plantumljar = `find . -type f -name plantuml.jar`;
 print $plantumljar . "\n";
 if($plantumljar eq ""){
 	print STDERR "Can not find plantuml.jar\n";
@@ -19,7 +19,7 @@ if($plantumljar eq ""){
 	print "PATH : $plantumljar\n";
 }
 
-open(FH, "<","./build_doxygen/Doxyfile.orig") or die "Can't open < ./build_doxygen/Doxyfile.orig $!";
+open(FH, "<","./build_doxygen/Doxyfile.org") or die "Can't open < ./build_doxygen/Doxyfile.org $!";
 open(OH, ">","./build_doxygen/Doxyfile") or die "Can't open < ./build_doxygen/Doxyfile $!";
 while(<FH>){
 	my $s = $_;

@@ -11,9 +11,6 @@
 ## 7    white     COLOR_WHITE     1,1,1
 ## sgr0 Reset text format to the terminal's default
 
-tput setaf 2
-echo "#### Make soft links in src ####"
-tput sgr0
 
 unameOut="$(uname -s)"
 case "${unameOut}" in
@@ -34,6 +31,20 @@ tput setaf 5
 echo "Machine => ${machine}"
 tput sgr0
 
+if [ $1 = "clean" ] 
+then
+	tput setaf 2
+	echo "#### Clean ./build_doxygen/src ####"
+	tput sgr0
+	/bin/rm -f  ./build_doxygen/src/*
+	ls ${lsOption} ./build_doxygen/src/
+	exit ;
+fi
+
+tput setaf 2
+echo "#### Make soft links in src ####"
+tput sgr0
+
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 /bin/rm -rf ./build_doxygen/src
 /bin/rm -rf ./build_uml/src
@@ -43,7 +54,7 @@ pwd=`pwd`
 for directory in $*
 do
 	echo "directory : $directory"
-	for file in $directory/*.cpp $directory/*.cc $directory/*.h
+	for file in $directory/*.cpp $directory/*.cc $directory/*.h 
 	do
 		basefile=`basename $file`
 		echo "    basefile : $basefile  ,  file : $file"
@@ -77,3 +88,4 @@ echo "### Source Files for making a doxygen : ls ./build_doxygen/src/ ####"
 tput sgr0
 ls ${lsOption} ./build_doxygen/src/
 
+cd build_doxygen; doxygen Doxyfile ; cd ..
