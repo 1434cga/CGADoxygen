@@ -31,6 +31,16 @@ tput setaf 5
 echo "Machine => ${machine}"
 tput sgr0
 
+if [ -z  $* ] 
+then
+	tput setaf 1
+	echo "$ run.sh source_directories"
+	echo "   - directory is not recursive."
+	echo "   - ex) run.sh .. ../inc example/A"
+	tput sgr0
+	exit 1;
+fi
+
 if [ $1 = "clean" ] 
 then
 	tput setaf 2
@@ -38,7 +48,7 @@ then
 	tput sgr0
 	/bin/rm -f  ./build_doxygen/src/*
 	ls ${lsOption} ./build_doxygen/src/
-	exit ;
+	exit 2;
 fi
 
 tput setaf 2
