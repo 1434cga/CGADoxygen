@@ -228,7 +228,7 @@ if [ $USER != "root" ]; then
 fi
 
 # DEPENDENCY_DPKG_PACKAGES="sudo build-essential wget subversion python-dev git lcov"
-DEPENDENCY_DPKG_PACKAGES="sudo build-essential wget python-dev git pandoc"
+#DEPENDENCY_DPKG_PACKAGES="sudo build-essential wget python-dev git pandoc"
 # DEPENDENCY_SOURCE_PACKAGES="cmake Boost LLVM gtest"
 #DEPENDENCY_SOURCE_PACKAGES="hpp2plantuml xlsx markdownpp"
 DEPENDENCY_SOURCE_PACKAGES="hpp2plantuml markdownpp"

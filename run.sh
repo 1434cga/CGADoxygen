@@ -15,8 +15,8 @@ tool="$(which hpp2plantuml)"
 if [ -z ${tool} ]; then
 	tput setaf 1
 	echo "Do install hpp2plantuml"
-    echo "Method-1. Do yourself  from URL)   https://github.com/thibaultmarin/hpp2plantuml"
-    echo "Method-2. run setting_env_user_mode.sh in current directory"
+    echo "Method-1. run setting_env_user_mode.sh in current directory"
+    echo "Method-2. Install by  yourself  from URL)   https://github.com/thibaultmarin/hpp2plantuml"
 	tput sgr0
     exit 4;
 fi
@@ -40,8 +40,8 @@ tool="$(which markdown-pp)"
 if [ -z ${tool} ]; then
 	tput setaf 1
 	echo "Do install markdown-pp"
-    echo "Method-1. Do yourself from URL)   https://github.com/jreese/markdown-pp"
-    echo "Method-2. run setting_env_user_mode.sh in current directory"
+    echo "Method-1. run setting_env_user_mode.sh in current directory"
+    echo "Method-2. Install by  yourself from URL)   https://github.com/jreese/markdown-pp"
 	tput sgr0
     exit 6;
 fi
@@ -50,7 +50,6 @@ echo "${tool}"
 tput sgr0
 
 
-exit;
 perl -e "use 5.010"
 if [ $? -ge  1 ]
 then
@@ -186,6 +185,17 @@ echo "### Source MarkDown Files for making a doxygen : ls ./build_perlmod/work/ 
 tput sgr0
 ls ${lsOption} ./build_perlmod/work/
 
+tput setaf 2
+echo "#### build_doxygen makefile ####"
+tput sgr0
 cd build_doxygen; make ; cd ..
+
+tput setaf 2
+echo "#### build_uml makefile ####"
+tput sgr0
 cd build_uml; make ; cd ..
+
+tput setaf 2
+echo "#### build_perlmod makefile ####"
+tput sgr0
 cd build_perlmod; make ; cd ..
