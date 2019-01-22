@@ -11,6 +11,36 @@
 ## 7    white     COLOR_WHITE     1,1,1
 ## sgr0 Reset text format to the terminal's default
 
+perl -e "use 5.010"
+if [ $? -ge  1 ]
+then
+	tput setaf 1
+	echo "Need more recent perl version than v5.010"
+	tput sgr0
+    exit 3;
+fi
+
+if [ -s ./.perlmodule ]; then
+    tput setaf 5
+    echo "Already perlmodule was installed. If you want to initialize , remove .perlmodule file"
+    tput sgr0
+else 
+    perl -e "use Excel::Writer::XLSX"
+    if [ $? -ge  1 ]; then
+        tput setaf 1
+        echo "Need perl module Excel::Writer::XLSX"
+        echo "$ cpan Excel::Writer::XLSX"
+        tput sgr0
+        cpan Excel::Writer::XLSX
+        echo "INSTALLED Excel::Writer::XLSX perl module" > ./.perlmodule
+        exit 4;
+    else 
+        tput setaf 5
+        echo "Already installed Excel::Writer::XLSX perl module" 
+        tput sgr0
+        echo "INSTALLED Excel::Writer::XLSX perl module" > ./.perlmodule
+    fi
+fi
 
 unameOut="$(uname -s)"
 case "${unameOut}" in
@@ -98,4 +128,6 @@ echo "### Source Files for making a doxygen : ls ./build_doxygen/src/ ####"
 tput sgr0
 ls ${lsOption} ./build_doxygen/src/
 
-cd build_doxygen; doxygen Doxyfile ; cd ..
+cd build_doxygen; make ; cd ..
+cd build_uml; make ; cd ..
+cd build_perlmod; make ; cd ..

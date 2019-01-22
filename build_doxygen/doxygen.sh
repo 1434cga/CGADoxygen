@@ -37,10 +37,11 @@ if [ -d "./DOXYGEN_OUTPUT" ]; then
 		tput setaf 2
 		echo "#### Run Doxygen ####"
 		tput sgr0
-		doxygen Doxyfile
+        echo "Reuse DOXYGEN_OUTPUT" > doxygen.log
+		doxygen Doxyfile >> doxygen.log
 	else
 		tput setaf 2
-		echo "#### All file are same. ####"
+		echo "#### All files are same. ####"
 		echo "#### if you run manually , run make after make clean ####"
 		tput sgr0
 	fi
@@ -48,7 +49,8 @@ else
     tput setaf 2
     echo "#### Run Doxygen ####"
     tput sgr0
-	doxygen Doxyfile
+    echo "New DOXYGEN_OUTPUT" > doxygen.log
+	doxygen Doxyfile >> doxygen.log
 	/bin/cp -f ./src/* ../old
 fi
 
