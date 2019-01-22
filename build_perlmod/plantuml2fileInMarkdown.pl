@@ -55,12 +55,18 @@ while(<IH>){
 			$f =~ s/\s*$//;
 			print "==== $s desc[$desc] f[$f] depth[$depth]\n";
 			$f =~ s/\.plantuml$//;
-			$filename = "$outfile\_$cnt\_$f";
+			if($outfile =~ m/([^\/]*)$/){
+				$outfilename = $1
+			} else {
+				$outfilename = $outfile
+			}
+			print STDERR "$outfilename\n";
+			$filename = "$outfilename\_$cnt\_$f";
 			$filename =~ s/\./_/g;
 			$filename =~ s/\:/_/g;
-			print "[out:$filename] [f:$f] [cnt:$cnt]\n";
+			print STDERR "[out:$filename] [f:$f] [cnt:$cnt]\n";
 			$cnt++;
-			$outplantuml = "../outplantuml/" . "$filename\.plantuml";
+			$outplantuml = "./outplantuml/" . "$filename\.plantuml";
 			$outpng = "$filename\.png";
 			$status = "PLANTUML";
 			print STDERR "Generated output file .plantuml : $outplantuml  depth($depth)  desc($desc)\n";

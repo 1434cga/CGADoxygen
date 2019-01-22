@@ -17,7 +17,10 @@
 
 mkdir -p oldmd
 
+cd OUTPUT
+
 tput setaf 2
+echo `pwd`
 echo "#### Check Differnce of md files for pandoc ####"
 tput sgr0
 
@@ -66,17 +69,3 @@ else
 	tput sgr0
 fi
 
-file='DOC.md'
-echo "diff -q $file ./oldmd/$file"
-diff -q $file ./oldmd/$file
-if [ $? -ne '0' ]; then
-	tput setaf 3
-	echo "--> $file changed : pandoc -o DOC.docx -f markdown -t docx $file"
-	tput sgr0
-	pandoc -o DOC.docx -f markdown -t docx $file
-	/bin/cp -f $file ./oldmd
-else
-	tput setaf 4
-	echo "--- $file unchanged : pandoc"
-	tput sgr0
-fi

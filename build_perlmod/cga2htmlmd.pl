@@ -752,6 +752,8 @@ close OH2;
 
 $outfile =~ s/\.md$/\.SRS\.md/;
 $outwithimage =~ s/\.md$/\.SRS\.md/;
+print "in : $infile  , out md file : $outwithimage , out md file with plantuml : $outfile\n";
+print STDERR "in : $infile  , out md file : $outwithimage , out md file with plantuml : $outfile\n";
 open(OH1,">",$outfile) or die "Can't open > $outfile $!";
 open(OH2,">",$outwithimage) or die "Can't open > $outwithimage $!";
 

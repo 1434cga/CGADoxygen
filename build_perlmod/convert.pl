@@ -59,6 +59,8 @@ print STDERR "======================================================\n";
 print STDERR "\n";
 
 
+print "in : $infile  , outfile : $outfile\n";
+print STDERR "in : $infile  , outfile : $outfile\n";
 open(IH, "<",$infile) or die "Can't open < $infile $!";
 open(OH, ">",$outfile) or die "Can't open < $outfile $!";
 my $status = "NONE";

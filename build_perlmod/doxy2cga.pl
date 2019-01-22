@@ -75,6 +75,8 @@ if($filename eq ""){
 }
 print "input : DoxyDocs.pm , output filename : $filename\n";
 print STDERR "input DoxyDocs.pm  output filename = $filename\n";
+print "input : DoxyDocs.pm , output filename : DB4python.data\n";
+print STDERR "input DoxyDocs.pm  output filename = DB4python.data\n";
 open(FH, ">",$filename) or die "Can't open < $filename: $!";
 open(PH, ">","DB4python.data") or die "Can't open < DB4python.data : $!";
 #generate($doxydocs, $doxystructure);
