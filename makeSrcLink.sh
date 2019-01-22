@@ -18,8 +18,12 @@ tput sgr0
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 /bin/rm -rf ./build_doxygen/src
 /bin/rm -rf ./build_uml/src
+/bin/rm -rf ./build_perlmod/src
+/bin/rm -rf ./build_perlmod/work
 mkdir -p ./build_doxygen/src
 mkdir -p ./build_uml/src
+mkdir -p ./build_perlmod/src
+mkdir -p ./build_perlmod/work
 pwd=`pwd`
 for directory in $*
 do
@@ -29,9 +33,19 @@ do
 		basefile=`basename $file`
 		echo "    basefile : $basefile  ,  file : $file"
 		if [ -s $file ]; then
-			echo "make soft linke $pwd/$file <-- ./build_doxygen/src/$basefile  ./build_uml/src/$basefile"
+			echo "make soft linke $pwd/$file <-- ./build_doxygen/src/$basefile  ./build_uml/src/$basefile ./build_perlmod/$basefile"
 			ln -sf $pwd/$file ./build_doxygen/src/$basefile
 			ln -sf $pwd/$file ./build_uml/src/$basefile
+			ln -sf $pwd/$file ./build_perlmod/src/$basefile
+		fi
+	done
+	for file in $directory/*.md
+	do
+		basefile=`basename $file`
+		echo "    basefile : $basefile  ,  file : $file"
+		if [ -s $file ]; then
+			echo "make soft linke $pwd/$file <-- ./build_perlmod/work/$basefile "
+			ln -sf $pwd/$file ./build_perlmod/work/$basefile
 		fi
 	done
 	#cp -f $file $file\.orig

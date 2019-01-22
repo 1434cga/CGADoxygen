@@ -60,7 +60,7 @@ while(<IH>){
 			$filename =~ s/\:/_/g;
 			print "[out:$filename] [f:$f] [cnt:$cnt]\n";
 			$cnt++;
-			$outplantuml = "./outplantuml/" . "$filename\.plantuml";
+			$outplantuml = "../outplantuml/" . "$filename\.plantuml";
 			$outpng = "$filename\.png";
 			$status = "PLANTUML";
 			print STDERR "Generated output file .plantuml : $outplantuml  depth($depth)  desc($desc)\n";

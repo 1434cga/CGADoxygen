@@ -11,6 +11,46 @@
 ## 7    white     COLOR_WHITE     1,1,1
 ## sgr0 Reset text format to the terminal's default
 
+tool="$(which hpp2plantuml)"
+if [ -z ${tool} ]; then
+	tput setaf 1
+	echo "Do install hpp2plantuml"
+    echo "Method-1. Do yourself  from URL)   https://github.com/thibaultmarin/hpp2plantuml"
+    echo "Method-2. run setting_env_user_mode.sh in current directory"
+	tput sgr0
+    exit 4;
+fi
+tput setaf 5
+echo "${tool}"
+tput sgr0
+
+tool="$(which pandoc)"
+if [ -z ${tool} ]; then
+	tput setaf 1
+	echo "Do install pandoc"
+    echo "linux ex) apt-get install pandoc"
+	tput sgr0
+    exit 5;
+fi
+tput setaf 5
+echo "${tool}"
+tput sgr0
+
+tool="$(which markdown-pp)"
+if [ -z ${tool} ]; then
+	tput setaf 1
+	echo "Do install markdown-pp"
+    echo "Method-1. Do yourself from URL)   https://github.com/jreese/markdown-pp"
+    echo "Method-2. run setting_env_user_mode.sh in current directory"
+	tput sgr0
+    exit 6;
+fi
+tput setaf 5
+echo "${tool}"
+tput sgr0
+
+
+exit;
 perl -e "use 5.010"
 if [ $? -ge  1 ]
 then
@@ -88,20 +128,34 @@ tput sgr0
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 /bin/rm -rf ./build_doxygen/src
 /bin/rm -rf ./build_uml/src
+/bin/rm -rf ./build_perlmod/src
+/bin/rm -rf ./build_perlmod/work
 mkdir -p ./build_doxygen/src
 mkdir -p ./build_uml/src
+mkdir -p ./build_perlmod/src
+mkdir -p ./build_perlmod/work
 pwd=`pwd`
 for directory in $*
 do
 	echo "directory : $directory"
-	for file in $directory/*.cpp $directory/*.cc $directory/*.h 
+	for file in $directory/*.cpp $directory/*.cc $directory/*.h  $directory/*.hpp
 	do
 		basefile=`basename $file`
 		echo "    basefile : $basefile  ,  file : $file"
 		if [ -s $file ]; then
-			echo "make soft linke $pwd/$file <-- ./build_doxygen/src/$basefile  ./build_uml/src/$basefile"
+			echo "make soft linke $pwd/$file <-- ./build_doxygen/src/$basefile  ./build_uml/src/$basefile ./build_perlmod/$basefile"
 			ln -sf $pwd/$file ./build_doxygen/src/$basefile
 			ln -sf $pwd/$file ./build_uml/src/$basefile
+			ln -sf $pwd/$file ./build_perlmod/src/$basefile
+		fi
+	done
+	for file in $directory/*.md
+	do
+		basefile=`basename $file`
+		echo "    basefile : $basefile  ,  file : $file"
+		if [ -s $file ]; then
+			echo "make soft linke $pwd/$file <-- ./build_perlmod/work/$basefile "
+			ln -sf $pwd/$file ./build_perlmod/work/$basefile
 		fi
 	done
 	#cp -f $file $file\.orig
@@ -124,9 +178,13 @@ done
 echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
 
 tput setaf 5
-echo "### Source Files for making a doxygen : ls ./build_doxygen/src/ ####"
+echo "### Source C/C++/Header Files for making a doxygen : ls ./build_doxygen/src/ ####"
 tput sgr0
 ls ${lsOption} ./build_doxygen/src/
+tput setaf 5
+echo "### Source MarkDown Files for making a doxygen : ls ./build_perlmod/work/ ####"
+tput sgr0
+ls ${lsOption} ./build_perlmod/work/
 
 cd build_doxygen; make ; cd ..
 cd build_uml; make ; cd ..

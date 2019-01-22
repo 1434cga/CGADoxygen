@@ -27,7 +27,7 @@ do
 			tput setaf 3
 			echo "--> $file changed : plantuml.jar -> png "
 			tput sgr0
-			java -jar ~/bin/plantuml.jar $file
+			java -jar ../build_doxygen/plantuml.jar $file
 			/bin/cp -f $file ../oldplantuml
 		else
 			tput setaf 4

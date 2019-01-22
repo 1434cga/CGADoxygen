@@ -17,7 +17,7 @@ if [ -d "./DOXYGEN_OUTPUT" ]; then
     tput setaf 2
     echo "#### Check Differnce of doxygen ####"
     tput sgr0
-	for file in src/* README.md
+	for file in src/* 
 	do
 		if [ -s $file ]; then
 			basefile=`basename $file`
