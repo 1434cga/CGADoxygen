@@ -15,7 +15,9 @@ mkdir -p oldplantuml
 tput setaf 2
 echo "#### Check Differnce of plantuml files ####"
 tput sgr0
+
 cd outplantuml
+
 for file in *.plantuml
 do
 	basefile=`basename $file`

@@ -2,9 +2,9 @@ ALL:
 	mkdir -p outplantuml
 	mkdir -p oldplantuml
 	mkdir -p OUTPUT
-	ln -sf ../SDD.mdpp OUTPUT/SDD.mdpp
-	ln -sf ../outplantuml OUTPUT/outplantuml
-	/bin/rm -f outplantuml/*.plantuml
+	ln -sf ../outplantuml ./OUTPUT/outplantuml
+	ln -sf ../../build_uml/UML ./outplantuml/UML
+	ln -sf ./build_perlmod/OUTPUT ../OUTPUT
 
 	perl convert.pl ../build_doxygen/DOXYGEN_OUTPUT/perlmod/DoxyDocs.pm ./DoxyDocs.pm  > a.log
 	perl doxy2cga.pl default.GV > b.log
@@ -17,28 +17,23 @@ ALL:
 	perl ../collab.pl OUTPUT/LLD.html.md
 	perl ../collab.pl OUTPUT/LLD.css.html
 	perl cga2excel.pl default.GV OUTPUT/LLD.xlsx > c3.log
-	perl plantuml2fileInMarkdown.pl work/HLD.plantuml.md OUTPUT/HLD.md > d1.log
-	#perl plantuml2fileInMarkdown.pl README.plantuml.md README.md > d2.log
+
+	sh makeBasicDocumentsInOUTPUT.sh 
 	sh makePNG_jar_plantuml.sh
-	markdown-pp -o OUTPUT/LLD_SRS.md    LLD_SRS.mdpp
-	pandoc OUTPUT/LLD_SRS.md -f markdown -t html -s -o OUTPUT/LLD_SRS.html -c pandoc.css
-	perl ../collab.pl OUTPUT/LLD_SRS.md
-	perl ../collab.pl OUTPUT/LLD_SRS.html
-	#markdown-pp -o OUTPUT/CODEGEN.md    CODEGEN.mdpp
-	#pandoc CODEGEN.md -f markdown -t html -s -o OUTPUT/CODEGEN.html -c pandoc.css
-	#perl ../collab.pl OUTPUT/CODEGEN.md
-	#perl ../collab.pl OUTPUT/CODEGEN.html
-	markdown-pp -o OUTPUT/SDD.md    SDD.mdpp
+
+	cd OUTPUT; markdown-pp -o SDD.md    SDD.mdpp ; cd ..
+
 	pandoc OUTPUT/SDD.md -f markdown -t html -s -o OUTPUT/SDD.html -c pandoc.css
 	perl ../collab.pl OUTPUT/SDD.md
 	perl ../collab.pl OUTPUT/SDD.html
-	#markdown-pp -o DOC.md    README.mdpp
-	#pandoc DOC.md -f markdown -t html -s -o DOC.html -c pandoc.css
-	#perl ../collab.pl DOC.md
-	#perl ../collab.pl DOC.html
-	sh pandoc.sh
+	sh makeWord.sh
 
 clean:
 	/bin/rm -rf ./outplantuml
 	/bin/rm -rf ./oldplantuml
 	/bin/rm -rf ./oldmd
+	/bin/rm -rf ./*.log
+	/bin/rm -rf ./DB4python.data
+	/bin/rm -rf ./default.GV
+	/bin/rm -rf ./OUTPUT
+	/bin/rm -rf ./DoxyDocs.pm

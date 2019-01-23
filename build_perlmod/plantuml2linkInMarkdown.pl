@@ -1,14 +1,34 @@
+#!/usr/bin/perl
 #  DoxyDocs.pm -> other.pm
 #	I will correct DoxyDocs.pm  : params => [ ...] --->  { params => [...] }, 
+use File::Copy;
+use Cwd qw(getcwd);
+my $curdir = getcwd;
+
 print "arguments count : " . ($#ARGV +1) . "\n";
 print @ARGV . "\n";
-($infile , $outfile) = (@ARGV);
+($infile , $outdir) = (@ARGV);
+
+if($outdir eq ""){
+        $outdir = ".";
+}
+$outdir =~ s/\/$//;
+
 if($infile eq ""){
 	$infile = "README.plantuml.md";
 }
-if($outfile eq ""){
-	$outfile = "README.md";
-}
+
+if($infile =~ /plantuml\.md$/){
+    $outfile = $outdir . "/" . $infile;
+    $outfile =~ s/plantuml\.md$/md/;
+} else {
+    $outfile = $outdir . "/" . $infile;
+    print "copy outdir : $outdir , infile : $infile , outfile : $outfile\n";
+    print STDERR "copy outdir : $outdir , infile : $infile , outfile : $outfile\n";
+    copy($infile, $outfile) or die "Copy fail: $!";
+    exit;
+} 
+
 if($infile eq $outfile){
 	print "The same name : $infile\n";
 	exit;
@@ -18,8 +38,9 @@ print STDERR "infile : $infile , outfile : $outfile\n";
 print "The generated plantuml files are in ./outplantuml directory.\n";
 print STDERR "The generated plantuml files are in ./outplantuml directory.\n";
 
+
 open(IH, "<",$infile) or die "Can't open < $infile $!";
-open(OH, ">",$outfile) or die "Can't open < $outfile $!";
+open(OH, ">",$outfile) or die "Can't open > $outfile $!";
 my $status = "NONE";
 my $space = "";
 my $cnt = 1;
@@ -60,18 +81,19 @@ while(<IH>){
 			} else {
 				$outfilename = $outfile
 			}
-			print STDERR "$outfilename\n";
+			print "OUTPUT file name : $outfilename\n";
 			$filename = "$outfilename\_$cnt\_$f";
 			$filename =~ s/\./_/g;
 			$filename =~ s/\:/_/g;
 			print STDERR "[out:$filename] [f:$f] [cnt:$cnt]\n";
 			$cnt++;
-			$outplantuml = "./outplantuml/" . "$filename\.plantuml";
+			$outplantuml = "../outplantuml/" . "$filename\.plantuml";
 			$outpng = "$filename\.png";
 			$status = "PLANTUML";
+			print STDERR "Current Directory : $curdir\n";
 			print STDERR "Generated output file .plantuml : $outplantuml  depth($depth)  desc($desc)\n";
 			print STDERR "Generated output file .png : $outpng\n";
-			open(PH, ">",$outplantuml) or die "Can't open < $outplantuml $!";
+			open(PH, ">",$outplantuml) or die "Can't open > $outplantuml $!";
 			print PH "\@startuml $outpng\n";
 			if($desc ne ""){
 				print OH "$mytab\- [Figure] $desc\n";

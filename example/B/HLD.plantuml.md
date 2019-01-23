@@ -1,3 +1,6 @@
+```text
+This is example/B
+```
 
 # About This Document
 ## Document Information

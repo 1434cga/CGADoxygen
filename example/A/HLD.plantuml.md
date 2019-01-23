@@ -1,3 +1,6 @@
+```text
+This is example/A
+```
 
 # About This Document
 ## Document Information
@@ -129,7 +132,7 @@ FrameBuffer o-- fb_t
 - CRotate : Rotate telltale (not blink) ex.) RED_GREEN
 
 ```puml class_detail.png : Detailed Class Diagram
-!include ../UML/__ALL_only_class__.class
+!include ./UML/__ALL_only_class__.class
 
 CMgrTelltale <-up- CTelltaleBase
 CTelltaleBase <|-- CBlink

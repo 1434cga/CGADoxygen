@@ -117,6 +117,22 @@ then
 	tput sgr0
 	/bin/rm -f  ./build_doxygen/src/*
 	ls ${lsOption} ./build_doxygen/src/
+
+    tput setaf 2
+    echo "#### build_doxygen makefile clean ####"
+    tput sgr0
+    cd build_doxygen; make clean; cd ..
+
+    tput setaf 2
+    echo "#### build_uml makefile clean ####"
+    tput sgr0
+    cd build_uml; make clean; cd ..
+
+    tput setaf 2
+    echo "#### build_perlmod makefile clean ####"
+    tput sgr0
+    cd build_perlmod; make clean; cd ..
+
 	exit 2;
 fi
 

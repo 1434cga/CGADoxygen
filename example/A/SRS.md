@@ -1,3 +1,7 @@
+```text
+This is example/A
+```
+
 # Introduction
 ## Revision History
 | Version | Date       | Comment         | Author                             | Approver |
@@ -22,8 +26,6 @@
 - The Telltale Manager(MgrTelltale) is responsible for processing Telltale indication from VP.
 	- The MgrTelltale parses the raw data packet from VP and process the data to send HMI layer.
 	- It interacts with various external components such as MgrTsk, MgrGTF, MgrODI.
-- ![Telltales](./PNG/SRS_Telltale_01.png)
-- ![Telltale's Example](./PNG/SRS_Telltale_02.png)
 
 ## SW Main Features
 - Receive messages from MgrTsk and start monitoring.
