@@ -58,18 +58,18 @@
 - It gives improving your international skills.
 
 ## Architecture
-- ![Architecture Component](./PNG/Architecture.png)
+- ![Architecture Component](../PNG/Architecture.png)
 
 ## Devliverables
 ### LLD Document (Detailed Class and Source information)
 - LLD.docx : Detailed Class and Source document
-    - ![alt MatchWord01 Matching Part of doxygen comments](./PNG/MatchWord01.png)
+    - ![alt MatchWord01 Matching Part of doxygen comments](../PNG/MatchWord01.png)
 - LLD.xlsx : Excel file to have tables for each class
-    - ![LLD.xlsx LLD Excel](./PNG/EXCEL01.png)
+    - ![LLD.xlsx LLD Excel](../PNG/EXCEL01.png)
 
 ### SDD Document
 - SDD.docx  : It is final result combined with HLD and LLD
-    - ![SDD.docx SDD Document](./PNG/SDD02.png)
+    - ![SDD.docx SDD Document](../PNG/SDD02.png)
     - **Change the "ReTuRnp" to Paragraph Mark** in Word for getting complete documents
 
 
@@ -172,8 +172,8 @@ int32_t AKlass::Run(int32_t isOn)
 ## markdown tools to show plantuml
 - Use ATOM or Visual Studio Code to show the following plantuml
     - install markdown-preview-plantuml plugin
-    - ![ATOM plugin markdown-preview-plantuml](./PNG/ATOM01.png)
-    - ![ATOM screen](./PNG/ATOM02.png)
+    - ![ATOM plugin markdown-preview-plantuml](../PNG/ATOM01.png)
+    - ![ATOM screen](../PNG/ATOM02.png)
 
 # Set before making a documents
 - Doxygen Setting : (Doxyfile)
@@ -253,22 +253,22 @@ warning: The following parameters of BpSmsReceiveCallback::OnTextMessageReceived
 
 # What is the result
 - Architecture
-- ![Architecture Component](./PNG/Architecture.png)
+- ![Architecture Component](../PNG/Architecture.png)
 - Deliverables (SDD Component)
 - HLD.docx  : High level design from HLD.plantuml.md
-    - ![HLD.docx SDD Document](./PNG/HLD01.png)
+    - ![HLD.docx SDD Document](../PNG/HLD01.png)
 - LLD.docx  : Low level design generated from doxygen comments automatically
-    - ![LLD.docx SDD Document](./PNG/LLD01.png)
+    - ![LLD.docx SDD Document](../PNG/LLD01.png)
 - SDD.docx  : It is final result combined with HLD and LLD
-    - ![SDD.docx SDD Document](./PNG/SDD01.png)
+    - ![SDD.docx SDD Document](../PNG/SDD01.png)
     - **Change the "ReTuRnp" to Paragraph Mark** in Word for getting complete documents
-        - ![Replace Menu in word](./PNG/WORD1.png)
-        - ![Replace the ReTuRnp with Paragrph Mark](./PNG/WORD2.png)
+        - ![Replace Menu in word](../PNG/WORD1.png)
+        - ![Replace the ReTuRnp with Paragrph Mark](../PNG/WORD2.png)
 - LLD.xlsx : Excel file to have tables.
     - Depends on your style whatever you use  between SDD.docx and SDD.xlsx
-    - ![LLD.xlsx LLD Excel](./PNG/EXCEL01.png)
+    - ![LLD.xlsx LLD Excel](../PNG/EXCEL01.png)
     - copy & paste the excel tables into word
-    - ![LLD.xlsx to Word](./PNG/EXCEL02.png)
+    - ![LLD.xlsx to Word](../PNG/EXCEL02.png)
 
 ## Detailed Description how to convert
 ### Caution!!!
@@ -341,11 +341,11 @@ AKlass::AKlass(TELLTALE id , int32_t startstatus, std::vector<int32_t> blink , i
 ```
 
 - Doxygen
-    - ![alt MatchDoxygen01 Matching Part of doxygen comments](./PNG/MatchDoxygen01.png)
-    - ![alt MatchDoxygen02 Matching Part of doxygen comments](./PNG/MatchDoxygen02.png)
-    - ![alt MatchDoxygen03 Matching Part of doxygen comments](./PNG/MatchDoxygen03.png)
+    - ![alt MatchDoxygen01 Matching Part of doxygen comments](../PNG/MatchDoxygen01.png)
+    - ![alt MatchDoxygen02 Matching Part of doxygen comments](../PNG/MatchDoxygen02.png)
+    - ![alt MatchDoxygen03 Matching Part of doxygen comments](../PNG/MatchDoxygen03.png)
 - Word
-    - ![alt MatchWord01 Matching Part of doxygen comments](./PNG/MatchWord01.png)
+    - ![alt MatchWord01 Matching Part of doxygen comments](../PNG/MatchWord01.png)
 
 ### AKlass Run()
 ```
@@ -363,12 +363,12 @@ int32_t AKlass::Run(int32_t isOn)
 ```
 
 - Doxygen
-    - ![alt MatchDoxygen11 Matching Part of doxygen comments](./PNG/MatchDoxygen11.png)
+    - ![alt MatchDoxygen11 Matching Part of doxygen comments](../PNG/MatchDoxygen11.png)
 - Word
-    - ![alt MatchWord11 Matching Part of doxygen comments](./PNG/MatchWord11.png)
-    - ![alt MatchWord12 Matching Part of doxygen comments](./PNG/MatchWord12.png)
+    - ![alt MatchWord11 Matching Part of doxygen comments](../PNG/MatchWord11.png)
+    - ![alt MatchWord12 Matching Part of doxygen comments](../PNG/MatchWord12.png)
 - Excel
-    - ![alt MatchExcel11 Matching Part of doxygen comments](./PNG/MatchExcel11.png)
+    - ![alt MatchExcel11 Matching Part of doxygen comments](../PNG/MatchExcel11.png)
 
 # FAQ
 ## Converting tools into word
@@ -376,10 +376,10 @@ int32_t AKlass::Run(int32_t isOn)
 - ATOM Editor : save as html then read html file in word
 
 ## What is ReTuRnp?  How to remove it?
-- ![SDD.docx SDD Document](./PNG/SDD01.png)
+- ![SDD.docx SDD Document](../PNG/SDD01.png)
 - **Change the "ReTuRnp" to Paragraph Mark** in Word for getting complete documents
-    - ![Replace Menu in word](./PNG/WORD1.png)
-    - ![Replace the ReTuRnp with Paragrph Mark](./PNG/WORD2.png)
+    - ![Replace Menu in word](../PNG/WORD1.png)
+    - ![Replace the ReTuRnp with Paragrph Mark](../PNG/WORD2.png)
 
 # Bonus
 ## insert static_cast<...> easily for MISRA
