@@ -58,18 +58,18 @@
 - It gives improving your international skills.
 
 ## Architecture
-- ![Architecture Component](./PNG/Architecture.png)
+- ![Architecture Component](../PNG/Architecture.png)
 
 ## Devliverables
 ### LLD Document (Detailed Class and Source information)
 - LLD.docx : Detailed Class and Source document
-    - ![alt MatchWord01 Matching Part of doxygen comments](./PNG/MatchWord01.png)
+    - ![alt MatchWord01 Matching Part of doxygen comments](../PNG/MatchWord01.png)
 - LLD.xlsx : Excel file to have tables for each class
     - ![LLD.xlsx LLD Excel](./PNG/EXCEL01.png)
 
 ### SDD Document
 - SDD.docx  : It is final result combined with HLD and LLD
-    - ![SDD.docx SDD Document](./PNG/SDD02.png)
+    - ![SDD.docx SDD Document](../PNG/SDD02.png)
     - **Change the "ReTuRnp" to Paragraph Mark** in Word for getting complete documents
 
 
@@ -253,22 +253,22 @@ warning: The following parameters of BpSmsReceiveCallback::OnTextMessageReceived
 
 # What is the result
 - Architecture
-- ![Architecture Component](./PNG/Architecture.png)
+- ![Architecture Component](../PNG/Architecture.png)
 - Deliverables (SDD Component)
 - HLD.docx  : High level design from HLD.plantuml.md
-    - ![HLD.docx SDD Document](./PNG/HLD01.png)
+    - ![HLD.docx SDD Document](../PNG/HLD01.png)
 - LLD.docx  : Low level design generated from doxygen comments automatically
-    - ![LLD.docx SDD Document](./PNG/LLD01.png)
+    - ![LLD.docx SDD Document](../PNG/LLD01.png)
 - SDD.docx  : It is final result combined with HLD and LLD
-    - ![SDD.docx SDD Document](./PNG/SDD01.png)
+    - ![SDD.docx SDD Document](../PNG/SDD01.png)
     - **Change the "ReTuRnp" to Paragraph Mark** in Word for getting complete documents
-        - ![Replace Menu in word](./PNG/WORD1.png)
-        - ![Replace the ReTuRnp with Paragrph Mark](./PNG/WORD2.png)
+        - ![Replace Menu in word](../PNG/WORD1.png)
+        - ![Replace the ReTuRnp with Paragrph Mark](../PNG/WORD2.png)
 - LLD.xlsx : Excel file to have tables.
     - Depends on your style whatever you use  between SDD.docx and SDD.xlsx
-    - ![LLD.xlsx LLD Excel](./PNG/EXCEL01.png)
+    - ![LLD.xlsx LLD Excel](../PNG/EXCEL01.png)
     - copy & paste the excel tables into word
-    - ![LLD.xlsx to Word](./PNG/EXCEL02.png)
+    - ![LLD.xlsx to Word](../PNG/EXCEL02.png)
 
 ## Detailed Description how to convert
 ### Caution!!!
