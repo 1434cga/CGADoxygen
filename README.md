@@ -35,6 +35,8 @@
     ```bash
     $ sh run.sh ../..  ../../inc  /home/user/src
     ```
+- OUTPUT will be generated in build_perlmod/OUTPUT
+    - SDD.html SDD.md SDD.docx
 
 ## clean
 ```
