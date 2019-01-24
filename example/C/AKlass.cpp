@@ -23,7 +23,7 @@ namespace family {
  *
  * @startuml
  * participant CReceiver
- * opt MsgFromAlert1()
+ * opt MsgFromAlert()
  *  alt cmd=IDM_MALERT_MTELLTALE_IGN_STATUS_IN && value == 0
  *     alt
  *            CReceiver ->> MgrGTF : Draw_HMI sendIndMsg() ->  sendMessage(GTF,IDM_MTELL_MGTF_INDICATION,...)
@@ -71,6 +71,8 @@ namespace family {
 	}
  * @endverbatim
  *
+ * @snippet src/AKlass.h AK_TIME
+ *
  * @warning AK_Warning Message
  */
 AKlass::AKlass(TELLTALE id , int32_t startstatus, std::vector<int32_t> blink , int32_t freq , int32_t durationmax , int32_t afterduration)
@@ -103,6 +105,8 @@ AKlass::AKlass(TELLTALE id , int32_t startstatus, std::vector<int32_t> blink , i
 /**
  * @brief AKlass Destructor
  *
+ * @snippet src/AKlass.cpp AK_TIME
+ *
  * @since{2,16}
  * @since{3,16}
  *
@@ -128,6 +132,7 @@ int32_t AKlass::Run(int32_t isOn)
 
 	if(isOn == LXID_ERROR) return LXID_ERROR;
 
+	/// [AK_TIME]
 	if(mBlinkStatus == isOn){
 		CDebug::GetInstance()->DebugPrint(DEBUG_REPETITION,"DEBUG:" "DUPLICATE order : status(%d) isOn(%d) mDurationCnt(%d -> 0)\n",mBlinkStatus,isOn,mDurationCnt);
 		// Call New start??  clear -> Draw; (Only ON)
@@ -149,6 +154,7 @@ int32_t AKlass::Run(int32_t isOn)
 		}
 		ret = LXID_SUCCESS;
 	}
+	/// [AK_TIME]
 
 	mBlinkStatus = isOn;
 	return ret;
@@ -166,7 +172,7 @@ int32_t AKlass::Run(int32_t isOn)
 @cond UML
  * @startuml
  * participant CReceiver
- * opt MsgFromAlert2()
+ * opt MsgFromAlert()
  *  alt cmd=IDM_MALERT_MTELLTALE_IGN_STATUS_IN && value == 0
  *     alt
  *            CReceiver ->> MgrGTF : Draw_HMI sendIndMsg() ->  sendMessage(GTF,IDM_MTELL_MGTF_INDICATION,...)
@@ -186,6 +192,7 @@ int32_t AKlass::Run(int32_t isOn)
  * @step 3 AKlass This is total.
  *		<br>How are you?
  *
+ * @snippet Doxyfile DOXYGEN_ALIASES
  */
 void AKlass::Draw(int32_t isOn)
 {
@@ -203,6 +210,7 @@ void AKlass::Draw(int32_t isOn)
  * @return int32_t
  * @retval LXID_SUCCESS success of blinking
  * @retval LXID_ERROR when blink is off
+ * @snippet Doxyfile DOXYGEN_ALIASES
  */
 int32_t AKlass::TimerAct()
 {

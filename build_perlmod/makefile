@@ -37,3 +37,4 @@ clean:
 	/bin/rm -rf ./default.GV
 	/bin/rm -rf ./OUTPUT
 	/bin/rm -rf ./DoxyDocs.pm
+	/bin/rm -rf ../OUTPUT

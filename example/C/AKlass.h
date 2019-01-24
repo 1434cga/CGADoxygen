@@ -36,11 +36,12 @@ private:
     std::vector<int32_t> mBlink;            ///< LXID vector (basically it has only one.)
     ///< exception case : right / left direction blink should run simultaneously.
 
+    //! [AK_TIME]
     int32_t mFreq;                          ///< frequency : milli-seconds
     int32_t mDurationMax;                   ///< calculate maximum count of frequency(ms) with duration(second)
     int32_t mAfterDuration;                 ///< Is it ON after duration? ON:draw Image , OFF:Clear Image
     // Timer variable
-
+    //! [AK_TIME]
 };
 
 

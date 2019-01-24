@@ -44,7 +44,7 @@ do
         echo "######  ./OUTPUT/${file} does not exist in Source ######"
         echo "######  So , we use default ${file}. ######"
         tput sgr0
-        ln -sf ../${file} ./OUTPUT/$file
+        ln -sf ../${file} ./OUTPUT/${file}
     fi
 done
 

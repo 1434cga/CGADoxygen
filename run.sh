@@ -116,6 +116,9 @@ then
 	echo "#### Clean ./build_doxygen/src ####"
 	tput sgr0
 	/bin/rm -f  ./build_doxygen/src/*
+	/bin/rm -f ./build_uml/src/*
+	/bin/rm -f ./build_perlmod/src/*
+	/bin/rm -f ./build_perlmod/work/*
 	ls ${lsOption} ./build_doxygen/src/
 
     tput setaf 2
