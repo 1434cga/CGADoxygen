@@ -4,8 +4,8 @@
 - [x] how to change excel
 - [x] what is the result from excel
 - [x] how to change source file
-- [ ] simulator and code
-- [ ] progress to verify the telltale
+- [x] simulator and code
+- [x] progress to verify the telltale
 
 ## document file
 - [x] md with plantuml
@@ -17,14 +17,27 @@
 
 ## distribution
 - [x] other git : install tools (setup.sh)
-- [ ] this is one of variation
+- [x] this is one of variation
 
 ## contribution
-- [ ] how to make it.
-- [ ] process / progress : what do you contribute
-- [ ] change doxygen code
-- [ ] contribute as helper of doxygen
-- [ ] contribute plantuml.md
+- [x] how to make it.
+- [x] process / progress : what do you contribute
+- [x] change doxygen code
+- [x] contribute as helper of doxygen
+- [x] contribute plantuml.md
 - [x] contribute how to make a docx with several tools
 - [x] contribute how to make a excel file
-- [ ] Divide into small thing in github
+- [x] Divide into small thing in github
+
+## Renewal of CGADoxygen
+- [ ] renewal of documents for branch : 190121/One_Stop 
+- [ ] make a environment as one stop service.
+    - [ ] branch : 190121/One_Stop 
+        - [ ] starts with run.sh
+        - [ ] refactoring of build_perlmod
+        - [ ] add clean in run.sh
+- [ ] remove @step  or change it.
+    - [ ] use detail doc 
+    - [ ] show the same order of doxygen comments
+- [ ] check the table contents whether it is right or not.
+- [ ] support the template
