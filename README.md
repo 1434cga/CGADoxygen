@@ -37,9 +37,9 @@
     ```
 
 ## clean
-    ```bash
+```
     $ sh run.sh clean
-    ```
+```
 
 # What is the result
 - Architecture
