@@ -37,6 +37,12 @@
     ```
 - OUTPUT will be generated in "[git repository directory]/build_perlmod/OUTPUT"
     - SDD.html SDD.md SDD.docx
+## example
+```
+    $ sh run.sh example/A
+    or 
+    $ sh run.sh example/B
+```
 
 ## clean
 ```
