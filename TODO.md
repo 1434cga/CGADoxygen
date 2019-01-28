@@ -30,14 +30,14 @@
 - [x] Divide into small thing in github
 
 ## Renewal of CGADoxygen
+- [x] make a environment as one stop service.
+    - [x] branch : 190121/One_Stop 
+        - [x] starts with run.sh
+        - [x] refactoring of build_perlmod
+        - [x] add clean in run.sh
 - [ ] renewal of documents for branch : 190121/One_Stop 
-- [ ] make a environment as one stop service.
-    - [ ] branch : 190121/One_Stop 
-        - [ ] starts with run.sh
-        - [ ] refactoring of build_perlmod
-        - [ ] add clean in run.sh
+- [ ] check the table contents whether it is right or not.
 - [ ] remove @step  or change it.
     - [ ] use detail doc 
     - [ ] show the same order of doxygen comments
-- [ ] check the table contents whether it is right or not.
 - [ ] support the template
