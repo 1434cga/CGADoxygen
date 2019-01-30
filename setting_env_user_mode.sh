@@ -178,6 +178,7 @@ install_hpp2plantuml() {
     echo "#### Install hpp2plantuml package ####"
     tput sgr0
 	cd ${TEMP_DIR}
+	/bin/rm -rf  ${TEMP_DIR}/hpp2plantuml/
 	git clone https://github.com/thibaultmarin/hpp2plantuml.git
 	cd ${TEMP_DIR}/hpp2plantuml/
     python3 setup.py install --user
@@ -207,6 +208,7 @@ install_markdownpp() {
     echo "#### Install markdown-pp package ####"
     tput sgr0
 	cd ${TEMP_DIR}
+	/bin/rm -rf  ${TEMP_DIR}/markdown-pp
 	git clone https://github.com/jreese/markdown-pp.git
 	cd ${TEMP_DIR}/markdown-pp
     python setup.py install --user
