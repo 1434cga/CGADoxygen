@@ -29,6 +29,8 @@
 
 # How to Run
 - How to make a document (LLD & SDD) automatically
+- If you have unsolved problems in installing tools , show "How to install tools" of  https://github.com/cheoljoo/CGADoxygen/blob/master/reference/README.md
+
 ## make a documents automatically
 - sh run.sh  { lists of your codes (cpp and h) }
     - ex) if you have sources in ../.. ../../inc /home/user/src   , then  
