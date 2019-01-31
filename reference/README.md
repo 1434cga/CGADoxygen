@@ -92,19 +92,26 @@
     - Basic tools
         - sudo apt install sudo build-essential wget python-dev git pandoc
     - Setuptools for hpp2plantuml
+        - cd tools
         - tar xvfz setuptools-40.0.0.tar.gz
         - cd setuptools-40.0.0 ; sudo python3 setup.py install
         - or user mdoe install -> cd setuptools-40.0.0 ; python3 setup.py install --user  (add ~/.local/bin in $PATH)
+        
+        - pip install setuptools --user
     - hpp2plantuml
+        - cd tools
         - tar xvfz hpp2plantuml.tar.gz
         - cd hpp2plantuml ; sudo python3 setup.py install
         - or user mode install -> cd hpp2plantuml ; python3 setup.py install --user   (add ~/.local/bin in $PATH)
+        
+        - pip install hpp2plantuml --user
     - Markdown-pp
         - tar xvfz markdown-pp.tar.gz
         - cd markdown-pp ; python setup.py install --user
-        - (It will install  in ~/.local/bin)
+        - (It will be installed  in ~/.local/bin)
+   
     - XLSX packet for perl (Method 1)
-        - cd ./XLSX
+        - cd ./tools/XLSX
         - tar xvfz perl5.tar.gz
         - cp -r ./perl5 ~/
         - add environment variables  (Recommendation : modify by yourself)
