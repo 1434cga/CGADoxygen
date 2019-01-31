@@ -32,13 +32,15 @@
 - If you have unsolved problems in installing tools , show "How to install tools" of  https://github.com/cheoljoo/CGADoxygen/blob/master/reference/README.md
 
 ## make a documents automatically
-- sh run.sh  { lists of your codes (cpp and h) }
+- sh run.sh  { lists of directories including your codes (cpp and h) }
     - ex) if you have sources in ../.. ../../inc /home/user/src   , then  
     ```bash
     $ sh run.sh ../..  ../../inc  /home/user/src
     ```
+    - directory list is not recursive
+        - you can verify in ./CGADoxygen/build_doxygen/src as soft-link files.
 - OUTPUT will be generated in "[git repository directory]/build_perlmod/OUTPUT"
-    - SDD.html SDD.md SDD.docx
+    - LLD.css.html LLD.md 
 ## example
 ```
     $ sh run.sh example/A
