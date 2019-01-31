@@ -934,7 +934,7 @@ EXCLUDE_SYMBOLS        =
 # that contain example code fragments that are included (see the \include
 # command).
 
-EXAMPLE_PATH           = /home/cheoljoo.lee/code/common_telltale/GP/Apps/Src/MgrTelltale/CGADOXYGEN/build_doxygen
+EXAMPLE_PATH           =
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp and
@@ -2436,7 +2436,7 @@ DIAFILE_DIRS           =
 # generate a warning when it encounters a \startuml command in this case and
 # will not generate output for the diagram.
 
-PLANTUML_JAR_PATH		= /Users/cheoljoo/code/common_telltale/GP/Apps/Src/MgrTelltale/CGADOXYGEN/../tools
+PLANTUML_JAR_PATH		=
 
 # When using plantuml, the PLANTUML_CFG_FILE tag can be used to specify a
 # configuration file for plantuml.
