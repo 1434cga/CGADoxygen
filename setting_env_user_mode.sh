@@ -169,9 +169,9 @@ install_hpp2plantuml() {
     #tput setaf 3
     #echo "#### Install setuptools package ####"
     #tput sgr0
-	#cd ${TOP_DIR}
+	#cd ${TEMP_DIR}}
 	#tar xvfo ./setuptools-40.0.0.tar.gz
-	#cd ${TOP_DIR}/setuptools-40.0.0
+	#cd ${TEMP_DIR}/setuptools-40.0.0
     #python3 setup.py install --user
 
     tput setaf 3
