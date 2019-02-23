@@ -27,9 +27,20 @@
 - I think that doxygen is a de facto standard in open source.
 - It gives improving your international skills.
 
+# Environment of Development
+## Prerequisition
+- ubuntu package : python-dev python-pip python-setuptools javacc java-common pandoc doxygen vim python3-pip python3-setuptools graphviz 
+- perl module ( Excel::Writer::XLSX )
+	- cpan Excel::Writer::XLSX
+- hpp2plantuml : https://github.com/thibaultmarin/hpp2plantuml
+- markdown-pp : https://github.com/jreese/markdown-pp
+
+## docker to make an environment easily
+- docker pull cheoljoo/ubuntu16:cgadoxygen
+	- [Command](https://github.com/cheoljoo/CGADoxygen/blob/master/docker.md#docker-environment-from-dockerhub)
+
 # How to Run
 - How to make a document (LLD & SDD) automatically
-- If you have unsolved problems in installing tools , show "How to install tools" of  https://github.com/cheoljoo/CGADoxygen/blob/master/reference/README.md
 
 ## make a documents automatically
 - sh run.sh  { lists of directories including your codes (cpp and h) }
@@ -41,6 +52,10 @@
         - you can verify in ./CGADoxygen/build_doxygen/src as soft-link files.
 - OUTPUT will be generated in "[git repository directory]/build_perlmod/OUTPUT"
     - LLD.css.html LLD.md 
+
+### If you have unsolved problems in installing tools 
+- Show "How to install tools" of  https://github.com/cheoljoo/CGADoxygen/blob/master/reference/README.md
+
 ## example
 ```
     $ sh run.sh example/A
@@ -52,6 +67,10 @@
 ```
     $ sh run.sh clean
 ```
+
+# Docker
+## How to use docker in detail
+- [Docker Environment in detail](docker.md)
 
 # What is the result
 - Architecture

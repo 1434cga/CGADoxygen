@@ -23,6 +23,15 @@ fi
 tput setaf 5
 echo "${tool}"
 tput sgr0
+${tool} -i exmaple/B/ISmsSendCallback.cpp > hpp2plantuml.run.log
+if [ $? -ne 0 ]; then
+	tput setaf 1
+    echo "Need new version of hpp2plantuml from URL)   https://github.com/thibaultmarin/hpp2plantuml"
+    echo "Need python3 to install it."
+	tput sgr0
+    exit 4;
+fi
+
 
 tool="$(which pandoc)"
 if [ -z ${tool} ]; then
