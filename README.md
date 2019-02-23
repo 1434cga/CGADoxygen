@@ -32,8 +32,8 @@
 - ubuntu package : python-dev python-pip python-setuptools javacc java-common pandoc doxygen vim python3-pip python3-setuptools graphviz 
 - perl module ( Excel::Writer::XLSX )
 	- cpan Excel::Writer::XLSX
-- hpp2plantuml : https://github.com/thibaultmarin/hpp2plantuml
-- markdown-pp : https://github.com/jreese/markdown-pp
+- [hpp2plantuml](https://github.com/thibaultmarin/hpp2plantuml)
+- [markdown-pp](https://github.com/jreese/markdown-pp)
 
 ## docker to make an environment easily
 - docker pull cheoljoo/ubuntu16:cgadoxygen
