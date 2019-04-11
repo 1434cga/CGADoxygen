@@ -5,12 +5,13 @@ ALL:
 	ln -sf ../outplantuml ./OUTPUT/outplantuml
 	ln -sf ../../build_uml/UML ./outplantuml/UML
 	ln -sf ./build_perlmod/OUTPUT ../OUTPUT
+	ln -sf ../build_uml/UML/ ./UML
 
 	perl convert.pl ../build_doxygen/DOXYGEN_OUTPUT/perlmod/DoxyDocs.pm ./DoxyDocs.pm  > a.log
 	perl doxy2cga.pl default.GV > b.log
 	perl cga2md.pl default.GV OUTPUT/LLD.md > c1.log
 	perl cga2htmlmd.pl default.GV OUTPUT/LLD.html.md > c2.log
-	pandoc OUTPUT/LLD.html.md -o OUTPUT/LLD.html 
+	pandoc OUTPUT/LLD.html.md -o OUTPUT/LLD.html
 	pandoc OUTPUT/LLD.html.md -f markdown -t html -s -o OUTPUT/LLD.css.html -c ../gh-pandoc.css
 	#pandoc OUTPUT/LLD.html.md -f markdown -t html5 -s -o OUTPUT/LLD.styling.html -c styling.css
 	#pandoc --css=styling.css -V lang=en -V highlighting-css= --mathjax --smart --to=html5 OUTPUT/LLD.html.md -o OUTPUT/output.html
@@ -22,7 +23,7 @@ ALL:
 	perl ../collab.pl OUTPUT/LLD.css.html
 	perl cga2excel.pl default.GV OUTPUT/LLD.xlsx > c3.log
 
-	sh makeBasicDocumentsInOUTPUT.sh 
+	sh makeBasicDocumentsInOUTPUT.sh
 	sh makePNG_jar_plantuml.sh
 
 	cd OUTPUT; markdown-pp -o SDD.md    SDD.mdpp ; cd ..
