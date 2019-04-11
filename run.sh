@@ -82,9 +82,9 @@ else
         cpan Excel::Writer::XLSX
         echo "INSTALLED Excel::Writer::XLSX perl module" > ./.perlmodule
         exit 4;
-    else 
+    else
         tput setaf 5
-        echo "Already installed Excel::Writer::XLSX perl module" 
+        echo "Already installed Excel::Writer::XLSX perl module"
         tput sgr0
         echo "INSTALLED Excel::Writer::XLSX perl module" > ./.perlmodule
     fi
@@ -92,15 +92,15 @@ fi
 
 unameOut="$(uname -s)"
 case "${unameOut}" in
-    Linux*)     
+    Linux*)
 		machine=Linux
 		lsOption="-alF --color=auto"
 		break
-		;; 
-    Darwin*)    
+		;;
+    Darwin*)
 		machine=Mac
 		lsOption="-alFG"
-		;; 
+		;;
     CYGWIN*)    machine=Cygwin;;
     MINGW*)     machine=MinGw;;
     *)          machine="UNKNOWN:${unameOut}"
@@ -109,7 +109,7 @@ tput setaf 5
 echo "Machine => ${machine}"
 tput sgr0
 
-if [ -z  $* ] 
+if [ -z  $* ]
 then
 	tput setaf 1
 	echo "$ run.sh source_directories"
@@ -119,7 +119,7 @@ then
 	exit 1;
 fi
 
-if [ $1 = "clean" ] 
+if [ $1 = "clean" ]
 then
 	tput setaf 2
 	echo "#### Clean ./build_doxygen/src ####"
