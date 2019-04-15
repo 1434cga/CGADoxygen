@@ -176,7 +176,7 @@ do
 			ln -sf $pwd/$file ./build_perlmod/src/$basefile
 		fi
 	done
-	for file in $directory/*.md
+	for file in $directory/*.md $directory/*.mdpp
 	do
 		basefile=`basename $file`
 		echo "    basefile : $basefile  ,  file : $file"

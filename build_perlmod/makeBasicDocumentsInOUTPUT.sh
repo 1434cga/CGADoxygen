@@ -30,10 +30,20 @@ do
 done
 cd ..
 
+if [ -e ./work/SDD.mdpp ]
+then
+	echo "###### We use user's SDD.mdpp"
+    ln -sf ../work/SDD.mdpp ./OUTPUT/SDD.mdpp
+else
+	echo "###### We use default SDD.mdpp"
+    ln -sf ../SDD.mdpp ./OUTPUT/SDD.mdpp
+fi
+
+
 tput setaf 2
 echo "#### Check basic files (SDD.mdpp SRS.md HLD.md) to make SDD ####"
 tput sgr0
-for file in SDD.mdpp SRS.md HLD.md 
+for file in SRS.md HLD.md
 do
     if [ -e ./OUTPUT/${file} ]; then
         tput setaf 5
