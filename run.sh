@@ -170,7 +170,7 @@ do
 		basefile=`basename $file`
 		echo "    basefile : $basefile  ,  file : $file"
 		if [ -s $file ]; then
-			echo "make soft linke $pwd/$file <-- ./build_doxygen/src/$basefile  ./build_uml/src/$basefile ./build_perlmod/$basefile"
+			echo "make soft link $pwd/$file <-- ./build_doxygen/src/$basefile  ./build_uml/src/$basefile ./build_perlmod/$basefile"
 			ln -sf $pwd/$file ./build_doxygen/src/$basefile
 			ln -sf $pwd/$file ./build_uml/src/$basefile
 			ln -sf $pwd/$file ./build_perlmod/src/$basefile
@@ -181,7 +181,7 @@ do
 		basefile=`basename $file`
 		echo "    basefile : $basefile  ,  file : $file"
 		if [ -s $file ]; then
-			echo "make soft linke $pwd/$file <-- ./build_perlmod/work/$basefile "
+			echo "make soft link $pwd/$file <-- ./build_perlmod/work/$basefile "
 			ln -sf $pwd/$file ./build_perlmod/work/$basefile
 		fi
 	done
@@ -199,7 +199,7 @@ do
 done
 
 #if [ -s ./README.md ]; then
-	#echo "make soft linke $pwd/README.md <-- ./build_doxygen/src/README.md"
+	#echo "make soft link $pwd/README.md <-- ./build_doxygen/src/README.md"
 	#ln -sf $pwd/work/README.md ./build_doxygen/src/README.md
 #fi
 echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
