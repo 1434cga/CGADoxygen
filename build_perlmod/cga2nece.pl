@@ -62,7 +62,7 @@ sub printdox
 
     my $oh1,$oh2;
 
-	if($p =~ /^\s*-\s*$/){ return ($depth,$p,"",""); }
+	if($p =~ /^\s*-\s*$/){ return ($depth,$p,"???\n","???\n"); }
 
 	my $mytab = "";
 	for(my $i=0;$i<$depth;$i++){
@@ -118,7 +118,7 @@ sub printdox
 		print OH2 "\n";
         $oh2 = "$mytab" . "$p@p" .  "\n";
 	}
-    return ($depth,$p . "\n" ,$oh1,$oh2);
+    return ($depth,$p,$oh1,$oh2);
 }
 
 sub sort_keys
@@ -591,31 +591,34 @@ open(OH4,">","nece" . $outwithimage) or die "Can't open > nece$outwithimage $!";
 
 my $n1,$n2,$n3,$n4;
 my $r3="",r4="";
-my $lflag=0;
+my $lflag1=0,$lflag2=0,$lflag3=0;$lflag4=0;
 ($n1,$n2,$n3,$n4) = printdox(0,"# Class Lists");
-$r3 .= $n2; $r4 .= $n2;
+$r3 .= $n3; $r4 .= $n4;
 ($n1,$n2,$n3,$n4) = printdox(0,"| Class | Class ID | Description |");
-$r3 .= $n2; $r4 .= $n2;
+$r3 .= $n3; $r4 .= $n4;
 ($n1,$n2,$n3,$n4) = printdox(0,"|-------|----------|-------------|");
-$r3 .= $n2; $r4 .= $n2;
+$r3 .= $n3; $r4 .= $n4;
 foreach my $classes (sort_keys(\%{$D{classes}})){
-    $lflag=1;
+    $lflag1=1;
 	($n1,$n2,$n3,$n4) = printdox(0,"| " . $D{classes}{$classes}{name} . "| " . $D{classes}{$classes}{name} . "| "
 		. recover_special_code( getContent( \%{$D{classes}{$classes}{brief}{doc}}))
-		. " <br> "
+		. " <br>$returnp"
 		. recover_special_code( getContent( \%{$D{classes}{$classes}{detailed}{doc}})) );
-    $r3 .= $n2; $r4 .= $n2;
+    $r3 .= $n3; $r4 .= $n4;
 }
 ($n1,$n2,$n3,$n4) = printdox(0,"");
-$r3 .= $n2; $r4 .= $n2;
-print OH3 "r3"; print OH4 "r4";
+$r3 .= $n3; $r4 .= $n4;
+if($lflag == 1){ print OH3 "r3"; print OH4 "r4";}
 
 
 foreach my $classes (sort_keys(\%{$D{classes}})){
     $r3="",r4="";
-	printdox(0,"");
-	printdox(0,"");
-	printdox(0,"## Class : " . $D{classes}{$classes}{name});
+	($n1,$n2,$n3,$n4) = printdox(0,"");
+    $r3 .= $n3; $r4 .= $n4;
+	($n1,$n2,$n3,$n4) = printdox(0,"");
+    $r3 .= $n3; $r4 .= $n4;
+	($n1,$n2,$n3,$n4) = printdox(0,"## Class : " . $D{classes}{$classes}{name});
+    $r3 .= $n3; $r4 .= $n4;
 
 	my $myprev = "";
 	my $mypuml = "";
@@ -638,22 +641,27 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 		} else {
 		}
 	}
-	printdox(0, "plantuml" , "class_" . $D{classes}{$classes}{name} , $mypuml);
+	($n1,$n2,$n3,$n4) = printdox(0, "plantuml" , "class_" . $D{classes}{$classes}{name} , $mypuml);
+    $r3 .= $n3; $r4 .= $n4;
 
 	if(-e "./$UMLINCLUDE/" . $D{classes}{$classes}{name} . ".class"){
-		printdox(0,"");
-		printdox(1, "plantuml" , "class_" . $D{classes}{$classes}{name} . "_uml" , "!include ../$UMLINCLUDE/" . $D{classes}{$classes}{name} . ".class\n");
+		($n1,$n2,$n3,$n4) = printdox(0,"");
+        $r3 .= $n3; $r4 .= $n4;
+		($n1,$n2,$n3,$n4) = printdox(1, "plantuml" , "class_" . $D{classes}{$classes}{name} . "_uml" , "!include ../$UMLINCLUDE/" . $D{classes}{$classes}{name} . ".class\n");
+        $r3 .= $n3; $r4 .= $n4;
 	}
 
-	printdox(0,"- Description");
-	printdox(1,"- " . recover_special_code( getContent( \%{$D{classes}{$classes}{brief}{doc}})) );
-	printdox(1,"- " . recover_special_code( getContent( \%{$D{classes}{$classes}{detailed}{doc}})) );
+    my $ldesc3="",$ldesc4="";
+    my $rdesc3="",$rdesc4="";
+	($n1,$n2,$n3,$n4) = printdox(0,"- Description");
+	($n1,$n2,$n3,$n4) = printdox(1,"- " . recover_special_code( getContent( \%{$D{classes}{$classes}{brief}{doc}})) );
+	($n1,$n2,$n3,$n4) = printdox(1,"- " . recover_special_code( getContent( \%{$D{classes}{$classes}{detailed}{doc}})) );
 
 	#printdox(0,"- Diagrams for Class");
 	my $puml = recover_special_code( getPlantuml( \%{$D{classes}{$classes}{detailed}{doc}}) );
 	if($puml ne ""){
-		printdox(0,"- Diagrams for Class");
-		printdox(1,"plantuml" ,
+		($n1,$n2,$n3,$n4) = printdox(0,"- Diagrams for Class");
+		($n1,$n2,$n3,$n4) = printdox(1,"plantuml" ,
 			"class_" . $D{classes}{$classes}{name} . "_diagram" ,
 			$puml);
 	}
@@ -661,18 +669,18 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 	putXrefitem(1,"algorithm",\%{$D{classes}{$classes}{detailed}{doc}});
 
 
-	printdox(0,"- Diagrams for public member functions");
+	($n1,$n2,$n3,$n4) = printdox(0,"- Diagrams for public member functions");
 	foreach my $members (sort_keys(\%{$D{classes}{$classes}{public_methods}{members}})){
-		printdox(1,"- " . $D{classes}{$classes}{public_methods}{members}{$members}{name} . " function");
-		printdox(2,"- " . getContent( \%{ $D{classes}{$classes}{public_methods}{members}{$members}{brief}{doc} }) );
+		($n1,$n2,$n3,$n4) = printdox(1,"- " . $D{classes}{$classes}{public_methods}{members}{$members}{name} . " function");
+		($n1,$n2,$n3,$n4) = printdox(2,"- " . getContent( \%{ $D{classes}{$classes}{public_methods}{members}{$members}{brief}{doc} }) );
 		my $details = getDetails(3, \%{ $D{classes}{$classes}{public_methods}{members}{$members}{detailed}{doc} });
 		if($details ne "")
 		{
-			printdox(2,"- Details\n" . $details);
+			($n1,$n2,$n3,$n4) = printdox(2,"- Details\n" . $details);
 		}
 		my $puml = recover_special_code( getPlantuml( \%{$D{classes}{$classes}{public_methods}{members}{$members}{detailed}{doc}}) );
 		if($puml ne ""){
-			printdox(2,"plantuml" ,
+			($n1,$n2,$n3,$n4) = printdox(2,"plantuml" ,
 				"class_" . $D{classes}{$classes}{name} . "_public_methods" . "_" .  $D{classes}{$classes}{public_methods}{members}{$members}{name} , 
 				$puml);
 		}
@@ -680,16 +688,16 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 		putXrefitem(2,"algorithm",\%{$D{classes}{$classes}{public_methods}{members}{$members}{detailed}{doc}});
 	}
 	foreach my $members (sort_keys(\%{$D{classes}{$classes}{public_static_methods}{members}})){
-		printdox(1,"- " . $D{classes}{$classes}{public_static_methods}{members}{$members}{name} . " function");
-		printdox(2,"- " . getContent( \%{ $D{classes}{$classes}{public_static_methods}{members}{$members}{brief}{doc} }) );
+		($n1,$n2,$n3,$n4) = printdox(1,"- " . $D{classes}{$classes}{public_static_methods}{members}{$members}{name} . " function");
+		($n1,$n2,$n3,$n4) = printdox(2,"- " . getContent( \%{ $D{classes}{$classes}{public_static_methods}{members}{$members}{brief}{doc} }) );
 		my $details = getDetails(3, \%{ $D{classes}{$classes}{public_static_methods}{members}{$members}{detailed}{doc} });
 		if($details ne "")
 		{
-			printdox(2,"- Details\n" . $details);
+			($n1,$n2,$n3,$n4) = printdox(2,"- Details\n" . $details);
 		}
 		my $puml = recover_special_code( getPlantuml( \%{$D{classes}{$classes}{public_static_methods}{members}{$members}{detailed}{doc}}) );
 		if($puml ne ""){
-			printdox(2,"plantuml" ,
+			($n1,$n2,$n3,$n4) = printdox(2,"plantuml" ,
 				"class_" . $D{classes}{$classes}{name} . "_public_static_methods" . "_" .  $D{classes}{$classes}{public_static_methods}{members}{$members}{name} , 
 				$puml);
 		}
@@ -697,59 +705,59 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 		putXrefitem(2,"algorithm",\%{$D{classes}{$classes}{public_static_methods}{members}{$members}{detailed}{doc}});
 	}
 
-	printdox(0,"\n### Function Lists of " . $D{classes}{$classes}{name});
-	printdox(0,"");
-	printdox(0,"| Accessibility | Function | Description | Parameters | param input | param output | Returns | return Description |");
-	printdox(0,"|-------|-------|----------|-------------|-------|-----|----|-------|");
+	($n1,$n2,$n3,$n4) = printdox(0,"\n### Function Lists of " . $D{classes}{$classes}{name});
+	($n1,$n2,$n3,$n4) = printdox(0,"");
+	($n1,$n2,$n3,$n4) = printdox(0,"| Accessibility | Function | Description | Parameters | param input | param output | Returns | return Description |");
+	($n1,$n2,$n3,$n4) = printdox(0,"|-------|-------|----------|-------------|-------|-----|----|-------|");
 	foreach my $accesstype (sort_keys(\%{$D{classes}{$classes}}, "~")){
 		if($accesstype =~ /_methods$/){
 			foreach my $members (sort_keys(\%{$D{classes}{$classes}{$accesstype}{members}})){
-				printdox(0,getMethodsRow($accesstype,\%{$D{classes}{$classes}{$accesstype}{members}{$members}}) );
+				($n1,$n2,$n3,$n4) = printdox(0,getMethodsRow($accesstype,\%{$D{classes}{$classes}{$accesstype}{members}{$members}}) );
 			}
 		}
 	}
-	printdox(0,"");
+	($n1,$n2,$n3,$n4) = printdox(0,"");
 
-	printdox(0,"\n### Variable Lists of " . $D{classes}{$classes}{name});
-	printdox(0,"");
-	printdox(0,"| Accessability | Variable Name | Type |  Description |");
-	printdox(0,"|-------|-------|----------|-------------|");
+	($n1,$n2,$n3,$n4) = printdox(0,"\n### Variable Lists of " . $D{classes}{$classes}{name});
+	($n1,$n2,$n3,$n4) = printdox(0,"");
+	($n1,$n2,$n3,$n4) = printdox(0,"| Accessability | Variable Name | Type |  Description |");
+	($n1,$n2,$n3,$n4) = printdox(0,"|-------|-------|----------|-------------|");
 	foreach my $accesstype (sort_keys(\%{$D{classes}{$classes}}, "~")){
 		if($accesstype =~ /_members$/){
 			foreach my $members (sort_keys(\%{$D{classes}{$classes}{$accesstype}{members}})){
-				printdox(0,getMembersRow($accesstype,\%{$D{classes}{$classes}{$accesstype}{members}{$members}}) );
+				($n1,$n2,$n3,$n4) = printdox(0,getMembersRow($accesstype,\%{$D{classes}{$classes}{$accesstype}{members}{$members}}) );
 			}
 		}
 	}
-	printdox(0,"");
+	($n1,$n2,$n3,$n4) = printdox(0,"");
 }
 
-printdox(0,"");
-printdox(0,"");
-printdox(0,"## Functions and Variables");
-printdox(0,"### Function Lists");
-printdox(0,"| FileName | Function | Description | Parameters | param input | param output | Returns | return Description |");
-printdox(0,"|-------|-------|----------|-------------|-------|-----|----|-------|");
+($n1,$n2,$n3,$n4) = printdox(0,"");
+($n1,$n2,$n3,$n4) = printdox(0,"");
+($n1,$n2,$n3,$n4) = printdox(0,"## Functions and Variables");
+($n1,$n2,$n3,$n4) = printdox(0,"### Function Lists");
+($n1,$n2,$n3,$n4) = printdox(0,"| FileName | Function | Description | Parameters | param input | param output | Returns | return Description |");
+($n1,$n2,$n3,$n4) = printdox(0,"|-------|-------|----------|-------------|-------|-----|----|-------|");
 foreach my $files (sort_keys(\%{$D{files}})){
 	#if( not ($D{files}{$files}{name} =~ /\.h$/) ){ next; }
 
 	foreach my $members (sort_keys(\%{$D{files}{$files}{functions}{members}})){
-		printdox(0,getMethodsRow($D{files}{$files}{name},\%{$D{files}{$files}{functions}{members}{$members}}) );
+		($n1,$n2,$n3,$n4) = printdox(0,getMethodsRow($D{files}{$files}{name},\%{$D{files}{$files}{functions}{members}{$members}}) );
 	}
 }
-printdox(0,"");
+($n1,$n2,$n3,$n4) = printdox(0,"");
 
-printdox(0,"### Variable Lists");
-printdox(0,"| FileName | Variable Name | Type |  Description |");
-printdox(0,"|-------|-------|----------|-------------|");
+($n1,$n2,$n3,$n4) = printdox(0,"### Variable Lists");
+($n1,$n2,$n3,$n4) = printdox(0,"| FileName | Variable Name | Type |  Description |");
+($n1,$n2,$n3,$n4) = printdox(0,"|-------|-------|----------|-------------|");
 foreach my $files (sort_keys(\%{$D{files}})){
 	#if( not ($D{files}{$files}{name} =~ /\.c[pp|c]$/) ){ next; }
 
 	foreach my $members (sort_keys(\%{$D{files}{$files}{variables}{members}})){
-		printdox(0,getMembersRow($D{files}{$files}{name},\%{$D{files}{$files}{variables}{members}{$members}}) );
+		($n1,$n2,$n3,$n4) = printdox(0,getMembersRow($D{files}{$files}{name},\%{$D{files}{$files}{variables}{members}{$members}}) );
 	}
 }
-printdox(0,"");
+($n1,$n2,$n3,$n4) = printdox(0,"");
 
 foreach my $files (sort_keys(\%{$D{files}})){
 	#if( not ($D{files}{$files}{name} =~ /\.c[pp|c]$/) ){ next; }
@@ -758,20 +766,20 @@ foreach my $files (sort_keys(\%{$D{files}})){
 	my $filename = $D{files}{$files}{name};
 	if(not ($filename =~ /\.cpp$/) ){ next; }
 	$filename =~ s/\.[^.]*$//;
-	printdox(0,"");
-	printdox(0,"");
+	($n1,$n2,$n3,$n4) = printdox(0,"");
+	($n1,$n2,$n3,$n4) = printdox(0,"");
 	foreach my $members (sort_keys(\%{$D{files}{$files}{functions}{members}})){
 		my $puml = recover_special_code( getPlantuml( \%{$D{files}{$files}{functions}{members}{$members}{detailed}{doc}}) );
 		if($puml ne ""){ $myflag = 1; last; }
 	}
 	if($myflag == 1){
-		printdox(0,"### " . $filename . " Diagrams");
-		printdox(0,"- Diagrams for public member functions");
+		($n1,$n2,$n3,$n4) = printdox(0,"### " . $filename . " Diagrams");
+		($n1,$n2,$n3,$n4) = printdox(0,"- Diagrams for public member functions");
 	}
 	foreach my $members (sort_keys(\%{$D{files}{$files}{functions}{members}})){
 		my $puml = recover_special_code( getPlantuml( \%{$D{files}{$files}{functions}{members}{$members}{detailed}{doc}}) );
 		if($puml ne ""){
-			printdox(1,"plantuml" ,
+			($n1,$n2,$n3,$n4) = printdox(1,"plantuml" ,
 				"class_" . $D{files}{$files}{name} . "_functions" . "_" .  $D{files}{$files}{functions}{members}{$members}{name} , 
 				$puml);
 		}
@@ -787,7 +795,7 @@ print STDERR "in : $infile  , out md file : $outwithimage , out md file with pla
 open(OH1,">",$outfile) or die "Can't open > $outfile $!";
 open(OH2,">",$outwithimage) or die "Can't open > $outwithimage $!";
 
-printdox(0,"# SRS");
+($n1,$n2,$n3,$n4) = printdox(0,"# SRS");
 foreach my $classes (sort_keys(\%{$D{classes}})){
 	#CS{class}{SRS…}
 	#CFSD{class}{function}{SRS} = desc
@@ -815,9 +823,9 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 
 my $mystr;
 
-printdox(0,"\n## SRS vs Class");
-printdox(0,"| SRS | Class Lists |");
-printdox(0,"|-----------|:----------------------|");
+($n1,$n2,$n3,$n4) = printdox(0,"\n## SRS vs Class");
+($n1,$n2,$n3,$n4) = printdox(0,"| SRS | Class Lists |");
+($n1,$n2,$n3,$n4) = printdox(0,"|-----------|:----------------------|");
 foreach my $keySRS (sort_keys(\%SC)){        #SC{SRS}{class}
 	$mystr = "";
 	$mystr .= "| $keySRS | ";
@@ -826,13 +834,13 @@ foreach my $keySRS (sort_keys(\%SC)){        #SC{SRS}{class}
 	}
 	$mystr =~ s/,\s*$//;
 	$mystr .= " |";
-	printdox(0,$mystr);
+	($n1,$n2,$n3,$n4) = printdox(0,$mystr);
 }
-printdox(0,"");
+($n1,$n2,$n3,$n4) = printdox(0,"");
 
-printdox(0,"\n## SRS vs Class::Function");
-printdox(0,"| SRS | Class::Function Lists |");
-printdox(0,"|-----------|:----------------------------------|");
+($n1,$n2,$n3,$n4) = printdox(0,"\n## SRS vs Class::Function");
+($n1,$n2,$n3,$n4) = printdox(0,"| SRS | Class::Function Lists |");
+($n1,$n2,$n3,$n4) = printdox(0,"|-----------|:----------------------------------|");
 foreach my $keySRS (sort_keys(\%SCF)){        #SCF{SRS}{class}{function}
 	$mystr = "";
 	$mystr .= "| $keySRS | ";
@@ -843,13 +851,13 @@ foreach my $keySRS (sort_keys(\%SCF)){        #SCF{SRS}{class}{function}
 	}
 	$mystr =~ s/,\s*$//;
 	$mystr .= " |";
-	printdox(0,$mystr);
+	($n1,$n2,$n3,$n4) = printdox(0,$mystr);
 }
-printdox(0,"");
+($n1,$n2,$n3,$n4) = printdox(0,"");
 
-printdox(0,"\n## Class vs SRS");
-printdox(0,"| Class | SRS Lists |");
-printdox(0,"|-----------|:------------------|");
+($n1,$n2,$n3,$n4) = printdox(0,"\n## Class vs SRS");
+($n1,$n2,$n3,$n4) = printdox(0,"| Class | SRS Lists |");
+($n1,$n2,$n3,$n4) = printdox(0,"|-----------|:------------------|");
 foreach my $keyClass (sort_keys(\%CS)){     #CS{class}{SRS…}
 	$mystr = "";
 	$mystr .= "| $keyClass | ";
@@ -858,13 +866,13 @@ foreach my $keyClass (sort_keys(\%CS)){     #CS{class}{SRS…}
 	}
 	$mystr =~ s/,\s*$//;
 	$mystr .= " |";
-	printdox(0,$mystr);
+	($n1,$n2,$n3,$n4) = printdox(0,$mystr);
 }
-printdox(0,"");
+($n1,$n2,$n3,$n4) = printdox(0,"");
 
-printdox(0,"\n## Class::Function vs SRS");
-printdox(0,"|  Class::Function | SRS Lists|");
-printdox(0,"|---------------|:--------------------------|");
+($n1,$n2,$n3,$n4) = printdox(0,"\n## Class::Function vs SRS");
+($n1,$n2,$n3,$n4) = printdox(0,"|  Class::Function | SRS Lists|");
+($n1,$n2,$n3,$n4) = printdox(0,"|---------------|:--------------------------|");
 foreach my $keyClass (sort_keys(\%CFSD)){      #CFSD{class}{function}{SRS} = desc
 	foreach my $keyFunc (sort_keys(\%{$CFSD{$keyClass}})){     #CFSD{class}{function}{SRS} = desc
 		$mystr = "";
@@ -874,24 +882,24 @@ foreach my $keyClass (sort_keys(\%CFSD)){      #CFSD{class}{function}{SRS} = des
 		}
 		$mystr =~ s/,\s*$//;
 		$mystr .= " |";
-		printdox(0,$mystr);
+		($n1,$n2,$n3,$n4) = printdox(0,$mystr);
 	}
 }
-printdox(0,"");
+($n1,$n2,$n3,$n4) = printdox(0,"");
 
-printdox(0,"\n## Class::Function + SRS vs Description");
-printdox(0,"|  Class::Function | SRS | Description |");
-printdox(0,"|---------------|----------|:----------------|");
+($n1,$n2,$n3,$n4) = printdox(0,"\n## Class::Function + SRS vs Description");
+($n1,$n2,$n3,$n4) = printdox(0,"|  Class::Function | SRS | Description |");
+($n1,$n2,$n3,$n4) = printdox(0,"|---------------|----------|:----------------|");
 foreach my $keyClass (sort_keys(\%CFSD)){      #CFSD{class}{function}{SRS} = desc
 	foreach my $keyFunc (sort_keys(\%{$CFSD{$keyClass}})){     #CFSD{class}{function}{SRS} = desc
 		$mystr .= "| $keyClass\:\:$keyFunc | ";
 		foreach my $keySRS (sort_keys(\%{$CFSD{$keyClass}{$keyFunc}})){    #CFSD{class}{function}{SRS} = desc
 			$mystr = "| $keyClass\:\:$keyFunc | $keySRS  | $CFSD{$keyClass}{$keyFunc}{$keySRS} |";
-			printdox(0,$mystr);
+			($n1,$n2,$n3,$n4) = printdox(0,$mystr);
 		}
 	}
 }
-printdox(0,"");
+($n1,$n2,$n3,$n4) = printdox(0,"");
 
 close OH1;
 close OH2;
