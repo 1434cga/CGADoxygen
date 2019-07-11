@@ -14,6 +14,7 @@ ALL:
 	perl cga2nece.pl default.GV OUTPUT/nece.html.md > c_nece.log
 	pandoc OUTPUT/LLD.html.md -o OUTPUT/LLD.html
 	pandoc OUTPUT/LLD.html.md -f markdown -t html -s -o OUTPUT/LLD.css.html -c ../gh-pandoc.css
+	pandoc OUTPUT/nece.html.md -f markdown -t html -s -o OUTPUT/nece.css.html -c ../gh-pandoc.css
 	#pandoc OUTPUT/LLD.html.md -f markdown -t html5 -s -o OUTPUT/LLD.styling.html -c styling.css
 	#pandoc --css=styling.css -V lang=en -V highlighting-css= --mathjax --smart --to=html5 OUTPUT/LLD.html.md -o OUTPUT/output.html
 	#pandoc --css=../gh-pandoc.css -V lang=en -V highlighting-css= --mathjax --smart --to=html5 OUTPUT/LLD.html.md -o OUTPUT/gh.html
