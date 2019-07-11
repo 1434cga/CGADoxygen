@@ -12,6 +12,7 @@ ALL:
 	perl cga2md.pl default.GV OUTPUT/LLD.md > c1.log
 	perl cga2htmlmd.pl default.GV OUTPUT/LLD.html.md > c2.log
 	perl cga2nece.pl default.GV OUTPUT/nece.html.md > c_nece.log
+	perl cga2sequential.pl default.GV OUTPUT/sequ.html.md > c_sequ.log
 	pandoc OUTPUT/LLD.html.md -o OUTPUT/LLD.html
 	pandoc OUTPUT/LLD.html.md -f markdown -t html -s -o OUTPUT/LLD.css.html -c ../gh-pandoc.css
 	#pandoc OUTPUT/LLD.html.md -f markdown -t html5 -s -o OUTPUT/LLD.styling.html -c styling.css
