@@ -1,9 +1,13 @@
-our $returnp = "";
+our $returnp = "<br>";
+our $boldstartp = "<b>";
+our $boldendp = "</b>";
 our $UMLINCLUDE = "UML";
 our %CS;
 our %CFSD;
 our %SC;
 our %SCF;
+
+sub __SUB__ { return  (caller 2)[3] . "|" . (caller 2)[2] . "-" . (caller 1)[3] . "|" . (caller 1)[2] . "-" . (caller 0)[2] . ": " }
 
 sub change_special_code
 {
@@ -92,7 +96,7 @@ sub printdox
 		$name =~ s/\s//g;
 		$name =~ s/\:/_/g;
 		$name =~ s/\./_/g;
-		open(LO,">", "./oldplantuml/" . $name . "\.htmlmd\.plantuml") or die "Can't open > $name $!";
+		open(LO,">", "./outplantuml/" . $name . "\.htmlmd\.plantuml") or die "Can't open > $name $!";
 		print LO "\n\@startuml " . $name . "\.png\n";
 		print LO @pp;
 		print LO "\n\@enduml\n";
@@ -104,7 +108,6 @@ sub printdox
         $oh2 = 
 		    "$mytab" . "- " . $name . "\n" .
 		    "\n$mytab\![alt " . "./outplantuml/" . $name . "\.png](" . "./outplantuml/" . $name . "\.png)\n" .
-		    "![alt " . "./outplantuml/" . $name . "\.png](" . "./outplantuml/" . $name . "\.png)\n" .
 		    "\n";
 	} else {
 		print "$mytab" . "$p";
@@ -245,32 +248,32 @@ sub getParams
 		if($myhash->{$tmpKey}{params} ne ""){
 			foreach my $tmp2 (sort_keys(\%{$myhash->{$tmpKey}{params}})){
 				if($myhash->{$tmpKey}{params}{$tmp2}{parameters}{1}{name} ne ""){
-					if($myhash->{$tmpKey}{params}{$tmp2}{parameters}{1}{dir} eq "in"){
-						$myin .= "<b>[in] " . $myhash->{$tmpKey}{params}{$tmp2}{parameters}{1}{name} . "</b>";
+					if($myhash->{$tmpKey}{params}{$tmp2}{parameters}{1}{dir} =~ /in/){
+						$myin .= "$boldstartp" . "[in] " . $myhash->{$tmpKey}{params}{$tmp2}{parameters}{1}{name} . "$boldendp";
 						print "myin $myin\n";
 						foreach my $tmp3 (sort_keys(\%{$myhash->{$tmpKey}{params}{$tmp2}{doc}})){
 							if("" ne $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content}){
-								$myin .= " : " . $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content} . "<br>$returnp";
+								$myin .= " : " . $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content} . "$returnp";
 								print "myin2 $myin\n";
 							}
 						}
 					}
-					elsif($myhash->{$tmpKey}{params}{$tmp2}{parameters}{1}{dir} eq "out"){
-						$myout .= "<b>[out] " . $myhash->{$tmpKey}{params}{$tmp2}{parameters}{1}{name} . "</b>";
+					if($myhash->{$tmpKey}{params}{$tmp2}{parameters}{1}{dir} =~ /out/){
+						$myout .= "$boldstartp" . "[out] " . $myhash->{$tmpKey}{params}{$tmp2}{parameters}{1}{name} . "$boldendp";
 						print "myout $myout\n";
 						foreach my $tmp3 (sort_keys(\%{$myhash->{$tmpKey}{params}{$tmp2}{doc}})){
 							if("" ne $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content}){
-								$myout .= " : " . $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content} . "<br>$returnp";
+								$myout .= " : " . $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content} . "$returnp";
 								print "myout2 $myout\n";
 							}
 						}
 					}
-					elsif($myhash->{$tmpKey}{params}{$tmp2}{parameters}{1}{dir} eq ""){
-						$myany .= "<b>[-] " . $myhash->{$tmpKey}{params}{$tmp2}{parameters}{1}{name} . "</b>";
+					if($myhash->{$tmpKey}{params}{$tmp2}{parameters}{1}{dir} eq ""){
+						$myany .= "$boldstartp" . "[-] " . $myhash->{$tmpKey}{params}{$tmp2}{parameters}{1}{name} . "$boldendp";
 						print "myany $myany\n";
 						foreach my $tmp3 (sort_keys(\%{$myhash->{$tmpKey}{params}{$tmp2}{doc}})){
 							if("" ne $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content}){
-								$myany .= " : " . $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content} . "<br>$returnp";
+								$myany .= " : " . $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content} . "$returnp";
 								print "myany $myany\n";
 							}
 						}
@@ -293,7 +296,11 @@ sub getRetvals
 		print $myhash->{$tmpKey}{retvals} . "\n";
 		if($myhash->{$tmpKey}{retvals} ne ""){
 			foreach my $tmp2 (sort_keys(\%{$myhash->{$tmpKey}{retvals}})){
-				$mystr .= "<br><b>" . $myhash->{$tmpKey}{retvals}{$tmp2}{parameters}{1}{name} . "</b> ";
+                if($mystr =~ /^\s*$/){
+				    $mystr .= "$boldstartp" . $myhash->{$tmpKey}{retvals}{$tmp2}{parameters}{1}{name} . "$boldendp";
+                } else {
+				    $mystr .= "<br>$boldstartp" . $myhash->{$tmpKey}{retvals}{$tmp2}{parameters}{1}{name} . "$boldendp";
+                }
 				foreach my $tmp3 (sort_keys(\%{$myhash->{$tmpKey}{retvals}{$tmp2}{doc}})){
 					if("" ne $myhash->{$tmpKey}{retvals}{$tmp2}{doc}{$tmp3}{content}){
 						$mystr .= "  " . $myhash->{$tmpKey}{retvals}{$tmp2}{doc}{$tmp3}{content};
@@ -330,7 +337,7 @@ sub getParameters
 		print "getParameters mystr [" . $mystr . "]\n";
 		$mystr .= $myhash->{$tmpKey}{type};
 		$mystr .= "    " . $myhash->{$tmpKey}{declaration_name};
-		$mystr .= "<br>$returnp";
+		$mystr .= "$returnp";
 	}
 	return $mystr;
 }
@@ -425,17 +432,21 @@ sub getMethodsRow
 	my $myin;
 	my $myout;
 	my $myany;
+    my $mytype;
 
 	$mystr .= "| " . $myaccessibility;
 	$mystr .= "| " . $myhash->{name};
-	$mystr .= " | <b>" . recover_special_code( getContent(\%{$myhash->{brief}{doc}}) ) . "</b>";
-	#$mystr .= " <br>" . getContent(\%{$myhash->{detailed}{doc}});
+	$mystr .= " | $boldstartp" . recover_special_code( getContent(\%{$myhash->{brief}{doc}}) ) . "$boldendp";
+	#$mystr .= "$returnp" . getContent(\%{$myhash->{detailed}{doc}});
 	$mystr .= " | " . recover_special_code( getParameters(\%{$myhash->{parameters}}) );
 	($myin , $myout , $myany) = getParams(\%{$myhash->{detailed}{doc}});
 	$mystr .= " | " . $myin . $myany;
 	$mystr .= " | " . $myout;
-	$mystr .= " | " . $myhash->{type};  # return type of function
-	$mystr .= " | " . recover_special_code( getReturn(\%{$myhash->{detailed}{doc}}) ) . " <br>" . recover_special_code( getRetvals(\%{$myhash->{detailed}{doc}}) );
+	$mytype = $myhash->{type};     # return type of function
+    $mytype =~ s/^\s*virtual\s*//;
+	$mystr .= " | " . $mytype;  # return type of function
+	#$mystr .= " | " . recover_special_code( getReturn(\%{$myhash->{detailed}{doc}}) ) . " <br>" . recover_special_code( getRetvals(\%{$myhash->{detailed}{doc}}) );
+	$mystr .= " | " . recover_special_code( getRetvals(\%{$myhash->{detailed}{doc}}) );
 	return $mystr;
 }
 
@@ -584,10 +595,10 @@ foreach my $pages (sort_keys(\%{$D{pages}})){
 	}
 }
 
-open(OH1,">",$outfile . ".nece.md") or die "Can't open > $outfile" . ".nece.md $!";
-open(OH2,">",$outwithimage . ".nece.md") or die "Can't open > $outwithimage" . ".nece.md $!";
-open(OH3,">",$outfile) or die "Can't open > $outfile $!";
-open(OH4,">",$outwithimage) or die "Can't open > $outwithimage $!";
+open(OH1,">",$outfile . ".full.md") or die "Can't open > $outfile" . ".full.md $!"; #nece
+open(OH2,">",$outwithimage . ".full.md") or die "Can't open > $outwithimage" . ".full.md $!"; #nece
+open(OH3,">",$outfile) or die "Can't open > $outfile $!"; #nece
+open(OH4,">",$outwithimage) or die "Can't open > $outwithimage $!"; #nece
 
 my $n1,$n2,$n3,$n4;
 my $r3="",$r4="";
@@ -602,9 +613,9 @@ $r3 .= $n3; $r4 .= $n4;
 $r3 .= $n3; $r4 .= $n4;
 foreach my $classes (sort_keys(\%{$D{classes}})){
     $lflag1=1;
-	($n1,$n2,$n3,$n4) = printdox(0,"| " . $D{classes}{$classes}{name} . "| " . $D{classes}{$classes}{name} . "| "
+	($n1,$n2,$n3,$n4) = printdox(0,"| " . $D{classes}{$classes}{name} . "| " . $D{classes}{$classes}{name} . "| <b>"
 		. recover_special_code( getContent( \%{$D{classes}{$classes}{brief}{doc}}))
-		. " <br>$returnp"
+		. "</b> $returnp"
 		. recover_special_code( getContent( \%{$D{classes}{$classes}{detailed}{doc}})) );
     $r3 .= $n3; $r4 .= $n4;
 }
@@ -650,7 +661,7 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 	if(-e "./$UMLINCLUDE/" . $D{classes}{$classes}{name} . ".class"){
 		($n1,$n2,$n3,$n4) = printdox(0,"");
         $r3 .= $n3; $r4 .= $n4;
-		($n1,$n2,$n3,$n4) = printdox(1, "plantuml" , "class_" . $D{classes}{$classes}{name} . "_uml" , "!include ../$UMLINCLUDE/" . $D{classes}{$classes}{name} . ".class\n");
+		($n1,$n2,$n3,$n4) = printdox(0, "plantuml" , "class_" . $D{classes}{$classes}{name} . "_uml" , "!include ../$UMLINCLUDE/" . $D{classes}{$classes}{name} . ".class\n");
         $r3 .= $n3; $r4 .= $n4;
 	}
 
@@ -774,7 +785,9 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 	($n1,$n2,$n3,$n4) = printdox(0,"|-------|-------|----------|-------------|-------|-----|----|-------|");
     $lr3 .= $n3; $lr4 .= $n4;
 	foreach my $accesstype (sort_keys(\%{$D{classes}{$classes}}, "~")){
-		if($accesstype =~ /_methods$/){
+		#if($accesstype =~ /_methods$/)
+		if($accesstype =~ /^public.*_methods$/)
+        {
 			foreach my $members (sort_keys(\%{$D{classes}{$classes}{$accesstype}{members}})){
 				($n1,$n2,$n3,$n4) = printdox(0,getMethodsRow($accesstype,\%{$D{classes}{$classes}{$accesstype}{members}{$members}}) );
                 if(not($n3 =~ /^[\s\n]*$/)){ $llflag=1; }
@@ -800,7 +813,9 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 	($n1,$n2,$n3,$n4) = printdox(0,"|-------|-------|----------|-------------|");
     $lr3 .= $n3; $lr4 .= $n4;
 	foreach my $accesstype (sort_keys(\%{$D{classes}{$classes}}, "~")){
-		if($accesstype =~ /_members$/){
+		#if($accesstype =~ /_members$/)
+		if($accesstype =~ /^public.*_members$/)
+        {
 			foreach my $members (sort_keys(\%{$D{classes}{$classes}{$accesstype}{members}})){
 				($n1,$n2,$n3,$n4) = printdox(0,getMembersRow($accesstype,\%{$D{classes}{$classes}{$accesstype}{members}{$members}}) );
                 if(not($n3 =~ /^[\s\n]*$/)){ $llflag=1; }
