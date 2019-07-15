@@ -9,8 +9,8 @@ all:
 
 	perl convert.pl ../build_doxygen/DOXYGEN_OUTPUT/perlmod/DoxyDocs.pm ./DoxyDocs.pm  > a.log
 	perl doxy2cga.pl default.GV > b.log
-	#perl cga2md.pl default.GV OUTPUT/LLD.md > c1.log
-	#perl cga2htmlmd.pl default.GV OUTPUT/LLD.html.md > c2.log
+	perl cga2md.pl default.GV OUTPUT/LLD.md > c1.log
+	perl cga2htmlmd.pl default.GV OUTPUT/LLD.html.md > c2.log
 	perl cga2nece.pl default.GV OUTPUT/nece.html.md > c_nece.log
 	perl cga2sequential.pl default.GV OUTPUT/sequ.html.md > c_sequ.log
 	pandoc OUTPUT/LLD.html.md -o OUTPUT/LLD.html
