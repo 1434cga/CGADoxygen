@@ -1,3 +1,4 @@
+
 our $returnp = "<br>";
 our $boldstartp = "<b>";
 our $boldendp = "</b>";
@@ -74,11 +75,11 @@ sub printdox
 	}
 	if($p eq "plantuml"){
 		my ($name , @pp) = @p;
-		print "$mytab" . "$p";
+		print __SUB__ . "plantuml $mytab" . "$p";
 		print "\n";
-		print "$mytab" . "$name";
+		print __SUB__ . "plantuml $mytab" . "$name";
 		print "\n";
-		print "$mytab" . "@pp";
+		print __SUB__ . "plantuml $mytab" . "@pp";
 		print "\n";
 
 		print OH1 "$mytab" . "- " . $name . "\n";
@@ -110,9 +111,9 @@ sub printdox
 		    "\n$mytab\![alt " . "./outplantuml/" . $name . "\.png](" . "./outplantuml/" . $name . "\.png)\n" .
 		    "\n";
 	} else {
-		print "$mytab" . "$p";
+		print __SUB__ . "$mytab" . "$p";
 		print "\n";
-		print "$mytab" . "@p";
+		print __SUB__ . "$mytab" . "@p";
 		print "\n";
 		print OH1 "$mytab" . "$p@p";
 		print OH1 "\n";
@@ -253,7 +254,7 @@ sub getParams
 						print "myin $myin\n";
 						foreach my $tmp3 (sort_keys(\%{$myhash->{$tmpKey}{params}{$tmp2}{doc}})){
 							if("" ne $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content}){
-								$myin .= " " . $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content} . "$returnp";
+								$myin .= " : " . $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content} . "$returnp";
 								print "myin2 $myin\n";
 							}
 						}
@@ -263,7 +264,7 @@ sub getParams
 						print "myout $myout\n";
 						foreach my $tmp3 (sort_keys(\%{$myhash->{$tmpKey}{params}{$tmp2}{doc}})){
 							if("" ne $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content}){
-								$myout .= " " . $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content} . "$returnp";
+								$myout .= " : " . $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content} . "$returnp";
 								print "myout2 $myout\n";
 							}
 						}
@@ -273,7 +274,7 @@ sub getParams
 						print "myany $myany\n";
 						foreach my $tmp3 (sort_keys(\%{$myhash->{$tmpKey}{params}{$tmp2}{doc}})){
 							if("" ne $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content}){
-								$myany .= " " . $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content} . "$returnp";
+								$myany .= " : " . $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content} . "$returnp";
 								print "myany $myany\n";
 							}
 						}
@@ -293,7 +294,7 @@ sub getRetvals
 	my $myout = "";
 	foreach my $tmpKey (sort_keys(\%{$myhash})){
 		print $tmpKey . " ::: ";
-		print $myhash->{$tmpKey}{retvals} . "\n";
+		print __SUB__ . $myhash->{$tmpKey}{retvals} . "\n";
 		if($myhash->{$tmpKey}{retvals} ne ""){
 			foreach my $tmp2 (sort_keys(\%{$myhash->{$tmpKey}{retvals}})){
                 if($mystr =~ /^\s*$/){
@@ -317,8 +318,8 @@ sub getReturn
 	my $myhash = shift;
 	my $mystr = "";
 	foreach my $tmpKey (sort_keys(\%{$myhash})){
-		#print $tmpKey . " ::: ";
-		#print $myhash->{$tmpKey}{params} . "\n";
+		print $tmpKey . " ::: ";
+		print __SUB__ . $myhash->{$tmpKey}{return}{1}{content} . "\n";
 		if($myhash->{$tmpKey}{return} ne ""){
 			$mystr .= $myhash->{$tmpKey}{return}{1}{content};
 		}
@@ -447,7 +448,6 @@ sub getMethodsRow
 	$mystr .= " | " . $mytype;  # return type of function
 	#$mystr .= " | " . recover_special_code( getReturn(\%{$myhash->{detailed}{doc}}) ) . " <br>" . recover_special_code( getRetvals(\%{$myhash->{detailed}{doc}}) );
 	$mystr .= " | " . recover_special_code( getRetvals(\%{$myhash->{detailed}{doc}}) );
-	$mystr .= " | ";
 	return $mystr;
 }
 
@@ -464,7 +464,6 @@ sub getMembersRow
 	$mystr .= "| " . $myhash->{name};
 	$mystr .= " | <b>" . recover_special_code( getContent(\%{$myhash->{brief}{doc}}) ) . "</b>";
 	$mystr .= " <br>" . recover_special_code( getContent(\%{$myhash->{detailed}{doc}}) );
-	$mystr .= "| ";
 	return $mystr;
 }
 
@@ -520,6 +519,83 @@ sub getSRS
 	}
 	return ($myfunc, %mydesc);
 }
+
+sub	getDetailsSequential
+{
+    my $mytabCount = shift;
+	my $myhash = shift;  # \%{ $D{classes}{$classes}{public_methods}{members}{$members}{detailed}{doc} }
+    my $myname= shift;  # plantuml name
+
+    my $mypumlname = $myname;  # plantuml name
+	# $myhash->{$tmpKey}{see} ne ""
+	# foreach my $i (sort_keys(  \%{$myhash->{$tmpKey}{see}}  ))
+
+	my $mytab = "";
+	my $myplantumlCnt = 1;
+	for(my $i=0;$i<$mytabCount;$i++){ $mytab .= "\t"; }
+	$mypumlname =~ s/\s//g;
+	$mypumlname =~ s/\:/_/g;
+	$mypumlname =~ s/\./_/g;
+
+    ## @array = (10, 20, 30);
+    ## %hash = ('key1' => 10, 'key2' => 20);
+    ## case (\@array)    { print "number in list" }
+    ## case (\%hash)     { print "entry in hash" }
+    ## else              { print "previous case not true" }
+    my $mystr3 = "";
+    my $mystr4 = "";
+    my $myline = "";
+    my @mybreak = ("parbreak" , "linebreak");;
+    my @mytext = ("url" , "text");;
+	foreach my $i (sort_keys(  \%{$myhash} )){
+        print __SUB__ . " : " . $myhash->{$i}{type} . "\n";
+        if( ($myhash->{$i}{type} eq "parbreak")
+		 || ($myhash->{$i}{type} eq "linebreak") ){
+		    if(not ($myline =~ /^\s*$/) ){
+			    $mystr3 .= "$mytab" . "- TTTT $myline\n";
+			    $mystr4 .= "$mytab" . "- TTTT $myline\n";
+                $myline = "";
+		    }
+        }
+        elsif( ($myhash->{$i}{type} eq "url")
+		 || ($myhash->{$i}{type} eq "text") ){
+            $myline .= " " . $myhash->{$i}{content};
+        }
+        elsif($myhash->{$i}{type} eq "plantuml") {
+            $mystr3 .= 
+		        "$mytab" . "- TTTT " . $myname . " UML\n" . 
+		        "```puml\n" . 
+		        recover_special_code( $myhash->{$i}{content} ) . 
+		        "\n" . 
+		        "```\n";
+		    open(LO,">", "./outplantuml/" . $mypumlname . $myplantumlCnt . "\.htmlmd\.plantuml") or die "Can't open > $name $!";
+		    print LO "\n\@startuml " . $mypumlname . $myplantumlCnt . "\.png\n";
+		    print LO recover_special_code( $myhash->{$i}{content} );
+		    print LO "\n\@enduml\n";
+		    close LO;
+            $mystr4 .= 
+		        "$mytab" . "- TTTT " . $myname . " UML\n" . 
+		        "\n$mytab\![alt " . "./outplantuml/" . $mypumlname . $myplantumlCnt . "\.png](" . "./outplantuml/" . $mypumlname . $myplantumlCnt . "\.png)\n" .
+		        "\n";
+            $myplantumlCnt++;
+        }
+    }
+	foreach my $i (sort_keys(  \%{$myhash} )){
+	    foreach my $j (sort_keys(  \%{$myhash->{$i}} )){
+            print __SUB__ . " : $i : $j \n";
+        }
+    }
+    
+    print __SUB__ . " : mystr3 $myname : " . $mystr3 . "\n";
+    print __SUB__ . " : mystr4 $myname : " . $mystr4 . "\n";
+    return ($mystr3, $mystr4);
+
+}
+
+
+###
+###================ main ====================
+###
 
 print "arguments count : " . ($#ARGV +1) . "\n";
 print @ARGV . "\n";
@@ -597,10 +673,10 @@ foreach my $pages (sort_keys(\%{$D{pages}})){
 	}
 }
 
-open(OH1,">",$outfile . ".full.md") or die "Can't open > $outfile" . ".full.md $!"; #nece
-open(OH2,">",$outwithimage . ".full.md") or die "Can't open > $outwithimage" . ".full.md $!"; #nece
-open(OH3,">",$outfile) or die "Can't open > $outfile $!"; #nece
-open(OH4,">",$outwithimage) or die "Can't open > $outwithimage $!"; #nece
+open(OH1,">",$outfile . ".full.md") or die "Can't open > $outfile" . ".full.md $!";  # sequ
+open(OH2,">",$outwithimage . ".full.md") or die "Can't open > $outwithimage" . ".full.md $!";  # sequ
+open(OH3,">",$outfile) or die "Can't open > $outfile $!";  # sequ
+open(OH4,">",$outwithimage) or die "Can't open > $outwithimage $!";  # sequ
 
 my $n1,$n2,$n3,$n4;
 my $r3="",$r4="";
@@ -668,31 +744,28 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 	}
 
     $lr3="";$lr4="";  $llflag=0;
-	($n1,$n2,$n3,$n4) = printdox(0,"- Class Description");
+	($n1,$n2,$n3,$n4) = printdox(0,"- Description");
     $lr3 .= $n3; $lr4 .= $n4;
 	($n1,$n2,$n3,$n4) = printdox(1,"- " . recover_special_code( getContent( \%{$D{classes}{$classes}{brief}{doc}})) );
     if(not($n3 =~ /^[\s\n]*$/)){ $llflag=1; }
     $lr3 .= $n3; $lr4 .= $n4;
-	($n1,$n2,$n3,$n4) = printdox(2,"- " . recover_special_code( getContent( \%{$D{classes}{$classes}{detailed}{doc}})) );
+	($n1,$n2,$n3,$n4) = printdox(1,"- " . recover_special_code( getContent( \%{$D{classes}{$classes}{detailed}{doc}})) );
     if(not($n3 =~ /^[\s\n]*$/)){ $llflag=1; }
     $lr3 .= $n3; $lr4 .= $n4;
     if($llflag == 1){ 
-        #print OH3 "$lr3"; print OH4 "$lr4";
         $lflag1=1;
         $r3 .= $lr3; $r4 .= $lr4;
     }
 
     $lr3="";$lr4="";  $llflag=0;
-	#printdox(0,"- Diagrams for Class");
 	my $puml = recover_special_code( getPlantuml( \%{$D{classes}{$classes}{detailed}{doc}}) );
 	if($puml ne ""){
-		($n1,$n2,$n3,$n4) = printdox(0,"- Class Diagrams");
+		($n1,$n2,$n3,$n4) = printdox(0,"- Diagrams for Class");
         $lr3 .= $n3; $lr4 .= $n4;
 		($n1,$n2,$n3,$n4) = printdox(1,"plantuml" ,
 			"class_" . $D{classes}{$classes}{name} . "_diagram" ,
 			$puml);
         $lr3 .= $n3; $lr4 .= $n4;
-        #print OH3 "$lr3"; print OH4 "$lr4";
         $lflag1=1;
         $r3 .= $lr3; $r4 .= $lr4;
 
@@ -705,10 +778,46 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 
     
     $lr3="";$lr4="";  $llflag=0;
-	($n1,$n2,$n3,$n4) = printdox(0,"- Public member functions");
+	($n1,$n2,$n3,$n4) = printdox(0,"- Diagrams for public member functions");
     $lr3 .= $n3; $lr4 .= $n4;
+$comments=<<"EOF";
 	foreach my $members (sort_keys(\%{$D{classes}{$classes}{public_methods}{members}})){
-        print __SUB__ . " public_methods classes : $classes , members : $members\n";
+        my $lrfor3="",$lrfor4="";
+        my $lforflag=0;
+	    my $detailsSequential3 = "";
+	    my $detailsSequential4 = "";
+	    ($detailsSequential3,$detailsSequential4) = getDetailsSequential(2
+            , \%{ $D{classes}{$classes}{public_methods}{members}{$members}{detailed}{doc} }
+		    , "class_" . $D{classes}{$classes}{name} . "_public_methods" . "_" .  $D{classes}{$classes}{public_methods}{members}{$members}{name} 
+            );
+        print __SUB__ . " : KKKK3 : " . $detailsSequential3 . "\n";
+        print __SUB__ . " : KKKK4 : " . $detailsSequential4 . "\n";
+        if(not($detailsSequential3 =~ /^[\s\n]*$/)){
+            print __SUB__ . " : KKKK2 : " . $detailsSequential3 . "\n";
+		    ($n1,$n2,$n3,$n4) = printdox(1,"- " . $D{classes}{$classes}{public_methods}{members}{$members}{name} . " function");
+            $lrfor3 .= $n3; $lrfor4 .= $n4;
+            $lforflag=1;
+            $lrfor3 .= $detailsSequential3; $lrfor4 .= $detailsSequential4;
+		}
+	    $detailsSequential3 = "";
+	    $detailsSequential4 = "";
+	    ($detailsSequential3,$detailsSequential4) = getDetailsSequential(2
+            , \%{ $D{classes}{$classes}{public_static_methods}{members}{$members}{detailed}{doc} }
+		    , "class_" . $D{classes}{$classes}{name} . "_public_static_methods" . "_" .  $D{classes}{$classes}{public_methods}{members}{$members}{name} 
+            );
+        if(not($detailsSequential3 =~ /^[\s\n]*$/)){
+		    ($n1,$n2,$n3,$n4) = printdox(1,"- " . $D{classes}{$classes}{public_static_methods}{members}{$members}{name} . " function");
+            $lrfor3 .= $n3; $lrfor4 .= $n4;
+            $lforflag=1;
+            $lrfor3 .= $detailsSequential3; $lrfor4 .= $detailsSequential4;
+		}
+        if($lforflag == 1){
+            $llflag=1;
+            $lr3 .= $lrfor3; $lr4 .= $lrfor4;
+        }
+	}
+EOF
+	foreach my $members (sort_keys(\%{$D{classes}{$classes}{public_methods}{members}})){
         my $lrfor3="",$lrfor4="";
         my $lforflag=0;
 		($n1,$n2,$n3,$n4) = printdox(1,"- " . $D{classes}{$classes}{public_methods}{members}{$members}{name} . " function");
@@ -738,10 +847,8 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
         }
 		putXrefitem(2,"step",\%{$D{classes}{$classes}{public_methods}{members}{$members}{detailed}{doc}});
 		putXrefitem(2,"algorithm",\%{$D{classes}{$classes}{public_methods}{members}{$members}{detailed}{doc}});
-        print __SUB__ . " public_methods lr3 : $lr3\n";
 	}
 	foreach my $members (sort_keys(\%{$D{classes}{$classes}{public_static_methods}{members}})){
-        print __SUB__ . " public_static_methods classes : $classes , members : $members\n";
         my $lrfor3="",$lrfor4="";
         my $lforflag=0;
 		($n1,$n2,$n3,$n4) = printdox(1,"- " . $D{classes}{$classes}{public_static_methods}{members}{$members}{name} . " function");
@@ -771,11 +878,8 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
         }
 		putXrefitem(2,"step",\%{$D{classes}{$classes}{public_static_methods}{members}{$members}{detailed}{doc}});
 		putXrefitem(2,"algorithm",\%{$D{classes}{$classes}{public_static_methods}{members}{$members}{detailed}{doc}});
-        print __SUB__ . " public_methods lr3 : $lr3\n";
 	}
     if($llflag==1){
-        #$lr3 .= $lrfor3; $lr4 .= $lrfor4;
-        #print OH3 "$lr3"; print OH4 "$lr4";
         $lflag1=1;
         $r3 .= $lr3; $r4 .= $lr4;
     }
@@ -794,7 +898,7 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 		#if($accesstype =~ /_methods$/)
 		if($accesstype =~ /^public.*_methods$/)
         {
-			foreach my $members (sort_keys(\%{$D{classes}{$classes}{$accesstype}{members}})){
+			foreach my $members (sort_keys(\%{$D{classes}{$classes}{$accesstype}{members}},"")){
 				($n1,$n2,$n3,$n4) = printdox(0,getMethodsRow($accesstype,\%{$D{classes}{$classes}{$accesstype}{members}{$members}}) );
                 if(not($n3 =~ /^[\s\n]*$/)){ $llflag=1; }
                 $lr3 .= $n3; $lr4 .= $n4;
@@ -804,7 +908,6 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 	($n1,$n2,$n3,$n4) = printdox(0,"");
     $lr3 .= $n3; $lr4 .= $n4;
     if($llflag == 1){ 
-        #print OH3 "$lr3"; print OH4 "$lr4";
         $lflag1=1;
         $r3 .= $lr3; $r4 .= $lr4;
     }
@@ -832,7 +935,6 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 	($n1,$n2,$n3,$n4) = printdox(0,"");
     $lr3 .= $n3; $lr4 .= $n4;
     if($llflag == 1){ 
-        #print OH3 "$lr3"; print OH4 "$lr4";
         $lflag1=1;
         $r3 .= $lr3; $r4 .= $lr4;
     }

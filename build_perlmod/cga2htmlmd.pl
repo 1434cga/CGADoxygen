@@ -84,7 +84,7 @@ sub printdox
 		$name =~ s/\s//g;
 		$name =~ s/\:/_/g;
 		$name =~ s/\./_/g;
-		open(LO,">", "./oldplantuml/" . $name . "\.htmlmd\.plantuml") or die "Can't open > $name $!";
+		open(LO,">", "./outplantuml/" . $name . "\.htmlmd\.plantuml") or die "Can't open > $name $!";
 		print LO "\n\@startuml " . $name . "\.png\n";
 		print LO @pp;
 		print LO "\n\@enduml\n";
