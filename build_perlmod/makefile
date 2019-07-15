@@ -39,6 +39,7 @@ all:
 
 tt:
 	perl cga2sequential.pl default.GV OUTPUT/sequ.html.md > c_sequ.log
+	pandoc OUTPUT/sequ.html.md -f markdown -t html -s -o OUTPUT/sequ.css.html -c ../gh-pandoc.css
 doc:
 	pandoc OUTPUT/sequ.html.md -f markdown -t html -s -o OUTPUT/sequ.css.html -c ../gh-pandoc.css
 	#pandoc OUTPUT/sequ.html.md -f markdown -t html -s -o OUTPUT/sequ.1-css.html -c ../gh-pandoc.css

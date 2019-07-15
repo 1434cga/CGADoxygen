@@ -443,7 +443,9 @@ sub getMethodsRow
 	$mystr .= " | " . $myin . $myany;
 	$mystr .= " | " . $myout;
 	$mytype = $myhash->{type};     # return type of function
+    $mytype =~ s/^\s*static\s*//;
     $mytype =~ s/^\s*virtual\s*//;
+    $mytype =~ s/^\s*static\s*//;
 	$mystr .= " | " . $mytype;  # return type of function
 	#$mystr .= " | " . recover_special_code( getReturn(\%{$myhash->{detailed}{doc}}) ) . " <br>" . recover_special_code( getRetvals(\%{$myhash->{detailed}{doc}}) );
 	$mystr .= " | " . recover_special_code( getRetvals(\%{$myhash->{detailed}{doc}}) );
