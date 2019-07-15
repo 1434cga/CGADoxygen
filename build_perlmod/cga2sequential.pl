@@ -578,8 +578,7 @@ sub	getDetailsSequential
 		    close LO;
             $mystr4 .= 
 		        "$mytab" . "- TTTT " . $myname . " UML\n" . 
-		        "\n$mytab\![alt " . "./outplantuml/" . $mypumlname . $myplantumlCnt . "\.png](" . "./outplantuml/" . $mypumlname . $myplantumlCnt . "\.png)\n" .
-		        "\n";
+		        "\n$mytab\![alt " . "./outplantuml/" . $mypumlname . $myplantumlCnt . "\.png](" . "./outplantuml/" . $mypumlname . $myplantumlCnt . "\.png)\n";
             $myplantumlCnt++;
         }
     }
@@ -786,30 +785,42 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
     $lr3="";$lr4="";  $llflag=0;
 	($n1,$n2,$n3,$n4) = printdox(0,"- Public member functions");
     $lr3 .= $n3; $lr4 .= $n4;
-	foreach my $members (sort_keys(\%{$D{classes}{$classes}{public_methods}{members}})){
-        print __SUB__ . " NEW public_methods classes : $classes , members : $members\n";
-        my $lrfor3="",$lrfor4="";
-        my $lforflag=0;
-	    my $mydetailsSequential3 = "";
-	    my $mydetailsSequential4 = "";
-	    ($mydetailsSequential3,$mydetailsSequential4) = getDetailsSequential(2
-            , \%{ $D{classes}{$classes}{public_methods}{members}{$members}{detailed}{doc} }
-		    , "class_" . $D{classes}{$classes}{name} . "_public_methods" . "_" .  $D{classes}{$classes}{public_methods}{members}{$members}{name} 
-            );
-        if(not($mydetailsSequential3 =~ /^[-\s\n]*$/)){
-            print __SUB__ . " : KKKK2 : " . $mydetailsSequential3 . "]]\n";
-		    ($n1,$n2,$n3,$n4) = printdox(1,"- " . $D{classes}{$classes}{public_methods}{members}{$members}{name} . " function");
-            $lrfor3 .= $n3; $lrfor4 .= $n4;
-            $lforflag=1;
-            $lrfor3 .= $mydetailsSequential3; $lrfor4 .= $mydetailsSequential4;
-		}
-        if($lforflag == 1){
-            $llflag=1;
-            $lr3 .= $lrfor3; $lr4 .= $lrfor4;
-            print __SUB__ . " : NEW lr3 : " . $lr3 . "]]\n";
+	foreach my $accesstype (sort_keys(\%{$D{classes}{$classes}}, "~")){
+		#if($accesstype =~ /_methods$/)
+		if($accesstype =~ /^public.*_methods$/)
+        {
+            foreach my $members (sort_keys(\%{$D{classes}{$classes}{public_methods}{members}})){
+                my $lrfor3="",$lrfor4="";
+                my $lforflag=0;
+
+                ($n1,$n2,$n3,$n4) = printdox(1,"- " . $D{classes}{$classes}{public_methods}{members}{$members}{name} . " function");
+                $lrfor3 .= $n3; $lrfor4 .= $n4;
+
+                ($n1,$n2,$n3,$n4) = printdox(2,"- " . getContent( \%{ $D{classes}{$classes}{public_methods}{members}{$members}{brief}{doc} }) );
+                if(not($n3 =~ /^[-\s\n]*$/)){ 
+                    $lforflag=1;
+                    $lrfor3 .= $n3; $lrfor4 .= $n4;
+                }
+                my $mydetailsSequential3 = "";
+                my $mydetailsSequential4 = "";
+                ($mydetailsSequential3,$mydetailsSequential4) = getDetailsSequential(3
+                        , \%{ $D{classes}{$classes}{public_methods}{members}{$members}{detailed}{doc} }
+                        , "class_" . $D{classes}{$classes}{name} . "_public_methods" . "_" .  $D{classes}{$classes}{public_methods}{members}{$members}{name} 
+                        );
+                if(not($mydetailsSequential3 =~ /^[-\s\n]*$/)){
+                    $lforflag=1;
+                    $lrfor3 .= $mydetailsSequential3; $lrfor4 .= $mydetailsSequential4;
+                }
+                if($lforflag == 1){
+                    $llflag=1;
+                    $lr3 .= $lrfor3; $lr4 .= $lrfor4;
+                }
+            }
         }
-	}
+    }
+
 	foreach my $members (sort_keys(\%{$D{classes}{$classes}{public_methods}{members}})){
+$comments=<<"EOF";
         print __SUB__ . " public_methods classes : $classes , members : $members\n";
         my $lrfor3="",$lrfor4="";
         my $lforflag=0;
@@ -838,11 +849,13 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
             $llflag=1;
             $lr3 .= $lrfor3; $lr4 .= $lrfor4;
         }
+EOF
 		putXrefitem(2,"step",\%{$D{classes}{$classes}{public_methods}{members}{$members}{detailed}{doc}});
 		putXrefitem(2,"algorithm",\%{$D{classes}{$classes}{public_methods}{members}{$members}{detailed}{doc}});
         print __SUB__ . " public_methods lr3 : $lr3\n";
 	}
 	foreach my $members (sort_keys(\%{$D{classes}{$classes}{public_static_methods}{members}})){
+$comments=<<"EOF";
         print __SUB__ . " public_static_methods classes : $classes , members : $members\n";
         my $lrfor3="",$lrfor4="";
         my $lforflag=0;
@@ -871,6 +884,7 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
             $llflag=1;
             $lr3 .= $lrfor3; $lr4 .= $lrfor4;
         }
+EOF
 		putXrefitem(2,"step",\%{$D{classes}{$classes}{public_static_methods}{members}{$members}{detailed}{doc}});
 		putXrefitem(2,"algorithm",\%{$D{classes}{$classes}{public_static_methods}{members}{$members}{detailed}{doc}});
         print __SUB__ . " public_methods lr3 : $lr3\n";
