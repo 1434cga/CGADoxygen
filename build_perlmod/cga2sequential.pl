@@ -551,41 +551,50 @@ sub	getDetailsSequential
     my @mybreak = ("parbreak" , "linebreak");;
     my @mytext = ("url" , "text");;
 	foreach my $i (sort_keys(  \%{$myhash} )){
-        print __SUB__ . " : " . $myhash->{$i}{type} . "\n";
-        if( ($myhash->{$i}{type} eq "parbreak")
-		 || ($myhash->{$i}{type} eq "linebreak") ){
-		    if(not ($myline =~ /^\s*$/) ){
-			    $mystr3 .= "$mytab" . "- TTTT $myline\n";
-			    $mystr4 .= "$mytab" . "- TTTT $myline\n";
-                $myline = "";
-		    }
-        }
-        elsif( ($myhash->{$i}{type} eq "url")
-		 || ($myhash->{$i}{type} eq "text") ){
-            $myline .= " " . $myhash->{$i}{content};
-        }
-        elsif($myhash->{$i}{type} eq "plantuml") {
-            $mystr3 .= 
-		        "$mytab" . "- TTTT " . $myname . " UML\n" . 
-		        "```puml\n" . 
-		        recover_special_code( $myhash->{$i}{content} ) . 
-		        "\n" . 
-		        "```\n";
-		    open(LO,">", "./outplantuml/" . $mypumlname . $myplantumlCnt . "\.htmlmd\.plantuml") or die "Can't open > $name $!";
-		    print LO "\n\@startuml " . $mypumlname . $myplantumlCnt . "\.png\n";
-		    print LO recover_special_code( $myhash->{$i}{content} );
-		    print LO "\n\@enduml\n";
-		    close LO;
-            $mystr4 .= 
-		        "$mytab" . "- TTTT " . $myname . " UML\n" . 
-		        "\n$mytab\![alt " . "./outplantuml/" . $mypumlname . $myplantumlCnt . "\.png](" . "./outplantuml/" . $mypumlname . $myplantumlCnt . "\.png)\n";
-            $myplantumlCnt++;
+        foreach my $mykind (sort_keys(  \%{$myhash->{$i}} )){
+            print __SUB__ . " TYTY: $i : $mykind \n";
+            if($mykind eq "type"){
+                print __SUB__ . " : type : " . $myhash->{$i}{type} . "\n";
+                if( ($myhash->{$i}{type} eq "parbreak")
+                        || ($myhash->{$i}{type} eq "linebreak") ){
+                    if(not ($myline =~ /^\s*$/) ){
+                        $mystr3 .= "$mytab" . "- TTTT $myline\n";
+                        $mystr4 .= "$mytab" . "- TTTT $myline\n";
+                        $myline = "";
+                    }
+                }
+                elsif( ($myhash->{$i}{type} eq "url")
+                        || ($myhash->{$i}{type} eq "text") ){
+                    $myline .= " " . $myhash->{$i}{content};
+                }
+                elsif($myhash->{$i}{type} eq "plantuml") {
+                    $mystr3 .= 
+                        "$mytab" . "- TTTT " . $myname . " UML\n" . 
+                        "```puml\n" . 
+                        recover_special_code( $myhash->{$i}{content} ) . 
+                        "\n" . 
+                        "```\n";
+                    open(LO,">", "./outplantuml/" . $mypumlname . $myplantumlCnt . "\.htmlmd\.plantuml") or die "Can't open > $name $!";
+                    print LO "\n\@startuml " . $mypumlname . $myplantumlCnt . "\.png\n";
+                    print LO recover_special_code( $myhash->{$i}{content} );
+                    print LO "\n\@enduml\n";
+                    close LO;
+                    $mystr4 .= 
+                        "$mytab" . "- TTTT " . $myname . " UML\n" . 
+                        "\n$mytab\![alt " . "./outplantuml/" . $mypumlname . $myplantumlCnt . "\.png](" . "./outplantuml/" . $mypumlname . $myplantumlCnt . "\.png)\n";
+                    $myplantumlCnt++;
+                }
+            }
+            elsif($mykind eq "note"){
+                print __SUB__ . " : note : " . $myhash->{$i}{note} . "\n";
+                $mystr3 .= "$mytab" . "> TTTT " .  getContent(\%{$myhash->{$i}{$mykind}}) . "\n";
+                $mystr4 .= "$mytab" . "> TTTT " .  getContent(\%{$myhash->{$i}{$mykind}}) . "\n";
+            }
         }
     }
-	foreach my $i (sort_keys(  \%{$myhash} )){
-	    foreach my $j (sort_keys(  \%{$myhash->{$i}} )){
-            print __SUB__ . " : $i : $j \n";
-        }
+    if(not($myline =~ /^\s*$/)){
+        $mystr3 .= "$mytab" . "- TTTT $myline\n";
+        $mystr4 .= "$mytab" . "- TTTT $myline\n";
     }
     
     print __SUB__ . " : mystr3 $myname : " . $mystr3 . "\n";
