@@ -253,7 +253,7 @@ sub getParams
 						print "myin $myin\n";
 						foreach my $tmp3 (sort_keys(\%{$myhash->{$tmpKey}{params}{$tmp2}{doc}})){
 							if("" ne $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content}){
-								$myin .= " : " . $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content} . "$returnp";
+								$myin .= " " . $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content} . "$returnp";
 								print "myin2 $myin\n";
 							}
 						}
@@ -263,7 +263,7 @@ sub getParams
 						print "myout $myout\n";
 						foreach my $tmp3 (sort_keys(\%{$myhash->{$tmpKey}{params}{$tmp2}{doc}})){
 							if("" ne $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content}){
-								$myout .= " : " . $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content} . "$returnp";
+								$myout .= " " . $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content} . "$returnp";
 								print "myout2 $myout\n";
 							}
 						}
@@ -273,7 +273,7 @@ sub getParams
 						print "myany $myany\n";
 						foreach my $tmp3 (sort_keys(\%{$myhash->{$tmpKey}{params}{$tmp2}{doc}})){
 							if("" ne $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content}){
-								$myany .= " : " . $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content} . "$returnp";
+								$myany .= " " . $myhash->{$tmpKey}{params}{$tmp2}{doc}{$tmp3}{content} . "$returnp";
 								print "myany $myany\n";
 							}
 						}
@@ -447,6 +447,7 @@ sub getMethodsRow
 	$mystr .= " | " . $mytype;  # return type of function
 	#$mystr .= " | " . recover_special_code( getReturn(\%{$myhash->{detailed}{doc}}) ) . " <br>" . recover_special_code( getRetvals(\%{$myhash->{detailed}{doc}}) );
 	$mystr .= " | " . recover_special_code( getRetvals(\%{$myhash->{detailed}{doc}}) );
+	$mystr .= " | ";
 	return $mystr;
 }
 
@@ -463,6 +464,7 @@ sub getMembersRow
 	$mystr .= "| " . $myhash->{name};
 	$mystr .= " | <b>" . recover_special_code( getContent(\%{$myhash->{brief}{doc}}) ) . "</b>";
 	$mystr .= " <br>" . recover_special_code( getContent(\%{$myhash->{detailed}{doc}}) );
+	$mystr .= "| ";
 	return $mystr;
 }
 
@@ -666,12 +668,12 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 	}
 
     $lr3="";$lr4="";  $llflag=0;
-	($n1,$n2,$n3,$n4) = printdox(0,"- Description");
+	($n1,$n2,$n3,$n4) = printdox(0,"- Class Description");
     $lr3 .= $n3; $lr4 .= $n4;
 	($n1,$n2,$n3,$n4) = printdox(1,"- " . recover_special_code( getContent( \%{$D{classes}{$classes}{brief}{doc}})) );
     if(not($n3 =~ /^[\s\n]*$/)){ $llflag=1; }
     $lr3 .= $n3; $lr4 .= $n4;
-	($n1,$n2,$n3,$n4) = printdox(1,"- " . recover_special_code( getContent( \%{$D{classes}{$classes}{detailed}{doc}})) );
+	($n1,$n2,$n3,$n4) = printdox(2,"- " . recover_special_code( getContent( \%{$D{classes}{$classes}{detailed}{doc}})) );
     if(not($n3 =~ /^[\s\n]*$/)){ $llflag=1; }
     $lr3 .= $n3; $lr4 .= $n4;
     if($llflag == 1){ 
@@ -684,7 +686,7 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 	#printdox(0,"- Diagrams for Class");
 	my $puml = recover_special_code( getPlantuml( \%{$D{classes}{$classes}{detailed}{doc}}) );
 	if($puml ne ""){
-		($n1,$n2,$n3,$n4) = printdox(0,"- Diagrams for Class");
+		($n1,$n2,$n3,$n4) = printdox(0,"- Class Diagrams");
         $lr3 .= $n3; $lr4 .= $n4;
 		($n1,$n2,$n3,$n4) = printdox(1,"plantuml" ,
 			"class_" . $D{classes}{$classes}{name} . "_diagram" ,
@@ -703,9 +705,10 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 
     
     $lr3="";$lr4="";  $llflag=0;
-	($n1,$n2,$n3,$n4) = printdox(0,"- Diagrams for public member functions");
+	($n1,$n2,$n3,$n4) = printdox(0,"- Public member functions");
     $lr3 .= $n3; $lr4 .= $n4;
 	foreach my $members (sort_keys(\%{$D{classes}{$classes}{public_methods}{members}})){
+        print __SUB__ . " public_methods classes : $classes , members : $members\n";
         my $lrfor3="",$lrfor4="";
         my $lforflag=0;
 		($n1,$n2,$n3,$n4) = printdox(1,"- " . $D{classes}{$classes}{public_methods}{members}{$members}{name} . " function");
@@ -735,8 +738,10 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
         }
 		putXrefitem(2,"step",\%{$D{classes}{$classes}{public_methods}{members}{$members}{detailed}{doc}});
 		putXrefitem(2,"algorithm",\%{$D{classes}{$classes}{public_methods}{members}{$members}{detailed}{doc}});
+        print __SUB__ . " public_methods lr3 : $lr3\n";
 	}
 	foreach my $members (sort_keys(\%{$D{classes}{$classes}{public_static_methods}{members}})){
+        print __SUB__ . " public_static_methods classes : $classes , members : $members\n";
         my $lrfor3="",$lrfor4="";
         my $lforflag=0;
 		($n1,$n2,$n3,$n4) = printdox(1,"- " . $D{classes}{$classes}{public_static_methods}{members}{$members}{name} . " function");
@@ -766,9 +771,10 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
         }
 		putXrefitem(2,"step",\%{$D{classes}{$classes}{public_static_methods}{members}{$members}{detailed}{doc}});
 		putXrefitem(2,"algorithm",\%{$D{classes}{$classes}{public_static_methods}{members}{$members}{detailed}{doc}});
+        print __SUB__ . " public_methods lr3 : $lr3\n";
 	}
     if($llflag==1){
-        $lr3 .= $lrfor3; $lr4 .= $lrfor4;
+        #$lr3 .= $lrfor3; $lr4 .= $lrfor4;
         #print OH3 "$lr3"; print OH4 "$lr4";
         $lflag1=1;
         $r3 .= $lr3; $r4 .= $lr4;
