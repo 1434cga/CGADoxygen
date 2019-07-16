@@ -74,15 +74,31 @@
 <a name="makeadocumentsautomatically"></a>
 
 ## 3.1\. make a documents automatically
+- (optional) if you have many subdirectories , you try to run copy.sh at first.
+    - sh copy.sh [SOURCE DIRECTORY] [DESTINATION STORAGE Name] 
+        ```bash
+        sh copy.sh ../../OUTPUT/stc  ./src
+        ```
 - sh run.sh  { lists of directories including your codes (cpp and h) }
-    - ex) if you have sources in ../.. ../../inc /home/user/src   , then  
-    ```bash
-    $ sh run.sh ../..  ../../inc  /home/user/src
-    ```
+    - if you run copy.sh  (destination : ./src)
+        ```bash
+        $ sh run.sh ./src
+        ```
+    - ex) if you have sources in ../..  ../../inc  /home/user/src   , then  
+        ```bash
+        $ sh run.sh ../..  ../../inc  /home/user/src
+        ```
     - directory list is not recursive
         - you can verify in ./CGADoxygen/build_doxygen/src as soft-link files.
 - OUTPUT will be generated in "[git repository directory]/build_perlmod/OUTPUT"
-    - LLD.css.html LLD.md 
+    - LLD (Low Level Design) Document : it is full document
+    - NECE (Necessary) LLD : it is necessary document. I remove the doc when they do not have doxygen comments.
+    - SEQU (Sequential) LLD : it solves the detailed information each function sequentially.  it will support multiple plantuml and note and details.
+|  OUTPUT  |  HTML  |  Markdown |
+|:--------:|:-------|:----------|
+|Low Level Design (LLD) | LLD.css.html |  LLD.md  |
+| NECE (Necessary) LLD |nece.css.html |  nece.html.md  |
+| SEQU (Sequential) LLD | sequ.css.html |  sequ.html.md  |
 
 <a name="ifyouhaveunsolvedproblemsininstallingtools"></a>
 
@@ -92,8 +108,8 @@
 <a name="example"></a>
 
 ## 3.2\. example
-```
-    $ sh run.sh example/A
+```bash
+    $ sh run.sh ./example/A  ./exampleC   ./exampleD/Source
     or 
     $ sh run.sh example/B
 ```
@@ -101,7 +117,7 @@
 <a name="clean"></a>
 
 ## 3.3\. clean
-```
+```bash
     $ sh run.sh clean
 ```
 
