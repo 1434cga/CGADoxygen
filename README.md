@@ -94,6 +94,7 @@
     - LLD (Low Level Design) Document : it is full document
     - NECE (Necessary) LLD : it is necessary document. I remove the doc when they do not have doxygen comments.
     - SEQU (Sequential) LLD : it solves the detailed information each function sequentially.  it will support multiple plantuml and note and details.
+
 |  OUTPUT  |  HTML  |  Markdown |
 |:--------:|:-------|:----------|
 |Low Level Design (LLD) | LLD.css.html |  LLD.md  |
