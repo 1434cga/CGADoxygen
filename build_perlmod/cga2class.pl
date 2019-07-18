@@ -787,9 +787,9 @@ open(OH4,">",$outplantumlfile) or die "Can't open > $outplantumlfile $!";  # seq
 print OH3 "```puml\n";
 print OH3 "\@startuml\n";
 print OH4 "\@startuml\n";
-foreach my $first (keys %OVLINK){
-	foreach my $second (keys %{$OVLINK{$first}}){
-	    foreach my $dir (keys %{$OVLINK{$first}{$second}}){
+foreach my $first (sort keys %OVLINK){
+	foreach my $second (sort keys %{$OVLINK{$first}}){
+	    foreach my $dir (sort keys %{$OVLINK{$first}{$second}}){
             print OH3 "$first $dir $second\n";
             print OH4 "$first $dir $second\n";
         }
@@ -801,7 +801,8 @@ print OH3 "```\n";
 close OH3;
 close OH4;
 
-foreach my $group (keys %GROUPCLASS){
+$comments=<<"EOF";
+foreach my $group (sort keys %GROUPCLASS){
     $outmdfile = $outdirectory . "CLASSSubGroup_$group.plantuml.md";
     $outplantumlfile = $outdirectory . "CLASSSubGroup_$group.plantuml";
     open(OH3,">",$outmdfile) or die "Can't open > $outmdfile $!"; 
@@ -810,8 +811,8 @@ foreach my $group (keys %GROUPCLASS){
     print OH3 "\@startuml\n";
     print OH4 "\@startuml\n";
     my %myclass;
-    foreach my $first (keys %LINK){
-        foreach my $second (keys %{$LINK{$first}}){
+    foreach my $first (sort keys %LINK){
+        foreach my $second (sort keys %{$LINK{$first}}){
             if(  ($first =~ /^$group(\.|$)/) || ($second =~ /^$group(\.|$)/) ){
                 if( ($myclass{$first} eq "") && ($first =~ /\./) ){
                     $myclass{$first} = 1;
@@ -826,8 +827,8 @@ foreach my $group (keys %GROUPCLASS){
             }
         }
     }
-    foreach my $first (keys %LINK){
-        foreach my $second (keys %{$LINK{$first}}){
+    foreach my $first (sort keys %LINK){
+        foreach my $second (sort keys %{$LINK{$first}}){
             if(  ($first =~ /^$group(\.|$)/) || ($second =~ /^$group(\.|$)/) ){
                 my $dir = $LINK{$first}{$second};
                 print OH3 "$first $dir $second\n";
@@ -841,6 +842,7 @@ foreach my $group (keys %GROUPCLASS){
     close OH3;
     close OH4;
 }
+EOF
 
 my $cnt = 0;
 $outmdfile = $outdirectory . "CLASSStatic.plantuml.md";
@@ -850,10 +852,10 @@ open(OH4,">",$outplantumlfile) or die "Can't open > $outplantumlfile $!";  # seq
 print OH3 "```puml\n";
 print OH3 "\@startuml\n";
 print OH4 "\@startuml\n";
-foreach my $first (keys %GROUPCLASS){
+foreach my $first (sort keys %GROUPCLASS){
     print OH3 "package \"" . $first . "\" {\n";
     print OH4 "package \"" . $first . "\" {\n";
-	foreach my $second (keys %{$GROUPCLASS{$first}}){
+	foreach my $second (sort keys %{$GROUPCLASS{$first}}){
         if($second =~ /([^\.]+)$/){
             print OH3 "\tcomponent $1$cnt [\n";
             print OH4 "\tcomponent $1$cnt [\n";
@@ -875,7 +877,7 @@ foreach my $first (keys %GROUPCLASS){
     print OH3 "}\n\n";
     print OH4 "}\n\n";
 }
-foreach my $first (keys %SINGLECLASS){
+foreach my $first (sort keys %SINGLECLASS){
     if($CHECKGROUP{$first} ne ""){ next; }
     print OH3 "component $first$cnt [\n";
     print OH4 "component $first$cnt [\n";

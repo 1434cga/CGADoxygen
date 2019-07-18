@@ -32,7 +32,7 @@ Default in CGADoxygen
 # External Interface Requirements
 ## SW Context
 - The SW context diagram shows the interface between following external components .
-	- ![external_design](./outplantuml/HLD_md_1_external_design.png)
+	- ![external_design](./outplantuml/CLASSStatic.png)
 
 ## SW Interface
 

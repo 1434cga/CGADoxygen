@@ -1,11 +1,12 @@
-NECE (Necessary) : Make class diagram automatically / show private in LLD / SDD will be generated from nece LLD 
+Multi Processing (reduce the time) & check merge
 
-	add:        cga2class.pl  
-        - output : ./outplantuml/CLASS*.plantuml.md   ./outplantuml/CLASS*.plantuml
-	modified:   SDD.mdpp
-        - Change LLD.md to nece.html.md 
-        - nece is proper version
-	modified:   cga2nece.pl
-	modified:   makefile
-	modified:   plantuml2linkInMarkdown.pl
+make all    : not merge 
+make merge :-> worked (edited)  directory location : Code_Generator/work
 
+	modified:   build_perlmod/SRS.md
+	modified:   build_perlmod/cga2class.pl
+        - add sort to remove making PNG time (not random)
+	modified:   build_perlmod/makePNG_jar_plantuml.sh
+        - multi-processing
+	modified:   copy.sh
+        - add extension  .md .mdpp  (HLD.plantuml.md ,  SDD.mdpp)
