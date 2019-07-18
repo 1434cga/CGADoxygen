@@ -46,6 +46,9 @@ my $space = "";
 my $cnt = 1;
 while(<IH>){
 	my $s = $_;
+    if($s =~ /^\s*\/\/\s+CGA_VARIANT:/){
+        next;
+    }
 	if($status eq "NONE"){
 		if($s =~ /^\s*```\s*puml\s+(.*)$/){
 			my $mymatch = $1;

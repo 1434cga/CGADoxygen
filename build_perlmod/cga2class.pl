@@ -647,25 +647,26 @@ sub classLink
 ###================ main ====================
 ###
 
+our $outdirectory = "./outplantuml/";
 print "arguments count : " . ($#ARGV +1) . "\n";
 print @ARGV . "\n";
-($infile , $outfile) = (@ARGV);
+($infile , $outmdfile) = (@ARGV);
 if($infile eq ""){
 	$infile = "default.GV";
 }
-if($outfile eq ""){
-	$outfile = "class.plantuml.md";
-	$outwithimage = "class.html.plantuml.md";
+if($outmdfile eq ""){
+	$outmdfile = $outdirectory . "CLASSAllComponent.plantuml.md";
+	$outplantumlfile = $outdirectory . "CLASSAllComponent.plantuml";
 } else {
-	if( not ($outfile =~ /\.md$/) ){
+	if( not ($outmdfile =~ /\.md$/) ){
 		print STDERR "2nd argument (file name) has .md extention.\n";
 		exit ;
 	}
-	$outwithimage = $outfile;
-	$outfile =~ s/\.md$/.plantuml.md/;
+	$outplantumlfile = $outmdfile;
+	$outmdfile =~ s/\.md$/.plantuml.md/;
 }
-print "in : $infile  , outfile : $outfile \n";
-print STDERR "in : $infile  , outfile : $outfile \n";
+print "in : $infile  , outmdfile : $outmdfile , outplantumlfile  : $outplantumlfile\n";
+print STDERR "in : $infile  , outmdfile : $outmdfile , outplantumlfile  : $outplantumlfile\n";
 
 open(FH, "<",$infile) or die "Can't open < $infile $!";
 while(<FH>){
@@ -675,13 +676,14 @@ while(<FH>){
 }
 close(FH);
 
-#open(OH1,">",$outfile . ".full.md") or die "Can't open > $outfile" . ".full.md $!";  # sequ
-#open(OH2,">",$outwithimage . ".full.md") or die "Can't open > $outwithimage" . ".full.md $!";  # sequ
-open(OH3,">",$outfile) or die "Can't open > $outfile $!";  # sequ
-#open(OH4,">",$outwithimage) or die "Can't open > $outwithimage $!";  # sequ
+#open(OH1,">",$outmdfile . ".full.md") or die "Can't open > $outmdfile" . ".full.md $!";  # sequ
+#open(OH2,">",$outplantumlfile . ".full.md") or die "Can't open > $outplantumlfile" . ".full.md $!";  # sequ
+open(OH3,">",$outmdfile) or die "Can't open > $outmdfile $!";  # sequ
+open(OH4,">",$outplantumlfile) or die "Can't open > $outplantumlfile $!";  # sequ
 
 print OH3 "```puml\n";
 print OH3 "\@startuml\n";
+print OH4 "\@startuml\n";
 
 foreach my $classes (sort_keys(\%{$D{classes}})){
 	$CLASS{$D{classes}{$classes}{name}} = 1;;
@@ -694,8 +696,10 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
         $mybase = $D{classes}{$classes}{base}{$base}{name};
 		if($mybase =~ /Bn/){
             classLink($myclass,"-down->",$mybase,OH3);
+            classLink($myclass,"-down->",$mybase,OH4);
         } else {
             classLink($myclass,"-->",$mybase,OH3);
+            classLink($myclass,"-->",$mybase,OH4);
         }
         #print "class $classes , base $base\n";
 	}
@@ -704,8 +708,10 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 		$mydrived = $D{classes}{$classes}{derived}{$derived}{name};
 		if($myclass =~ /Bn/){
 		    classLink($mydrived,"-down->",$myclass,OH3);
+		    classLink($mydrived,"-down->",$myclass,OH4);
         } else {
 		    classLink($mydrived,"-->",$myclass,OH3);
+		    classLink($mydrived,"-->",$myclass,OH4);
         }
         #print "class $classes , derived $derived\n";
 	}
@@ -732,6 +738,7 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
                 }
                 if($CLASS{$mymembertype} ne ""){
 		            classLink($myclass,$composition,$mymembertype,OH3);
+		            classLink($myclass,$composition,$mymembertype,OH4);
                 }
             }
         }
@@ -739,12 +746,13 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 
 }
 print OH3 "\@enduml\n";
+print OH4 "\@enduml\n";
 print OH3 "```\n";
 
 #close OH1;
 #close OH2;
 close OH3;
-#close OH4;
+close OH4;
 
 
 
@@ -772,86 +780,118 @@ foreach my $first (keys %LINK){
 
 
 
-$outfile = "class_overall.md";
-open(OH3,">",$outfile) or die "Can't open > $outfile $!"; 
+$outmdfile = $outdirectory . "CLASSGroup.plantuml.md";
+$outplantumlfile = $outdirectory . "CLASSGroup.plantuml";
+open(OH3,">",$outmdfile) or die "Can't open > $outmdfile $!"; 
+open(OH4,">",$outplantumlfile) or die "Can't open > $outplantumlfile $!";  # sequ
 print OH3 "```puml\n";
 print OH3 "\@startuml\n";
-foreach my $first (keys %OVLINK){
-	foreach my $second (keys %{$OVLINK{$first}}){
-	    foreach my $dir (keys %{$OVLINK{$first}{$second}}){
+print OH4 "\@startuml\n";
+foreach my $first (sort keys %OVLINK){
+	foreach my $second (sort keys %{$OVLINK{$first}}){
+	    foreach my $dir (sort keys %{$OVLINK{$first}{$second}}){
             print OH3 "$first $dir $second\n";
+            print OH4 "$first $dir $second\n";
         }
     }
 }
 print OH3 "\@enduml\n";
+print OH4 "\@enduml\n";
 print OH3 "```\n";
 close OH3;
+close OH4;
 
-foreach my $group (keys %GROUPCLASS){
-    $outfile = "class_$group.md";
-    open(OH3,">",$outfile) or die "Can't open > $outfile $!"; 
+$comments=<<"EOF";
+foreach my $group (sort keys %GROUPCLASS){
+    $outmdfile = $outdirectory . "CLASSSubGroup_$group.plantuml.md";
+    $outplantumlfile = $outdirectory . "CLASSSubGroup_$group.plantuml";
+    open(OH3,">",$outmdfile) or die "Can't open > $outmdfile $!"; 
+    open(OH4,">",$outplantumlfile) or die "Can't open > $outplantumlfile $!";  # sequ
     print OH3 "```puml\n";
     print OH3 "\@startuml\n";
+    print OH4 "\@startuml\n";
     my %myclass;
-    foreach my $first (keys %LINK){
-        foreach my $second (keys %{$LINK{$first}}){
+    foreach my $first (sort keys %LINK){
+        foreach my $second (sort keys %{$LINK{$first}}){
             if(  ($first =~ /^$group(\.|$)/) || ($second =~ /^$group(\.|$)/) ){
                 if( ($myclass{$first} eq "") && ($first =~ /\./) ){
                     $myclass{$first} = 1;
                     print OH3 "class $first\n";
+                    print OH4 "class $first\n";
                 }
                 if( ($myclass{$second} eq "") && ($second =~ /\./) ){
                     $myclass{$second} = 1;
                     print OH3 "class $second\n";
+                    print OH4 "class $second\n";
                 }
             }
         }
     }
-    foreach my $first (keys %LINK){
-        foreach my $second (keys %{$LINK{$first}}){
+    foreach my $first (sort keys %LINK){
+        foreach my $second (sort keys %{$LINK{$first}}){
             if(  ($first =~ /^$group(\.|$)/) || ($second =~ /^$group(\.|$)/) ){
                 my $dir = $LINK{$first}{$second};
                 print OH3 "$first $dir $second\n";
+                print OH4 "$first $dir $second\n";
             }
         }
     }
     print OH3 "\@enduml\n";
+    print OH4 "\@enduml\n";
     print OH3 "```\n";
     close OH3;
+    close OH4;
 }
+EOF
 
 my $cnt = 0;
-$outfile = "class_folder.md";
-open(OH3,">",$outfile) or die "Can't open > $outfile $!"; 
+$outmdfile = $outdirectory . "CLASSStatic.plantuml.md";
+$outplantumlfile = $outdirectory . "CLASSStatic.plantuml";
+open(OH3,">",$outmdfile) or die "Can't open > $outmdfile $!"; 
+open(OH4,">",$outplantumlfile) or die "Can't open > $outplantumlfile $!";  # sequ
 print OH3 "```puml\n";
 print OH3 "\@startuml\n";
-foreach my $first (keys %GROUPCLASS){
+print OH4 "\@startuml\n";
+foreach my $first (sort keys %GROUPCLASS){
     print OH3 "package \"" . $first . "\" {\n";
-	foreach my $second (keys %{$GROUPCLASS{$first}}){
+    print OH4 "package \"" . $first . "\" {\n";
+	foreach my $second (sort keys %{$GROUPCLASS{$first}}){
         if($second =~ /([^\.]+)$/){
             print OH3 "\tcomponent $1$cnt [\n";
+            print OH4 "\tcomponent $1$cnt [\n";
             $cnt++;
             print OH3 "$1\n";
+            print OH4 "$1\n";
             print OH3 "]\n\n";
+            print OH4 "]\n\n";
         } else {
             print OH3 "\tcomponent $second$cnt [\n";
+            print OH4 "\tcomponent $second$cnt [\n";
             $cnt++;
             print OH3 "$second\n";
+            print OH4 "$second\n";
             print OH3 "]\n\n";
+            print OH4 "]\n\n";
         }
     }
     print OH3 "}\n\n";
+    print OH4 "}\n\n";
 }
-foreach my $first (keys %SINGLECLASS){
+foreach my $first (sort keys %SINGLECLASS){
     if($CHECKGROUP{$first} ne ""){ next; }
     print OH3 "component $first$cnt [\n";
+    print OH4 "component $first$cnt [\n";
     $cnt++;
     print OH3 "$first\n";
+    print OH4 "$first\n";
     print OH3 "]\n\n";
+    print OH4 "]\n\n";
 }
 print OH3 "\@enduml\n";
+print OH4 "\@enduml\n";
 print OH3 "```\n";
 close OH3;
+close OH4;
 
 #our %OVLINK;
 #our %GROUPCLASS;

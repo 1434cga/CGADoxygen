@@ -36,7 +36,7 @@ echo "detination directory : $2"
 mkdir -p $2
 
 
-for i in `find . -type f -regex ".*/.*\.\(c\|cpp\|h\|cc\)$"  -print`
+for i in `find . -type f -regex ".*/.*\.\(c\|md\|mdpp\|cpp\|h\|cc\)$"  -print`
 do
     echo $i
     BN=`basename ${i}`

@@ -16,6 +16,10 @@ tput setaf 2
 echo "#### Check Differnce of plantuml files ####"
 tput sgr0
 
+bgmax=8
+fgmax=10
+num=0
+
 cd outplantuml
 
 for file in *.plantuml
@@ -26,10 +30,23 @@ do
 		echo "diff -q $file ../oldplantuml/$file"
 		diff -q $file ../oldplantuml/$file
 		if [ $? -ne '0' ]; then
-			tput setaf 3
-			echo "--> $file changed : plantuml.jar -> png "
-			tput sgr0
-			java -jar ../../build_doxygen/plantuml.jar $file
+            if [ ${num} -lt ${bgmax} ]; then
+			    tput setaf 3
+                echo "--> background ${num} ${bgmax} ${fgmax} $file changed : plantuml.jar -> png "
+			    tput sgr0
+                java -jar ../../build_doxygen/plantuml.jar $file  &
+                num=$((num + 1))
+            else
+                if [ ${num} -lt ${fgmax} ]; then
+                    num=$((num + 1))
+                else
+                    num=0
+                fi
+			    tput setaf 3
+                echo "--> foreground ${num} ${bgmax} ${fgmax} $file changed : plantuml.jar -> png "
+			    tput sgr0
+                java -jar ../../build_doxygen/plantuml.jar $file
+            fi
 			/bin/cp -f $file ../oldplantuml
 		else
 			tput setaf 4
@@ -38,4 +55,9 @@ do
 		fi
 	fi
 done
+
+if [ ${num} -lt ${bgmax} ]; then
+    echo "sleep  3"
+    sleep 3
+fi
 

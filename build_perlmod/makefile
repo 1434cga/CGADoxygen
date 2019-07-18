@@ -26,6 +26,7 @@ all:
 	perl ../collab.pl OUTPUT/LLD.html.md
 	perl ../collab.pl OUTPUT/LLD.css.html
 	perl cga2excel.pl default.GV OUTPUT/LLD.xlsx > c3.log
+	perl cga2class.pl > class.log
 
 	sh makeBasicDocumentsInOUTPUT.sh
 	sh makePNG_jar_plantuml.sh
@@ -33,6 +34,7 @@ all:
 	cd OUTPUT; markdown-pp -o SDD.md    SDD.mdpp ; cd ..
 
 	pandoc OUTPUT/SDD.md -f markdown -t html -s -o OUTPUT/SDD.html -c ../gh-pandoc.css
+	echo "$?"
 	perl ../collab.pl OUTPUT/SDD.md
 	perl ../collab.pl OUTPUT/SDD.html
 	sh makeWord.sh
