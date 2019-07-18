@@ -26,6 +26,7 @@ all:
 	perl ../collab.pl OUTPUT/LLD.html.md
 	perl ../collab.pl OUTPUT/LLD.css.html
 	perl cga2excel.pl default.GV OUTPUT/LLD.xlsx > c3.log
+	perl cga2class.pl > class.log
 
 	sh makeBasicDocumentsInOUTPUT.sh
 	sh makePNG_jar_plantuml.sh

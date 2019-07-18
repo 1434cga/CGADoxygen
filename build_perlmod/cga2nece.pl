@@ -793,8 +793,8 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 	($n1,$n2,$n3,$n4) = printdox(0,"|-------|-------|----------|-------------|-------|-----|----|-------|");
     $lr3 .= $n3; $lr4 .= $n4;
 	foreach my $accesstype (sort_keys(\%{$D{classes}{$classes}}, "~")){
-		#if($accesstype =~ /_methods$/)
-		if($accesstype =~ /^public.*_methods$/)
+		if($accesstype =~ /_methods$/)
+        #if($accesstype =~ /^public.*_methods$/)
         {
 			foreach my $members (sort_keys(\%{$D{classes}{$classes}{$accesstype}{members}})){
 				($n1,$n2,$n3,$n4) = printdox(0,getMethodsRow($accesstype,\%{$D{classes}{$classes}{$accesstype}{members}{$members}}) );
@@ -821,8 +821,8 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 	($n1,$n2,$n3,$n4) = printdox(0,"|-------|-------|----------|-------------|");
     $lr3 .= $n3; $lr4 .= $n4;
 	foreach my $accesstype (sort_keys(\%{$D{classes}{$classes}}, "~")){
-		#if($accesstype =~ /_members$/)
-		if($accesstype =~ /^public.*_members$/)
+		if($accesstype =~ /_members$/)
+        #if($accesstype =~ /^public.*_members$/)
         {
 			foreach my $members (sort_keys(\%{$D{classes}{$classes}{$accesstype}{members}})){
 				($n1,$n2,$n3,$n4) = printdox(0,getMembersRow($accesstype,\%{$D{classes}{$classes}{$accesstype}{members}{$members}}) );
