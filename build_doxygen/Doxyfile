@@ -253,6 +253,9 @@ ALIASES += Emph{1}="<em>\1</em>"
 ALIASES += l{1}="\ref \1"
 ALIASES += l{2}="\ref \1 \"\2\""
 ALIASES += SRS{2}="\see SRS \1 \2"
+ALIASES += CGA_VARIANT_START{1}=""
+ALIASES += CGA_VARIANT_END{1}=""
+ALIASES += step{1}="\details step : \1"
 ALIASES += HLD{2}="\remarks HLD \1 \"\2\""
 ALIASES += LLD{2}="\tparam LLD \1 \"\2\""
 ALIASES += "since{2}=\xrefitem since_\1_\2 \"Since \1.\2\" \"New API in \1.\2\""
@@ -263,7 +266,6 @@ ALIASES += "todo2=\xrefitem todo2 \"Medium Priority Todo\" \"Todo medium priorit
 ALIASES += "todo3=\xrefitem todo3 \"Low Priority Todo\" \"Todo low priority list\""
 ALIASES += "algorithm=\xrefitem algorithm \"algorithm\" \"algorithm description\""
 ALIASES += "error=\xrefitem error \"Errors\" \"Errors\""
-ALIASES += "step=\xrefitem step \"step\" \"step\""
 ALIASES += "autogen=\xrefitem autogen \"Auto Generated Code\" \"Auto generated code list\""
 # //! [DOXYGEN_ALIASES]
 

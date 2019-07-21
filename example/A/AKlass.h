@@ -8,8 +8,7 @@
 
 namespace family {
 
-/**
- * @brief Telltale class for Blink Telltale
+/** * @brief Telltale class for Blink Telltale
  *  what is this (this line will be continue to brief)
  *
  * @details 1 multiple line.
@@ -47,6 +46,10 @@ namespace family {
  *          ex.) LXIDs , duration , frequency , base LXIDs to show image
  * @date 2016.06.20.
  * @author Charles.Lee (cheoljoo.lee@lge.com)
+ * 
+ * @CGA_VARIANT_START{"AKlass()"}
+ * @SRS{FR-001,"EveryThing is fine."}
+ * @CGA_VARIANT_END{"AKlass()"}
  */
 class AKlass : public CTelltaleBase
 {

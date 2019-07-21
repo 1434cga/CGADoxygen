@@ -45,13 +45,13 @@ namespace family {
  *
  * @LLD{ABCD3,Do it by yourself.}
  *
- * @step 1.1 Initialization
- * @step 1.2 This is total.
- *		<br>How are you?
- * @step 1.3 AKlass This is total.
- *		How are you?
+ * @step{"1.1 Initialization"}
+ * @step{"1.2 This is total.
+ *		<br>How are you?"}
+ * @step{"1.3 AKlass This is total.
+ *		How are you?"}
  *
- * @step 1.4 This is total.
+ * @step{"1.4 This is total."}
  *
  *
  * @algorithm Troll-01  AKlass This is example of algorithm
@@ -98,6 +98,15 @@ AKlass::AKlass(TELLTALE id , int32_t startstatus, std::vector<int32_t> blink , i
 	if(mStartStatus == (int32_t) LXID_ON){
 		Run((int32_t) LXID_ON);
 	}
+
+// CGA_VARIANT:AKlass:AKlass():variant START
+
+    /*  
+     * Write your own code 
+    */
+
+// CGA_VARIANT:AKlass:AKlass():variant END
+
 }
 
 /**
@@ -182,6 +191,11 @@ int32_t AKlass::Run(int32_t isOn)
 
 	mBlinkStatus = isOn;
 	return ret;
+// @CGA_VARIANT_START{":AKlass:Run(int32_t)"}
+    /*  
+     * Write your own code 
+    */
+// @CGA_VARIANT_END{":AKlass:Run(int32_t)"}
 }
 
 /**
@@ -210,11 +224,11 @@ int32_t AKlass::Run(int32_t isOn)
  * @enduml
 @endcond
  *
- * @step 1 Initialization
- * @step 2 This is total.
- *		<br>How are you?
- * @step 3 AKlass This is total.
- *		<br>How are you?
+ * @step{"2.1 Initialization"}
+ * @step{"2.2 This is total.
+ *		<br>How are you?"}
+ * @step{"2.3 AKlass This is total.
+ *		How are you?"}
  *
  */
 void AKlass::Draw(int32_t isOn)
