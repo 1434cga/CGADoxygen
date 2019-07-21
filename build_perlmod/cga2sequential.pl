@@ -199,7 +199,11 @@ sub getContent
 		#print $myhash->{$tmpKey}{type} . "\n";
 		if(  ($myhash->{$tmpKey}{type} eq "url")
 		  || ($myhash->{$tmpKey}{type} eq "text") ){
-			$myline .= $myhash->{$tmpKey}{content};
+			if($myline eq ""){
+                $myline .= $myhash->{$tmpKey}{content};
+            } else {
+                $myline .= " " . $myhash->{$tmpKey}{content};
+            }
 		}
 		if( ($myhash->{$tmpKey}{type} eq "parbreak")
 		 || ($myhash->{$tmpKey}{type} eq "linebreak") ){
@@ -523,6 +527,41 @@ sub getSRS
 	return ($myfunc, %mydesc);
 }
 
+sub getNote
+{
+	my $myhash = shift;    # \%{$D{classes}{$classes}{$accesstype}{members}{$members}{detailed}{doc}{1}{note}}
+	my %mydesc;
+	my $mystr = "";
+	foreach my $tmpKey (sort_keys(\%{$myhash})){
+		#print $tmpKey . " ::: ";
+		#print $myhash->{$tmpKey}{params} . "\n";
+		print "getNote $tmpKey\n";
+		if($myhash->{$tmpKey}{see} ne ""){
+			foreach my $i (sort_keys(\%{$myhash->{$tmpKey}{see}})){
+				print "getNote see $tmpKey $i\n";
+				print "SSS $myhash->{$tmpKey}{see}{$i}{type} \n";
+				if(  ($myhash->{$tmpKey}{see}{$i}{type} eq "url")
+					|| ($myhash->{$tmpKey}{see}{$i}{type} eq "text") ){
+					print "getNote see $tmpKey $i $myhash->{$tmpKey}{see}{$i}{content} \n";
+					if($myhash->{$tmpKey}{see}{$i}{content} =~ /^SRS\s+([a-zA-Z0-9\-\_]+)\s*(.*)$/){
+						my $myS = $1;
+						my $myD = $2;
+						$mydesc{$myS} = $myD;
+						print "getNote see TTT $myS = $myD\n";
+					}
+				}
+				if( ($myhash->{$tmpKey}{see}{$i}{type} eq "parbreak")
+					|| ($myhash->{$tmpKey}{see}{$i}{type} eq "linebreak") ){
+					# do something for the future
+				}
+			}
+		}
+	}
+
+	print %mydesc . "[[[[getNote\n";
+	return %mydesc;
+}
+
 sub	getDetailsSequential
 {
     my $mytabCount = shift;
@@ -555,21 +594,41 @@ sub	getDetailsSequential
             print __SUB__ . " TYTY: $i : $mykind \n";
             if($mykind eq "type"){
                 print __SUB__ . " : type : " . $myhash->{$i}{type} . "\n";
+                $myline = recover_special_code( $myline ); 
                 if( ($myhash->{$i}{type} eq "parbreak")
                         || ($myhash->{$i}{type} eq "linebreak") ){
                     if(not ($myline =~ /^\s*$/) ){
-                        $mystr3 .= "$mytab" . "- TTTT $myline\n";
-                        $mystr4 .= "$mytab" . "- TTTT $myline\n";
+                        if($myline  =~ /^\s*step\s+:/){
+                            $mystr3 .= "$mytab" . "\t1. $myline\n";
+                            $mystr4 .= "$mytab" . "\t1. $myline\n";
+                        } else {
+                            $mystr3 .= "$mytab" . "- $myline\n";
+                            $mystr4 .= "$mytab" . "- $myline\n";
+                        }
                         $myline = "";
                     }
                 }
                 elsif( ($myhash->{$i}{type} eq "url")
                         || ($myhash->{$i}{type} eq "text") ){
-                    $myline .= " " . $myhash->{$i}{content};
+                    if($myline eq ""){
+                        $myline .= $myhash->{$i}{content};
+                    } else {
+                        $myline .= " " . $myhash->{$i}{content};
+                    }
                 }
                 elsif($myhash->{$i}{type} eq "plantuml") {
+                    if(not($myline =~ /^\s*$/)){
+                        if($myline  =~ /^\s*step\s+:/){
+                            $mystr3 .= "$mytab" . "\t1. $myline\n";
+                            $mystr4 .= "$mytab" . "\t1. $myline\n";
+                        } else {
+                            $mystr3 .= "$mytab" . "- $myline\n";
+                            $mystr4 .= "$mytab" . "- $myline\n";
+                        }
+                    }
+                    $myline = "";
                     $mystr3 .= 
-                        "$mytab" . "- TTTT " . $myname . " UML\n" . 
+                        "$mytab" . "- " . $myname . " UML\n" . 
                         "```puml\n" . 
                         recover_special_code( $myhash->{$i}{content} ) . 
                         "\n" . 
@@ -580,21 +639,29 @@ sub	getDetailsSequential
                     print LO "\n\@enduml\n";
                     close LO;
                     $mystr4 .= 
-                        "$mytab" . "- TTTT " . $myname . " UML\n" . 
-                        "\n$mytab\![alt " . "./outplantuml/" . $mypumlname . $myplantumlCnt . "\.png](" . "./outplantuml/" . $mypumlname . $myplantumlCnt . "\.png)\n";
+                        "$mytab" . "- " . $myname . " UML\n" . 
+                        "$mytab" . "\t" . "- \![alt " . "./outplantuml/" . $mypumlname . $myplantumlCnt . "\.png](" . "./outplantuml/" . $mypumlname . $myplantumlCnt . "\.png)\n";
                     $myplantumlCnt++;
                 }
             }
             elsif($mykind eq "note"){
-                print __SUB__ . " : note : " . $myhash->{$i}{note} . "\n";
-                $mystr3 .= "$mytab" . "> TTTT " .  getContent(\%{$myhash->{$i}{$mykind}}) . "\n";
-                $mystr4 .= "$mytab" . "> TTTT " .  getContent(\%{$myhash->{$i}{$mykind}}) . "\n";
+                #getNote($mytabCount,\%{$myhash->{$i}{note}} );
+	            $mytmpstr = recover_special_code( getContent(\%{$myhash->{$i}{note}}) );
+                print __SUB__ . " : note : [[" . $mytmpstr . "]]\n";
+                $mystr3 .= "$mytab" . "* Note : " .  getContent(\%{$myhash->{$i}{$mykind}}) . "\n";
+                $mystr4 .= "$mytab" . "* Note : " .  getContent(\%{$myhash->{$i}{$mykind}}) . "\n";
             }
         }
     }
+    $myline = recover_special_code( $myline ); 
     if(not($myline =~ /^\s*$/)){
-        $mystr3 .= "$mytab" . "- TTTT $myline\n";
-        $mystr4 .= "$mytab" . "- TTTT $myline\n";
+        if($myline  =~ /^\s*step\s+:/){
+            $mystr3 .= "$mytab" . "\t1. $myline\n";
+            $mystr4 .= "$mytab" . "\t1. $myline\n";
+        } else {
+            $mystr3 .= "$mytab" . "- $myline\n";
+            $mystr4 .= "$mytab" . "- $myline\n";
+        }
     }
     
     print __SUB__ . " : mystr3 $myname : " . $mystr3 . "\n";
@@ -757,6 +824,38 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
     $lr3="";$lr4="";  $llflag=0;
 	($n1,$n2,$n3,$n4) = printdox(0,"- Class " .  $D{classes}{$classes}{name} . " Description");
     $lr3 .= $n3; $lr4 .= $n4;
+        {
+            {
+                my $lrfor3="",$lrfor4="";
+                my $lforflag=0;
+
+                ($n1,$n2,$n3,$n4) = printdox(1,"- " . getContent( \%{ $D{classes}{$classes}{brief}{doc} }) );
+                if(not($n3 =~ /^[-\s\n]*$/)){ 
+                    $lforflag=1;
+                    $lrfor3 .= $n3; $lrfor4 .= $n4;
+                }
+                my $mydetailsSequential3 = "";
+                my $mydetailsSequential4 = "";
+                ($mydetailsSequential3,$mydetailsSequential4) = getDetailsSequential(2
+                        , \%{ $D{classes}{$classes}{detailed}{doc} }
+                        , "class_" . $D{classes}{$classes}{name} . "_class_name"
+                        );
+                if(not($mydetailsSequential3 =~ /^[-\s\n]*$/)){
+                    $lforflag=1;
+                    $lrfor3 .= $mydetailsSequential3; $lrfor4 .= $mydetailsSequential4;
+                }
+                if($lforflag == 1){
+                    $llflag=1;
+                    $lr3 .= $lrfor3; $lr4 .= $lrfor4;
+                }
+            }
+        }
+    if($llflag==1){
+        $lflag1=1;
+        $r3 .= $lr3; $r4 .= $lr4;
+    }
+
+my $comments=<<"EOF";
 	($n1,$n2,$n3,$n4) = printdox(1,"- " . recover_special_code( getContent( \%{$D{classes}{$classes}{brief}{doc}})) );
     if(not($n3 =~ /^[\s\n]*$/)){ $llflag=1; }
     $lr3 .= $n3; $lr4 .= $n4;
@@ -786,9 +885,12 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 	}
 	putXrefitem(1,"step",\%{$D{classes}{$classes}{detailed}{doc}});
 	putXrefitem(1,"algorithm",\%{$D{classes}{$classes}{detailed}{doc}});
+EOF
 
 
-    # ($n1,$n2,$n3,$n4) = 
+
+
+
 
     
     $lr3="";$lr4="";  $llflag=0;
@@ -914,8 +1016,8 @@ EOF
 	($n1,$n2,$n3,$n4) = printdox(0,"|-------|-------|----------|-------------|-------|-----|----|-------|");
     $lr3 .= $n3; $lr4 .= $n4;
 	foreach my $accesstype (sort_keys(\%{$D{classes}{$classes}}, "~")){
-		#if($accesstype =~ /_methods$/)
-		if($accesstype =~ /^public.*_methods$/)
+		if($accesstype =~ /_methods$/)
+		#if($accesstype =~ /^public.*_methods$/)
         {
 			foreach my $members (sort_keys(\%{$D{classes}{$classes}{$accesstype}{members}})){
 				($n1,$n2,$n3,$n4) = printdox(0,getMethodsRow($accesstype,\%{$D{classes}{$classes}{$accesstype}{members}{$members}}) );
@@ -941,8 +1043,8 @@ EOF
 	($n1,$n2,$n3,$n4) = printdox(0,"|-------|-------|----------|-------------|");
     $lr3 .= $n3; $lr4 .= $n4;
 	foreach my $accesstype (sort_keys(\%{$D{classes}{$classes}}, "~")){
-		#if($accesstype =~ /_members$/)
-		if($accesstype =~ /^public.*_members$/)
+		if($accesstype =~ /_members$/)
+		#if($accesstype =~ /^public.*_members$/)
         {
 			foreach my $members (sort_keys(\%{$D{classes}{$classes}{$accesstype}{members}})){
 				($n1,$n2,$n3,$n4) = printdox(0,getMembersRow($accesstype,\%{$D{classes}{$classes}{$accesstype}{members}{$members}}) );
