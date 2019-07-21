@@ -34,7 +34,7 @@ all:
 	cd OUTPUT; markdown-pp -o SDD.md    SDD.mdpp ; cd ..
 
 	pandoc OUTPUT/SDD.md -f markdown -t html -s -o OUTPUT/SDD.html -c ../gh-pandoc.css
-	pandoc OUTPUT/SDD.md -f markdown -s -o OUTPUT/SDD.pdf
+	#pandoc OUTPUT/SDD.md -f markdown -s -o OUTPUT/SDD.pdf
 	echo "$?"
 	perl ../collab.pl OUTPUT/SDD.md
 	perl ../collab.pl OUTPUT/SDD.html

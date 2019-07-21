@@ -28,8 +28,8 @@ Default in CGADoxygen
 - The target audience of this document is:
 	- Software architect who will evaluate the design of the software
 	- Component developer who will implement the design in actual code
-	- Native application developers who need to use MgrTelltale service
-	- Cheetah project participants who want to understand the low level design of the MgrTelltale service
+	- Native application developers who need to use MgrXXX service
+	- Cheetah project participants who want to understand the low level design of the MgrXXX service
 	- Test engineers who verify this component
 
 ## Related Documents
@@ -58,15 +58,21 @@ NOTE
 
 # MgrXXX Component
 ## External Design
-- Telltale manager shows the telltale on the display or sends signal to HMI.  Main functions of Telltale Manager.
+- XXX manager shows the telltale on the display or sends signal to HMI.  Main functions of XXX Manager.
 	- Receive messages from MgrTsk and start monitoring.
 	- It communicates with ODI Manager to get or send the CAN siganls.
 	- It communicates with HMI manager to show the telltale.
 
-- [Figure] shows the relationship between MgrXXX and other external components.
+### Static Design
+- [Figure] shows the relationship between MgrXXX and other external Managers..
 
+```
 ![alt PLANTUML HLD.md 2 external_design](./outplantuml/HLD_md_1_external_design.png)
+```
 
+
+### Dynamic Design
+- sequence diagram
 - Step
     - step : A.1 Description
     - step : A.2 Description
@@ -82,44 +88,50 @@ NOTE
 ## Internal Design
 ### Static Design
 - The class diagram for the MgrXXX is shown below:
+    - show all classes box
 
-#### Class Diagram
+#### Class Relations
 - [Figure] Brief Class Diagram
 
+```
 ![alt PLANTUML HLD.md 3 class_brief](./outplantuml/HLD_md_2_class_brief.png)
+```
 
-    - Explanation of this figure
+    - Explanation of this class relations
 
 - [Figure] Detailed Class Diagram
 
+```
 ![alt PLANTUML HLD.md 4 class_detail.png](./outplantuml/HLD_md_3_class_detail_png.png)
+```
 
     - Explanation of this figure
 
 
 ### Dynamic Design
 
-#### Total Sequence Design
+#### Sequence Design
 - [Figure] Overall Sequence
 
+```
 ![alt PLANTUML HLD.md 5 total_seq_design](./outplantuml/HLD_md_4_total_seq_design.png)
+```
 
 
 #### Interaction Design
 - [Figure] Simple Sequence between AAA Manager and CMgrXXX class
 
+```
 ![alt PLANTUML HLD.md 6 ](./outplantuml/HLD_md_5_.png)
-
+```
 
 - processes in CMgrXXX class
-	- [Figure] process Telltale in CMgrTelltale class
+	- [Figure] process XXX in CMgrXXX class
 
+```
 ![alt PLANTUML HLD.md 7 ](./outplantuml/HLD_md_6_.png)
+```
 
 
-- Timer Sequence
-	- [Figure] Timer Sequence
-
-![alt PLANTUML HLD.md 8 TimerSequence.png](./outplantuml/HLD_md_7_TimerSequence_png.png)
 
 

@@ -3,10 +3,10 @@
 ## Revision History
 | Version | Date       | Comment         | Author                             | Approver |
 | ------- | ---------- | --------------- | ---------------------------------- | -------- |
-| 1.0     | 2019-07-19 | Initial Release | Charles.Lee <cheoljoo.lee@gmail.com>        |          |
+| 1.0     | 2019-07-19 | Initial Release | Who.Lee <Who.lee@gmail.com>        |          |
 
 ## Purpose
-- This document is a Software Requirement Specification (SRS) of V2XAntenna Manager . This SRS is a result which describes software requirements analyzed by LGE. Each software requirement in this document is traced from the System Requirements Specifications (SysRS).
+- This document is a Software Requirement Specification (SRS) of XXX Manager . This SRS is a result which describes software requirements analyzed by LGE. Each software requirement in this document is traced from the System Requirements Specifications (SysRS).
 
 ## Scope
 - SW Overview, SW Main Features
@@ -38,9 +38,11 @@
 # External Interface Requirements
 ## SW Context
 - The SW context diagram shows the interface between following external components .
+    - reuse of external design of HLD
 
-![alt PLANTUML ../OUTPUT/SRS.md 2 SRS_external_design_V2XAntenna](./outplantuml/SRS_md_1_SRS_external_design_V2XAntenna.png)
-
+```
+![alt PLANTUML ../OUTPUT/SRS.md 2 SRS_external_design_XXX](./outplantuml/SRS_md_1_SRS_external_design_XXX.png)
+```
 
 ## SW Interface
 
