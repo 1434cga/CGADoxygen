@@ -9,8 +9,38 @@
 namespace family {
 
 /**
- * @class AKlass
  * @brief Telltale class for Blink Telltale
+ *  what is this (this line will be continue to brief)
+ *
+ * @details 1 multiple line.
+ *    this is 2 of multiple line. (this line will be continue to detail)
+ *
+ * @startuml
+ *  == this is basic ==
+ *  A --> B
+ *  C --> B
+ * @enduml
+ * 
+ * This is normal description1 (this is details)
+ * This is normal description2 (this is details)
+ *
+ * @details   ML-1 : 1
+ *    ML-1 : 2  (this line will be ocntinue to details)
+ * @details   ML-2 : 1
+ *    ML-2 : 2  (this line will be ocntinue to details)
+ * @details   ML-3 : 1 (this line will be another line)
+ * @details   ML-4 : 1 (this line will be another line)
+ * @details   ML-5 : 1 (this line will be another line)
+ *
+ * @startuml
+ *  == this UML will be show in sequ.css.html version ==
+ *  D --> E
+ *  C --> F
+ *  A --> F
+ *  B --> F
+ *  D --> F
+ * @enduml
+ * 
  * @details Auto-generated Code
  * @note Abstract Fractory Pattern
  * @note Blink telltale has information of blink.

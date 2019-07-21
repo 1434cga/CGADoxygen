@@ -755,7 +755,7 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 	}
 
     $lr3="";$lr4="";  $llflag=0;
-	($n1,$n2,$n3,$n4) = printdox(0,"- Class Description");
+	($n1,$n2,$n3,$n4) = printdox(0,"- Class " .  $D{classes}{$classes}{name} . " Description");
     $lr3 .= $n3; $lr4 .= $n4;
 	($n1,$n2,$n3,$n4) = printdox(1,"- " . recover_special_code( getContent( \%{$D{classes}{$classes}{brief}{doc}})) );
     if(not($n3 =~ /^[\s\n]*$/)){ $llflag=1; }
