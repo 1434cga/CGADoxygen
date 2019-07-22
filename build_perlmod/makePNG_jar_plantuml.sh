@@ -11,6 +11,7 @@
 ## 7    white     COLOR_WHITE     1,1,1
 ## sgr0 Reset text format to the terminal's default
 
+# https://linuxconfig.org/how-to-use-arrays-in-bash-script
 declare -a my_pids
 
 echo "help : $0 [CPU count : default 4]"
@@ -54,12 +55,17 @@ do
                 if [ ${num} -eq ${bgmax} ]; then        # we do not have any foreground jobs for this block
                     tput setaf 2
                     echo "pid list... : ${my_pids[@]}"
-                    for pid in "${my_pids[@]}"
+                    for pid in "${my_pids[@]}"          # Print the values of an array
                     do 
                         echo "Waiting pid ... : ${pid}"
                         wait ${pid}
                     done
                     tput sgr0
+                    for index in "${!my_pids[@]}"       # Print the keys of an array
+                    do 
+                        #echo "${index}"
+                        unset my_pids[$index]
+                    done
                     num=0
                 fi
             else
@@ -100,11 +106,14 @@ END_COMMENT
 	fi
 done
 
+tput setaf 2
+echo "final waiting pid list... : ${my_pids[@]}"
 for pid in "${my_pids[@]}"
 do 
-    echo "Waiting pid ... : ${pid}"
+    echo "Final waiting pid ... : ${pid}"
     wait ${pid}
 done
+tput sgr0
 
 : <<'END_COMMENT'
 if [ ${num} -lt ${bgmax} ]; then
