@@ -1,6 +1,5 @@
-add step funciton  (@step{"..."}) for cga2sequential and upgrade example/A
+parallelization for make PNGs using java jar
 
-	modified:   build_doxygen/Doxyfile
-	modified:   build_perlmod/cga2sequential.pl
-	modified:   example/A/AKlass.cpp
-	modified:   example/A/AKlass.h
+sh makePNG_jar_plantuml.sh [CPU cout : default=4] 
+you can edit this value in /build_perlmod/makefile (sh makePNG_jar_plantuml.sh 12)
+
