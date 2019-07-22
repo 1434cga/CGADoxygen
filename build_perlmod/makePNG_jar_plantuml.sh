@@ -11,14 +11,27 @@
 ## 7    white     COLOR_WHITE     1,1,1
 ## sgr0 Reset text format to the terminal's default
 
+declare -a my_pids
+
+echo "help : $0 [CPU count : default 4]"
+
 mkdir -p oldplantuml
 tput setaf 2
 echo "#### Check Differnce of plantuml files ####"
 tput sgr0
 
-bgmax=8
-fgmax=10
+if [ -z "$1" ]; then
+    bgmax=4
+else 
+    bgmax=$1
+fi
+
+fgmax=$((bgmax + 1))
 num=0
+
+tput setaf 2
+echo "#### Background Max : ${bgmax}  , Foreground Max : ${fgmax} ####"
+tput sgr0
 
 cd outplantuml
 
@@ -35,8 +48,38 @@ do
                 echo "--> background ${num} ${bgmax} ${fgmax} $file changed : plantuml.jar -> png "
 			    tput sgr0
                 java -jar ../../build_doxygen/plantuml.jar $file  &
+                pid=$!;
+                my_pids[$num]=$pid
                 num=$((num + 1))
+                if [ ${num} -eq ${bgmax} ]; then        # we do not have any foreground jobs for this block
+                    tput setaf 2
+                    echo "pid list... : ${my_pids[@]}"
+                    for pid in "${my_pids[@]}"
+                    do 
+                        echo "Waiting pid ... : ${pid}"
+                        wait ${pid}
+                    done
+                    tput sgr0
+                    num=0
+                fi
             else
+                tput setaf 2
+                echo "pid list... : ${my_pids[@]}"
+                for pid in "${my_pids[@]}"
+                do 
+                    echo "Waiting pid ... : ${pid}"
+                    wait ${pid}
+                done
+                tput sgr0
+
+			    tput setaf 3
+                echo "--> foreground ${num} ${bgmax} ${fgmax} $file changed : plantuml.jar -> png "
+			    tput sgr0
+                java -jar ../../build_doxygen/plantuml.jar $file
+
+                num=0
+
+: <<'END_COMMENT'
                 if [ ${num} -lt ${fgmax} ]; then
                     num=$((num + 1))
                 else
@@ -46,6 +89,7 @@ do
                 echo "--> foreground ${num} ${bgmax} ${fgmax} $file changed : plantuml.jar -> png "
 			    tput sgr0
                 java -jar ../../build_doxygen/plantuml.jar $file
+END_COMMENT
             fi
 			/bin/cp -f $file ../oldplantuml
 		else
@@ -56,8 +100,17 @@ do
 	fi
 done
 
+for pid in "${my_pids[@]}"
+do 
+    echo "Waiting pid ... : ${pid}"
+    wait ${pid}
+done
+
+: <<'END_COMMENT'
 if [ ${num} -lt ${bgmax} ]; then
-    echo "sleep  3"
-    sleep 3
+    slp=$((num/2 + 2))
+    echo "sleep  ${slp}"
+    sleep ${slp}
 fi
+END_COMMENT
 
