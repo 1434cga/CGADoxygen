@@ -45,13 +45,13 @@ namespace family {
  *
  * @LLD{ABCD3,Do it by yourself.}
  *
- * @step 1.1 Initialization
- * @step 1.2 This is total.
- *		<br>How are you?
- * @step 1.3 AKlass This is total.
- *		How are you?
+ * @step{"1.1 Initialization"}
+ * @step{"1.2 This is total.
+ *		<br>How are you?"}
+ * @step{"1.3 AKlass This is total.
+ *		How are you?"}
  *
- * @step 1.4 This is total.
+ * @step{"1.4 This is total."}
  *
  *
  * @algorithm Troll-01  AKlass This is example of algorithm
@@ -98,13 +98,52 @@ AKlass::AKlass(TELLTALE id , int32_t startstatus, std::vector<int32_t> blink , i
 	if(mStartStatus == (int32_t) LXID_ON){
 		Run((int32_t) LXID_ON);
 	}
+
+// CGA_VARIANT:AKlass:AKlass():variant START
+
+    /*  
+     * Write your own code 
+    */
+
+// CGA_VARIANT:AKlass:AKlass():variant END
+
 }
 
 /**
  * @brief AKlass Destructor
+ *  what is this (this line will be continue to brief)
  *
  * @since{2,16}
  * @since{3,16}
+ *
+ * @details 1 multiple line.
+ *    this is 2 of multiple line. (this line will be continue to detail)
+ *
+ * @startuml
+ *  == this is basic ==
+ *  A --> B
+ *  C --> B
+ * @enduml
+ * 
+ * This is normal description1 (this is details)
+ * This is normal description2 (this is details)
+ *
+ * @details   ML-1 : 1
+ *    ML-1 : 2  (this line will be ocntinue to details)
+ * @details   ML-2 : 1
+ *    ML-2 : 2  (this line will be ocntinue to details)
+ * @details   ML-3 : 1 (this line will be another line)
+ * @details   ML-4 : 1 (this line will be another line)
+ * @details   ML-5 : 1 (this line will be another line)
+ *
+ * @startuml
+ *  == this UML will be show in sequ.css.html version ==
+ *  D --> E
+ *  C --> F
+ *  A --> F
+ *  B --> F
+ *  D --> F
+ * @enduml
  *
  * @warning AKDestructor Warining
  */
@@ -152,6 +191,11 @@ int32_t AKlass::Run(int32_t isOn)
 
 	mBlinkStatus = isOn;
 	return ret;
+// @CGA_VARIANT_START{":AKlass:Run(int32_t)"}
+    /*  
+     * Write your own code 
+    */
+// @CGA_VARIANT_END{":AKlass:Run(int32_t)"}
 }
 
 /**
@@ -180,11 +224,11 @@ int32_t AKlass::Run(int32_t isOn)
  * @enduml
 @endcond
  *
- * @step 1 Initialization
- * @step 2 This is total.
- *		<br>How are you?
- * @step 3 AKlass This is total.
- *		<br>How are you?
+ * @step{"2.1 Initialization"}
+ * @step{"2.2 This is total.
+ *		<br>How are you?"}
+ * @step{"2.3 AKlass This is total.
+ *		How are you?"}
  *
  */
 void AKlass::Draw(int32_t isOn)

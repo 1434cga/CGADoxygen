@@ -1,12 +1,5 @@
-Multi Processing (reduce the time) & check merge
+parallelization for make PNGs using java jar
 
-make all    : not merge 
-make merge :-> worked (edited)  directory location : Code_Generator/work
+sh makePNG_jar_plantuml.sh [CPU cout : default=4] 
+you can edit this value in /build_perlmod/makefile (sh makePNG_jar_plantuml.sh 12)
 
-	modified:   build_perlmod/SRS.md
-	modified:   build_perlmod/cga2class.pl
-        - add sort to remove making PNG time (not random)
-	modified:   build_perlmod/makePNG_jar_plantuml.sh
-        - multi-processing
-	modified:   copy.sh
-        - add extension  .md .mdpp  (HLD.plantuml.md ,  SDD.mdpp)

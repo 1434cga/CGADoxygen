@@ -1,15 +1,12 @@
-```text
-Default in CGADoxygen
-```
 
 # Introduction
 ## Revision History
 | Version | Date       | Comment         | Author                             | Approver |
 | ------- | ---------- | --------------- | ---------------------------------- | -------- |
-| 0.1     | 2018-08-17 | Initial Release | Who.Lee <who.lee@gmail.com>        |          |
+| 1.0     | 2019-07-19 | Initial Release | Who.Lee <Who.lee@gmail.com>        |          |
 
 ## Purpose
-- Purpose
+- This document is a Software Requirement Specification (SRS) of XXX Manager . This SRS is a result which describes software requirements analyzed by LGE. Each software requirement in this document is traced from the System Requirements Specifications (SysRS).
 
 ## Scope
 - SW Overview, SW Main Features
@@ -25,31 +22,58 @@ Default in CGADoxygen
 # SW Overview
 - Overview
 	- Overview in detail
+        - draw domething
 
 ## SW Main Features
 - Features
+    - **wishtoUseAPI_1** : desc this funciton will be invoked when application or another services call this function through binder. this funciton will be invoked when application or another services call this function through binder.<br> this funciton will be invoked when application or another services call this function through binder.
+    - **wishtoUseAPI_2** : api desc
+    - **wishtoUseAPI_3** : api desc
+    - **wishtoUseAPI_4** : api desc
+    - **wishtoUseAPI_5** : api desc
+    - **wishtoUseAPI_6** : api desc
+    - **wishtoUseAPI_7** : api desc
+    - **wishtoUseAPI_8** : api desc
 
 # External Interface Requirements
 ## SW Context
 - The SW context diagram shows the interface between following external components .
-	- ![external_design](./outplantuml/CLASSStatic.png)
+    - reuse of external design of HLD
+
+```
+![alt PLANTUML ../OUTPUT/SRS.md 2 SRS_external_design_XXX](./outplantuml/SRS_md_1_SRS_external_design_XXX.png)
+```
 
 ## SW Interface
 
-|No | Source |Interface Name |Description                                       |Remarks|
-|---|--------|---------------|--------------------------------------------------|-------|
-| 1 |        | MgrAAA        | Send keep alive message                          |       |
-| 2 |        | MgrBBB        | Send data to CCC and receive indication from CCC |       |
-| 3 |        | MgrCCC        | Send indication data to MgrAAA                   |       |
+|No | Interface Name |Description                                       |Remarks|
+|---|----------------|--------------------------------------------------|-------|
+| 1 | wishtoUseAPI_1 | desc this funciton will be invoked when application or another services call this function through binder. this funciton will be invoked when application or another services call this function through binder.<br> this funciton will be invoked when application or another services call this function through binder. |
+| 2 | wishtoUseAPI_2 | api desc |
+| 3 | wishtoUseAPI_3 | api desc |
+| 4 | wishtoUseAPI_4 | api desc |
+| 5 | wishtoUseAPI_5 | api desc |
+| 6 | wishtoUseAPI_6 | api desc |
+| 7 | wishtoUseAPI_7 | api desc |
+| 8 | wishtoUseAPI_8 | api desc |
+| 9 | DID_WORK_FOR_DEFINE_0 |  |
+| 10 | DID_WORK_FOR_DEFINE_1 |  |
+| 11 | DID_WORK_FOR_DEFINE_2 |  |
+| 12 | DID_WORK_FOR_DEFINE_3 |  |
+| 13 | DID_WORK_FOR_DEFINE_4 |  |
+| 14 | DID_WORK_FOR_DEFINE_5 |  |
+| 15 | DID_WORK_FOR_DEFINE_6 |  |
+| 16 | DID_WORK_FOR_DEFINE_7 |  |
+| 17 | DID_WORK_FOR_DEFINE_8 |  |
+| 18 | DID_WORK_FOR_DEFINE_9 |  |
 
 # Functional Requirements
 
 | FR              | Description                                | Limitation | OEM Dependency |
 | --------------- | ------------------------------------------ | ---------- | -------------- |
-| CMODULE-FR-001  | Keep the Image                             |            |                |
-| CMODULE-FR-002  | Show the Normal Status                     |            |                |
-| CMODULE-FR-003  | Show the Blink Status                      |            |                |
-| CMODULE-NFR-001 | Draw the images within 1 second            |            |                |
+| TIDL-FR-001  | This is example (replace with your requirement)     |            |                |
+| TIDL-FR-002  | This is another example  (replace with your requirement)  |            |                |
+| TIDL-FR-003  | This is another example  (replace with your requirement)  |            |                |
 
 # Quality Attributes
 
@@ -59,6 +83,4 @@ Default in CGADoxygen
 ## Technical Constraints
 
 ## Standard & Regulations
-
-
 
