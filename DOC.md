@@ -88,6 +88,14 @@
 # Docker
 ## How to use docker in detail
 - [Docker Environment in detail](docker.md)
+- docker image pull
+    - $ docker pull cheoljoo/ubuntu16:cgadoxygen
+    - $ docker run -it -v /home/username/doxygen:/docker --name cga1 cheoljoo/ubuntu16:cgadoxygen  /bin/bash
+        - /home/username/doxygen  : is your host directory to use for your code
+        - /docker : is directory in docker shell
+- [docker shell]
+    - $ cd /docker
+    - $ sudo python3 setup.py install   (after git clone hpp2plantuml if hpp2plantuml is not working well.)
 
 # What is the result
 - Architecture
