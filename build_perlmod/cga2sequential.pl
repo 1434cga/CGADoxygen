@@ -477,6 +477,7 @@ sub getMembersRow
 sub getSee
 {
 	my $myhash = shift;    # \%{$D{classes}{$classes}{$accesstype}{members}{$members}{detailed}{doc}}
+    my $mykind = shift;
 	my %mydesc;
 	my $mystr = "";
 	foreach my $tmpKey (sort_keys(\%{$myhash})){
@@ -490,7 +491,9 @@ sub getSee
 				if(  ($myhash->{$tmpKey}{see}{$i}{type} eq "url")
 					|| ($myhash->{$tmpKey}{see}{$i}{type} eq "text") ){
 					print "getSee see $tmpKey $i $myhash->{$tmpKey}{see}{$i}{content} \n";
-					if($myhash->{$tmpKey}{see}{$i}{content} =~ /^SRS\s+([a-zA-Z0-9\-\_]+)\s*(.*)$/){
+                    #if($myhash->{$tmpKey}{see}{$i}{content} =~ /^SRS\s+([a-zA-Z0-9\-\_]+)\s*(.*)$/)
+					if($myhash->{$tmpKey}{see}{$i}{content} =~ /^$mykind\s+(.+)\s*\|-->\s*(.+)\s*$/)
+                    {
 						my $myS = $1;
 						my $myD = $2;
 						$mydesc{$myS} = $myD;
@@ -519,7 +522,25 @@ sub getSRS
 	$myfunc = $myhash->{name};
 	print "getSRS $myfunc\n";
 
-	%mydesc = getSee(\%{$myhash->{detailed}{doc}});
+	%mydesc = getSee(\%{$myhash->{detailed}{doc}},"SRS");
+	print %mydesc . "]]]]\n";
+	foreach my $i (sort_keys(\%mydesc)){
+		print "$i => $mydesc{$i}\n";
+	}
+	return ($myfunc, %mydesc);
+}
+
+sub getMISRA
+{
+	my $myhash = shift;  # \%{$D{classes}{$classes}{$accesstype}{members}{$members}}
+	my %mydesc;
+	my @mysrs;
+	my $myfunc;
+
+	$myfunc = $myhash->{name};
+	print "getMISRA $myfunc\n";
+
+	%mydesc = getSee(\%{$myhash->{detailed}{doc}},"MISRA");
 	print %mydesc . "]]]]\n";
 	foreach my $i (sort_keys(\%mydesc)){
 		print "$i => $mydesc{$i}\n";
@@ -1124,12 +1145,10 @@ close OH2;
 close OH3;
 close OH4;
 
-$outfile =~ s/\.md$/\.SRS\.md/;
-$outwithimage =~ s/\.md$/\.SRS\.md/;
 print "in : $infile  , out md file : $outwithimage , out md file with plantuml : $outfile\n";
 print STDERR "in : $infile  , out md file : $outwithimage , out md file with plantuml : $outfile\n";
-open(OH1,">",$outfile) or die "Can't open > $outfile $!";
-open(OH2,">",$outwithimage) or die "Can't open > $outwithimage $!";
+open(OH1,">",$outfile . ".SRS.md") or die "Can't open > $outfile $!";
+open(OH2,">",$outwithimage . ".SRS.md") or die "Can't open > $outwithimage $!";
 
 ($n1,$n2,$n3,$n4) = printdox(0,"# SRS");
 foreach my $classes (sort_keys(\%{$D{classes}})){
@@ -1237,5 +1256,64 @@ foreach my $keyClass (sort_keys(\%CFSD)){      #CFSD{class}{function}{SRS} = des
 }
 ($n1,$n2,$n3,$n4) = printdox(0,"");
 
+close OH1;
+close OH2;
+
+
+print "in : $infile  , out md file : $outwithimage , out md file with plantuml : $outfile\n";
+print STDERR "in : $infile  , out md file : $outwithimage , out md file with plantuml : $outfile\n";
+open(OH1,">",$outfile . ".MISRA.md") or die "Can't open > $outfile $!";
+open(OH2,">",$outwithimage . ".MISRA.md") or die "Can't open > $outwithimage $!";
+($n1,$n2,$n3,$n4) = printdox(0,"# MISRA");
+foreach my $classes (sort_keys(\%{$D{classes}})){
+	#CTMM{class}{accesstype}{member or methods}{MISRA} = desc
+	my $myclassname = $D{classes}{$classes}{name};
+
+	foreach my $accesstype (sort_keys(\%{$D{classes}{$classes}}, "~")){
+        if( ($accesstype =~ /_methods$/) ||
+            ($accesstype =~ /_members$/) ){
+			foreach my $members (sort_keys(\%{$D{classes}{$classes}{$accesstype}{members}})){
+				my $myfunc;
+				my %myMISRA;
+				($myfunc,%myMISRA) = getMISRA(\%{$D{classes}{$classes}{$accesstype}{members}{$members}});
+				foreach my $keyMISRA (sort_keys(\%myMISRA)){
+					print "-MMM $myclassname $accesstype $myfunc $keyMISRA => $myMISRA{$keyMISRA}\n";
+					$CTMM{$myclassname}{$accesstype}{$myfunc}{$keyMISRA} = recover_special_code( $myMISRA{$keyMISRA} );
+					$MCTM{$keyMISRA}{$myclassname}{$accesstype}{$myfunc} = recover_special_code( $myMISRA{$keyMISRA} );
+				}
+			}
+       }
+	}
+}
+
+($n1,$n2,$n3,$n4) = printdox(0,"\n## Class::AccessType::Member vs MISRA");
+($n1,$n2,$n3,$n4) = printdox(0,"|  Class | AccessType | Member | MISRA# | Reason |");
+($n1,$n2,$n3,$n4) = printdox(0,"|---------------|----------------|---|---|---|");
+foreach my $keyClass (sort_keys(\%CTMM)){      #CTMM{class}{accesstype}{function}{MISRA} = desc
+    foreach my $keyAccessType (sort_keys(\%{$CTMM{$keyClass}})){
+        foreach my $keyFunc (sort_keys(\%{$CTMM{$keyClass}{$keyAccessType}})){
+            foreach my $keyMISRA (sort_keys(\%{$CTMM{$keyClass}{$keyAccessType}{$keyFunc}})){
+                $mystr =  "| $keyClass | $keyAccessType | $keyFunc | $keyMISRA | " .  recover_special_code( $CTMM{$keyClass}{$keyAccessType}{$keyFunc}{$keyMISRA}  . "|");
+            }
+            ($n1,$n2,$n3,$n4) = printdox(0,$mystr);
+        }
+    }
+}
+($n1,$n2,$n3,$n4) = printdox(0,"");
+
+($n1,$n2,$n3,$n4) = printdox(0,"\n## MISRA vs Class::AccessType::Member");
+($n1,$n2,$n3,$n4) = printdox(0,"|  MISRA# | Class | AccessType | Member | Reason |");
+($n1,$n2,$n3,$n4) = printdox(0,"|---------------|----------------|---|---|---|");
+foreach my $keyClass (sort_keys(\%MCTM)){      #MCTM{MISRA}{class}{accesstype}{function} = desc
+    foreach my $keyAccessType (sort_keys(\%{$MCTM{$keyClass}})){
+        foreach my $keyFunc (sort_keys(\%{$MCTM{$keyClass}{$keyAccessType}})){
+            foreach my $keyMISRA (sort_keys(\%{$MCTM{$keyClass}{$keyAccessType}{$keyFunc}})){
+                $mystr =  "| $keyClass | $keyAccessType | $keyFunc | $keyMISRA | " .  recover_special_code( $MCTM{$keyClass}{$keyAccessType}{$keyFunc}{$keyMISRA}  . "|");
+            }
+            ($n1,$n2,$n3,$n4) = printdox(0,$mystr);
+        }
+    }
+}
+($n1,$n2,$n3,$n4) = printdox(0,"");
 close OH1;
 close OH2;

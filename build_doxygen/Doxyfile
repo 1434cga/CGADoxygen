@@ -252,7 +252,8 @@ ALIASES += Bold{1}="<b>\1</b>"
 ALIASES += Emph{1}="<em>\1</em>"
 ALIASES += l{1}="\ref \1"
 ALIASES += l{2}="\ref \1 \"\2\""
-ALIASES += SRS{2}="\see SRS \1 \2"
+ALIASES += SRS{2}="\see SRS \1 |--> \2"
+ALIASES += MISRA{2}="\see MISRA \1 |--> \2"
 ALIASES += CGA_VARIANT_START{1}=""
 ALIASES += CGA_VARIANT_END{1}=""
 ALIASES += step{1}="\details step : \1"
@@ -820,7 +821,7 @@ WARN_LOGFILE           =
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  =
+INPUT                  = ./src
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
