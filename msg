@@ -1,5 +1,10 @@
-parallelization for make PNGs using java jar
+bug fix of CGA_VARIANT_?? & check cpu count automatically
 
-sh makePNG_jar_plantuml.sh [CPU cout : default=4] 
-you can edit this value in /build_perlmod/makefile (sh makePNG_jar_plantuml.sh 12)
+makePNG_jar_plantuml.sh : automatically check cpu count and use 2/3 of cpu count
+plantuml2linkInMarkdown.pl : @CGA_VARIANT_START @CGA_VARIANT_END
+
+	modified:   SRS.md
+	modified:   makePNG_jar_plantuml.sh
+	modified:   makefile
+	modified:   plantuml2linkInMarkdown.pl
 

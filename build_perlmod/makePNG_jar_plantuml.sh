@@ -16,13 +16,16 @@ declare -a my_pids
 
 echo "help : $0 [CPU count : default 4]"
 
+cpucnt=`cat /proc/cpuinfo | awk '/^processor/{print $3}' | wc -l`
+
 mkdir -p oldplantuml
 tput setaf 2
-echo "#### Check Differnce of plantuml files ####"
+echo "#### Check Differnce of plantuml files : cup count ${cpucnt} ####"
 tput sgr0
 
 if [ -z "$1" ]; then
-    bgmax=4
+    bgmax=$(((cpucnt / 3) * 2))
+    #bgmax=4
 else 
     bgmax=$1
 fi

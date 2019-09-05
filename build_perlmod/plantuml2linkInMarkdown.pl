@@ -49,6 +49,12 @@ while(<IH>){
     if($s =~ /^\s*\/\/\s+CGA_VARIANT:/){
         next;
     }
+    if($s =~ /^\s*\/\/\s+\@CGA_VARIANT_START\s*\{/){
+        next;
+    }
+    if($s =~ /^\s*\/\/\s+\@CGA_VARIANT_END\s*\{/){
+        next;
+    }
 	if($status eq "NONE"){
 		if($s =~ /^\s*```\s*puml\s+(.*)$/){
 			my $mymatch = $1;

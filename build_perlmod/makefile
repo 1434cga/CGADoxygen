@@ -29,7 +29,7 @@ all:
 	perl cga2class.pl > class.log
 
 	sh makeBasicDocumentsInOUTPUT.sh
-	sh makePNG_jar_plantuml.sh 12
+	sh makePNG_jar_plantuml.sh		# default : cpu count / 2
 
 	cd OUTPUT; markdown-pp -o SDD.md    SDD.mdpp ; cd ..
 
