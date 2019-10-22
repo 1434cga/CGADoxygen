@@ -687,6 +687,8 @@ sub	getDetailsSequential
     
     print __SUB__ . " : mystr3 $myname : " . $mystr3 . "\n";
     print __SUB__ . " : mystr4 $myname : " . $mystr4 . "\n";
+    $mystr3 = recover_special_code($mystr3);
+    $mystr4 = recover_special_code($mystr4);
     return ($mystr3, $mystr4);
 
 }
