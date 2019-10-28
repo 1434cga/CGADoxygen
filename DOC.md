@@ -100,7 +100,13 @@
     - $ docker start cga1
     - $ docker attach cga1
 - docker shell
-    - $ cd /docker
+    - cd /docker
+        - you can see files in host (/homeusername/doxygen)
+    - cd /tmp/CGADoxygen
+        - copy your source_code in  /tmp/CGADoxygen/YourName
+        - `sh run.sh YourName`
+        - you can find the result (SDD.html) in /tmp/CGADoxygen/build_perlmod/
+
 - [How to make Docker Environment in detail](./docker/README.md) - NEW
     - [Docker Environment in detail](docker.md)  - old 
 
