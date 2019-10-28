@@ -142,7 +142,7 @@
     - $ docker attach cga1
 - docker shell
     - $ cd /docker
-- [How to make Docker Environment in detail](docker2.md) - NEW
+- [How to make Docker Environment in detail](./docker/README.md) - NEW
     - [Docker Environment in detail](docker.md)  - old 
 
 <a name="whatistheresult"></a>
