@@ -22,7 +22,7 @@ chop($s);
 print $s;
 print "\n";
 
-if($s =~ /^\s*([\d\.]+)\s*$/){
+if($s =~ /^\s*([\d\.]+)\s*/){
 	$ver = $1;
 	$name = "";
 } elsif($s =~ /(\S*)\s*([\d\.]+)\s*$/){
