@@ -228,3 +228,5 @@ tput setaf 2
 echo "#### build_perlmod makefile ####"
 tput sgr0
 cd build_perlmod; make ; cd ..
+
+exit 0;
