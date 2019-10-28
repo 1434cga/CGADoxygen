@@ -8,6 +8,7 @@
 - `docker build -t cgadoxygen1 ./`
 
 # make image and push in dockerhub
+- `docker login`
 - `docker build -t cheoljoo/ubuntu16:cgadoxygen .`
 - `docker push cheoljoo/ubuntu16:cgadoxygen`
 
