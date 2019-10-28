@@ -142,8 +142,8 @@
     - $ docker attach cga1
 - docker shell
     - $ cd /docker
-    - $ sudo python3 setup.py install   (after git clone hpp2plantuml if hpp2plantuml is not working well.)
-- [Docker Environment in detail](docker.md)
+- [How to make Docker Environment in detail](docker2.md) - NEW
+    - [Docker Environment in detail](docker.md)  - old 
 
 <a name="whatistheresult"></a>
 
