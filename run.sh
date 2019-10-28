@@ -145,7 +145,7 @@ then
     tput sgr0
     cd build_perlmod; make clean; cd ..
 
-	exit 0;
+    exit 0;
 fi
 
 tput setaf 2
@@ -188,8 +188,7 @@ do
 	#cp -f $file $file\.orig
 	#expand -t 4 $file\.orig > $file\.tmp
 	#sed --in-place 's/[[:space:]]\+$//'  $file\.tmp
-	#sed --in-place 's/
-//g'  $file\.tmp
+	#sed --in-place 's/ //g'  $file\.tmp
 	#diff -q $file $file\.tmp
 	#if [ $? -ne '0' ]
 	#then
