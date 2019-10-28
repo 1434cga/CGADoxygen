@@ -1,4 +1,4 @@
-# old charles' docker project 
+# old charles' docker project for CGADoxygen
 - cheoljoo/ubuntu16:cgadoxygen
 
 # Dockerfile
