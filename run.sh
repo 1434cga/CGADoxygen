@@ -165,7 +165,7 @@ pwd=`pwd`
 for directory in $*
 do
 	echo "directory : $directory"
-	for file in $directory/*.cpp $directory/*.cc $directory/*.h  $directory/*.hpp
+	for file in $directory/*.cpp $directory/*.cc $directory/*.h  $directory/*.hpp $directory/*.sldd $directory/*.tcli
 	do
 		basefile=`basename $file`
 		echo "    basefile : $basefile  ,  file : $file"
