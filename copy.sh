@@ -20,6 +20,7 @@
 
 
 echo "help : $0 [SOURCE DIRECTORY] [DESTINATION STORAGE Name]"
+echo "ex) sh copy.sh ../Code_Generator/OUTPUT/stc/tidl-service ./build_doxygen/src"
 
 if [ -d "$1" ]; then
     tput setaf 2
@@ -35,14 +36,23 @@ fi
 echo "detination directory : $2"
 mkdir -p $2
 
+cdir=`pwd`
 
-for i in `find . -type f -regex ".*/.*\.\(c\|md\|mdpp\|cpp\|h\|cc\)$"  -print`
+echo "cdir : ${cdir}"
+echo "dest : $1"
+cd $1
+#for i in `find . -type f -regex ".*\.[c|md|mdpp|cpp|h|cc]"  -print`
+#do
+    #echo $i
+    #BN=`basename ${i}`
+    #tput setaf 2
+    #echo "#### filename : ${i}  , target : $2 , basename :${BN} ####"
+    #tput sgr0
+    #echo "cp -f ${i}   ${cdir}/$2/${BN}" 
+    #cp -f ${i}   ${cdir}/$2/
+#done
+for file in *-service/service/*.cpp *-service/service/*.h *-service/include/*.h *-service/interface/*.cpp *-service/interface/*.h *-service/doc/*.md*
 do
-    echo $i
-    BN=`basename ${i}`
-    tput setaf 2
-    echo "#### filename : ${i}  , target : $2 , basename :${BN} ####"
-    tput sgr0
-    echo "cp -f ${i}   $2/${BN}" 
-    cp -f ${i}   $2/${BN} 
+    echo "file : ${file}  ${cdir}/$2"
+    cp  -f ${file} ${cdir}/$2
 done
