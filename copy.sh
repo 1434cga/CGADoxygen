@@ -1,5 +1,8 @@
 #!/bin/sh
 
+echo "help : $0 [SOURCE DIRECTORY] [DESTINATION STORAGE Name]"
+echo "ex) sh copy.sh ../Code_Generator/OUTPUT/stc   ./build_doxygen/src"
+
 # $1 : SOURCE DIRECTORY  : This directory has a lot of files and directories
 # $2 : DESTINATION STORAGE without inner directory
 
@@ -19,8 +22,6 @@
 #tput sgr0
 
 
-echo "help : $0 [SOURCE DIRECTORY] [DESTINATION STORAGE Name]"
-echo "ex) sh copy.sh ../Code_Generator/OUTPUT/stc/tidl-service ./build_doxygen/src"
 
 if [ -d "$1" ]; then
     tput setaf 2
@@ -51,8 +52,15 @@ cd $1
     #echo "cp -f ${i}   ${cdir}/$2/${BN}" 
     #cp -f ${i}   ${cdir}/$2/
 #done
-for file in *-service/service/*.cpp *-service/service/*.h *-service/include/*.h *-service/interface/*.cpp *-service/interface/*.h *-service/doc/*.md*
+for file in *-service/service/*.cpp *-service/service/*.h *-service/include/*.h *-service/interface/*.cpp *-service/interface/*.h 
 do
     echo "file : ${file}  ${cdir}/$2"
     cp  -f ${file} ${cdir}/$2
+done
+for file in *-service/doc/*.md
+do
+    BN=`basename ${file}`
+    echo "file : ${file}  ${cdir}/$2/${BN}"
+    #cp  -f ${file} ${cdir}/$2/${BN}
+    grep -v CGA_VARIANT_ ${file} > ${cdir}/$2/${BN}
 done
