@@ -117,7 +117,12 @@ while(<IH>){
 			print PH "\@enduml\n";
 			close PH;
 		} else {
-			print PH $s;
+            if( ($s =~ /^\s*\@enduml\s*/) ||
+                ($s =~ /^\s*\@startuml\s*/) ){
+                #print PH "\'$s";
+            } else {
+			    print PH $s;
+            }
 		}
 	}
 }

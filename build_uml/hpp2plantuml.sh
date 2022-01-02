@@ -20,10 +20,10 @@ tput sgr0
 tput setaf 3
 echo "--> overall information : hpp2plantuml -> UML/__ALL__.class "
 tput sgr0
-cat src/*.h  src/*.cpp > ./old/__ALL__.h
+cat src/*.h  > ./old/__ALL__.h
 hpp2plantuml -i ./old/__ALL__.h | sed "s/@startuml//" | sed "s/@enduml//" > ./UML/__ALL__.class
 
-for file in src/*.h src/*.cpp
+for file in src/*.h
 do
 	if [ -s $file ]; then
 		basefile=`basename $file`

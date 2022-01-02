@@ -56,8 +56,3 @@ do
 	fi
 done
 
-if [ ${num} -lt ${bgmax} ]; then
-    echo "sleep  8"
-    sleep 8
-fi
-
