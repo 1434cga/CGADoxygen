@@ -1,3 +1,4 @@
+#!/usr/bin/perl
 our $returnp = "<br>";
 our $boldstartp = "<b>";
 our $boldendp = "</b>";
@@ -6,6 +7,89 @@ our %CS;
 our %CFSD;
 our %SC;
 our %SCF;
+
+our %P;
+
+use 5.010;
+use File::Path qw(make_path);
+use File::Basename;
+use Cwd  qw(abs_path);
+use List::Util qw[min max];
+
+use lib dirname(dirname abs_path $0) . '/perllib';
+use lib abs_path . '/../../../../../CGA_RDL/perllib';
+use lib abs_path . '/../../../../CGA_RDL/perllib';
+use lib abs_path . '/../../../CGA_RDL/perllib';
+use lib abs_path . '/../../CGA_RDL/perllib';
+use lib abs_path . '/../CGA_RDL/perllib';
+use lib abs_path . '/CGA_RDL/perllib';
+use lib abs_path . '/perllib';
+use lib abs_path . '/../perllib';
+use lib abs_path . '/../../perllib';
+use lib abs_path . '/../../../perllib';
+use lib abs_path . '/../../../../perllib';
+use lib abs_path . '/../../../../../perllib';
+use MY::CHARLES;
+use MY::CHARLES qw(change_special_code);
+use lib '.';
+
+our %init4py;
+
+sub generate_cc
+{
+    #my $str = $_[0];
+    #my $doc = $_[1];
+    my $str = shift;
+    my $doc = shift;
+	my $cnt = 1;
+
+	my $ps = $str;
+	$ps =~ s/\{\s*/\[\'/g;
+	$ps =~ s/\s*\}/\'\]/g;
+	$ps =~ s/^\$//;
+
+    #print "generate_cc $doc\n";
+	if($doc =~ /^HASH\(/){
+        #print PH "=== $ps\n";
+		if($init4py{$ps} eq ""){
+			print PH "$ps={}\n";
+			$init4py{$ps} = "init";
+		}
+		#print "HASH " . %{$doc} . "\n";
+		foreach $key (sort_keys(\%{$doc})) {
+			if( not ( (${$doc}{$key} =~ /^ARRAY\(/) || (${$doc}{$key} =~ /^HASH\(/) ) ){
+				#print "hash $str { $key } = value( ${$doc}{$key} )\n";
+				print FH "$str { $key } =  \"" . change_special_code(${$doc}{$key}) . "\"\n";
+				print PH "$ps ['$key'] =  \"" . change_special_code(${$doc}{$key}) . "\"\n";
+			} else {
+				generate_cc("$str { $key }",  ${$doc}{$key});
+			}
+		}
+	} elsif($doc =~ /^ARRAY\(/){
+		#print "ARRAY @$doc\n";
+		#print PH "=== $ps\n";
+		if($init4py{$ps} eq ""){
+			print PH "$ps={}\n";
+			$init4py{$ps} = "init";
+		}
+		foreach $key (@{$doc}) {
+			#print "array $cnt key( $key )\n";
+			#print "array $doc->{$key}\n";
+			if( not ( ($key =~ /^ARRAY\(/) || ($key =~ /^HASH\(/) ) ){
+				#print "hash $str { $key } = value( ${$doc}{$key} )\n";
+				print  "ARRAY $str [ $key ] =  \"" . change_special_code(${$doc}[$key]) . "\"\n";
+			} else {
+				generate_cc("$str { $cnt }",$key);
+				$cnt ++;
+			}
+		}
+	} else {
+		print PH ">>> $ps\n";
+		#print "DOC $str $doc\n";
+		#print "DOC $str @{$doc}\n";
+		#print "DOC $str %{$doc}\n";
+	}
+}
 
 sub __SUB__ { return  (caller 2)[3] . "|" . (caller 2)[2] . "-" . (caller 1)[3] . "|" . (caller 1)[2] . "-" . (caller 0)[2] . ": " }
 
@@ -30,34 +114,6 @@ sub recover_special_code
 	$s =~ s/#\&#\&#\&\&###/\"/g;
 	return $s;
 }
-
-sub generate_cc($$)
-{
-	my $str = $_[0];
-	my $doc = $_[1];
-	my $cnt = 1;
-	#print "generate_cc $doc\n";
-	if($doc =~ /^HASH\(/){
-		#print "TT " . %{$doc} . "\n";
-		foreach $key (keys %{$doc}) {
-			if( not ( (${$doc}{$key} =~ /^ARRAY\(/) || (${$doc}{$key} =~ /^HASH\(/) ) ){
-				#print FH "$str { $key } = value( ${$doc}{$key} )\n";
-				print FH "$str { $key } =  \"" . change_special_code(${$doc}{$key}) . "\"\n";
-			}
-			generate_cc("$str { $key }",  ${$doc}{$key});
-		}
-	} elsif($doc =~ /^ARRAY\(/){
-		#print "@$doc\n";
-		foreach $key (@{$doc}) {
-			#print "array key( $key ) value( $key )\n";
-			generate_cc("$str { $cnt }",$key);
-			$cnt ++;
-		}
-	} else {
-		#print "Nothing\n";
-	}
-}
-
 
 sub printdox
 {
@@ -426,6 +482,8 @@ sub putXrefitem
 
 sub getMethodsRow
 {
+	my $mywhich = shift;
+	my $myname = shift;
 	my $myaccessibility = shift;
 	my $myhash = shift;
 	my $mystr = "";
@@ -435,20 +493,27 @@ sub getMethodsRow
     my $mytype;
 
 	$mystr .= "| " . $myaccessibility;
+    # $P{'classes'}{$class}{'members'}{$function}{'accessibility'}
+    $P{$mywhich}{$myname}{"public_methods"}{$myhash->{name}}{"accessibility"} = $myaccessibility;
 	$mystr .= "| " . $myhash->{name};
 	$mystr .= " | $boldstartp" . recover_special_code( getContent(\%{$myhash->{brief}{doc}}) ) . "$boldendp";
 	#$mystr .= "$returnp" . getContent(\%{$myhash->{detailed}{doc}});
 	$mystr .= " | " . recover_special_code( getParameters(\%{$myhash->{parameters}}) );
+    $P{$mywhich}{$myname}{"public_methods"}{$myhash->{name}}{"param"}{"all"} = recover_special_code( getParameters(\%{$myhash->{parameters}}) );
 	($myin , $myout , $myany) = getParams(\%{$myhash->{detailed}{doc}});
 	$mystr .= " | " . $myin . $myany;
+    $P{$mywhich}{$myname}{"public_methods"}{$myhash->{name}}{"param"}{"in"} = $myin . $myany;
 	$mystr .= " | " . $myout;
+    $P{$mywhich}{$myname}{"public_methods"}{$myhash->{name}}{"param"}{"out"} = $myout;
 	$mytype = $myhash->{type};     # return type of function
     $mytype =~ s/^\s*static\s*//;
     $mytype =~ s/^\s*virtual\s*//;
     $mytype =~ s/^\s*static\s*//;
 	$mystr .= " | " . $mytype;  # return type of function
+    $P{$mywhich}{$myname}{"public_methods"}{$myhash->{name}}{"return"}{"type"} = $mytype;
 	#$mystr .= " | " . recover_special_code( getReturn(\%{$myhash->{detailed}{doc}}) ) . " <br>" . recover_special_code( getRetvals(\%{$myhash->{detailed}{doc}}) );
 	$mystr .= " | " . recover_special_code( getRetvals(\%{$myhash->{detailed}{doc}}) );
+    $P{$mywhich}{$myname}{"public_methods"}{$myhash->{name}}{"return"}{"desc"} = recover_special_code( getRetvals(\%{$myhash->{detailed}{doc}}) );
 	$mystr .= " | ";
 	return $mystr;
 }
@@ -522,6 +587,10 @@ sub getSRS
 	}
 	return ($myfunc, %mydesc);
 }
+
+#
+# main
+#
 
 print "arguments count : " . ($#ARGV +1) . "\n";
 print @ARGV . "\n";
@@ -599,6 +668,8 @@ foreach my $pages (sort_keys(\%{$D{pages}})){
 	}
 }
 
+print "==== PAGES END\n";
+
 open(OH1,">",$outfile . ".full.md") or die "Can't open > $outfile" . ".full.md $!"; #nece
 open(OH2,">",$outwithimage . ".full.md") or die "Can't open > $outwithimage" . ".full.md $!"; #nece
 open(OH3,">",$outfile) or die "Can't open > $outfile $!"; #nece
@@ -621,6 +692,11 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 		. recover_special_code( getContent( \%{$D{classes}{$classes}{brief}{doc}}))
 		. "</b> $returnp"
 		. recover_special_code( getContent( \%{$D{classes}{$classes}{detailed}{doc}})) );
+    my $classesname = $D{classes}{$classes}{name};
+    $P{"classes"}{$classesname}{"id"} = $D{classes}{$classes}{name};
+    $P{"classes"}{$classesname}{"desc"}{"brief"} = recover_special_code( getContent( \%{$D{classes}{$classes}{brief}{doc}}));
+    $P{"classes"}{$classesname}{"desc"}{"detail"} = recover_special_code( getContent( \%{$D{classes}{$classes}{detailed}{doc}}));
+    print "nece.python.data : " . $P{"classes"}{$classesname}{"id"} . "\n";
     $r3 .= $n3; $r4 .= $n4;
 }
 ($n1,$n2,$n3,$n4) = printdox(0,"");
@@ -716,6 +792,8 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 		($n1,$n2,$n3,$n4) = printdox(1,"- " . $D{classes}{$classes}{public_methods}{members}{$members}{name} . " function");
         $lrfor3 .= $n3; $lrfor4 .= $n4;
 		($n1,$n2,$n3,$n4) = printdox(2,"- " . getContent( \%{ $D{classes}{$classes}{public_methods}{members}{$members}{brief}{doc} }) );
+        my $classesname = $D{classes}{$classes}{name};
+        $P{"classes"}{$classesname}{"public_methods"}{$D{classes}{$classes}{public_methods}{members}{$members}{name}}{"desc"}{"brief"} = getContent( \%{ $D{classes}{$classes}{public_methods}{members}{$members}{brief}{doc} });
         if(not($n3 =~ /^[\s\n]*$/)){ 
             $lforflag=1;
             $lrfor3 .= $n3; $lrfor4 .= $n4;
@@ -723,6 +801,7 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 		my $details = getDetails(3, \%{ $D{classes}{$classes}{public_methods}{members}{$members}{detailed}{doc} });
         if(not($details =~ /^[\s\n]*$/)){
 			($n1,$n2,$n3,$n4) = printdox(2,"- Details\n" . $details);
+            $P{"classes"}{$classesname}{"public_methods"}{$D{classes}{$classes}{public_methods}{members}{$members}{name}}{"desc"}{"detail"} = $details;
             $lforflag=1;
             $lrfor3 .= $n3; $lrfor4 .= $n4;
 		}
@@ -731,6 +810,7 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 			($n1,$n2,$n3,$n4) = printdox(2,"plantuml" ,
 				"class_" . $D{classes}{$classes}{name} . "_public_methods" . "_" .  $D{classes}{$classes}{public_methods}{members}{$members}{name} , 
 				$puml);
+            $P{"classes"}{$classesname}{"public_methods"}{$D{classes}{$classes}{public_methods}{members}{$members}{name}}{"desc"}{"plantuml"} = $puml;
             $lforflag=1;
             $lrfor3 .= $n3; $lrfor4 .= $n4;
 		}
@@ -749,6 +829,8 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 		($n1,$n2,$n3,$n4) = printdox(1,"- " . $D{classes}{$classes}{public_static_methods}{members}{$members}{name} . " function");
         $lrfor3 .= $n3; $lrfor4 .= $n4;
 		($n1,$n2,$n3,$n4) = printdox(2,"- " . getContent( \%{ $D{classes}{$classes}{public_static_methods}{members}{$members}{brief}{doc} }) );
+        my $classesname = $D{classes}{$classes}{name};
+        $P{"classes"}{$classesname}{"public_static_methods"}{$D{classes}{$classes}{public_static_methods}{members}{$members}{name}}{"desc"}{"brief"} = getContent( \%{ $D{classes}{$classes}{public_static_methods}{members}{$members}{brief}{doc} });
         if(not($n3 =~ /^[\s\n]*$/)){ 
             $lforflag=1;
             $lrfor3 .= $n3; $lrfor4 .= $n4;
@@ -756,6 +838,7 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 		my $details = getDetails(3, \%{ $D{classes}{$classes}{public_static_methods}{members}{$members}{detailed}{doc} });
         if(not($details =~ /^[\s\n]*$/)){
 			($n1,$n2,$n3,$n4) = printdox(2,"- Details\n" . $details);
+            $P{"classes"}{$classesname}{"public_static_methods"}{$D{classes}{$classes}{public_static_methods}{members}{$members}{name}}{"desc"}{"detail"} = $details;
             $lforflag=1;
             $lrfor3 .= $n3; $lrfor4 .= $n4;
 		}
@@ -764,6 +847,7 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
 			($n1,$n2,$n3,$n4) = printdox(2,"plantuml" ,
 				"class_" . $D{classes}{$classes}{name} . "_public_methods" . "_" .  $D{classes}{$classes}{public_methods}{members}{$members}{name} , 
 				$puml);
+            $P{"classes"}{$classesname}{"public_static_methods"}{$D{classes}{$classes}{public_static_methods}{members}{$members}{name}}{"desc"}{"plantuml"} = $puml;
             $lforflag=1;
             $lrfor3 .= $n3; $lrfor4 .= $n4;
 		}
@@ -797,7 +881,7 @@ foreach my $classes (sort_keys(\%{$D{classes}})){
         #if($accesstype =~ /^public.*_methods$/)
         {
 			foreach my $members (sort_keys(\%{$D{classes}{$classes}{$accesstype}{members}})){
-				($n1,$n2,$n3,$n4) = printdox(0,getMethodsRow($accesstype,\%{$D{classes}{$classes}{$accesstype}{members}{$members}}) );
+				($n1,$n2,$n3,$n4) = printdox(0,getMethodsRow('classes',$D{classes}{$classes}{"name"},$accesstype,\%{$D{classes}{$classes}{$accesstype}{members}{$members}}) );
                 if(not($n3 =~ /^[\s\n]*$/)){ $llflag=1; }
                 $lr3 .= $n3; $lr4 .= $n4;
 			}
@@ -855,7 +939,7 @@ foreach my $files (sort_keys(\%{$D{files}})){
 	#if( not ($D{files}{$files}{name} =~ /\.h$/) ){ next; }
 
 	foreach my $members (sort_keys(\%{$D{files}{$files}{functions}{members}})){
-		($n1,$n2,$n3,$n4) = printdox(0,getMethodsRow($D{files}{$files}{name},\%{$D{files}{$files}{functions}{members}{$members}}) );
+		($n1,$n2,$n3,$n4) = printdox(0,getMethodsRow('files',$D{files}{$files}{"name"},$D{files}{$files}{name},\%{$D{files}{$files}{functions}{members}{$members}}) );
 	}
 }
 ($n1,$n2,$n3,$n4) = printdox(0,"");
@@ -1018,3 +1102,17 @@ foreach my $keyClass (sort_keys(\%CFSD)){      #CFSD{class}{function}{SRS} = des
 
 close OH1;
 close OH2;
+
+
+open(FH, ">","nece.perl.data") or die "Can't open < nece.perl.data: $!";
+open(PH, ">","nece.python.data") or die "Can't open < nece.python.data : $!";
+#generate($doxydocs, $doxystructure);
+print "nece.python.data : P\n";
+foreach my $k (sort_keys(\%P)){
+    print STDERR "nece : $k\n";
+}
+generate_cc("\$P",\%P);
+    print STDERR "nece : end\n";
+
+close PH;
+close FH;
