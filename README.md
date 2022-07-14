@@ -166,3 +166,13 @@
         - ![SDD.docx SDD Document](./PNG/SDD01.png)
 - [screenshot](https://github.com/cheoljoo/CGADoxygen/tree/master/PNG)
 
+# working note
+- 2022-07-15 : cga2nece.pl
+    - this job is for code beamer upload.
+    - upload destination : http://10.158.14.216:8080/cb/tracker/16558297
+    - build_perlmod/makefile
+        - perl cga2nece.pl default.GV OUTPUT/nece.html.md > c_nece.log
+        - cga2nece.pl : "nece.html.md"  is final document.
+            - log : c_nece.log
+    - code beamer wiki format document : https://codebeamer.com/cb/wiki/8730#section-Basic+formatting
+    - deliverables : nece.perl.data  , nece.python.data
